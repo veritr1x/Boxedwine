@@ -258,3 +258,7 @@ commands above on a new machine; no private game assets are included.
 - [Emscripten WebGPU bindings](https://emscripten.org/docs/porting/multimedia_and_graphics/WebGPU-support.html)
 - [WGSL specification](https://gpuweb.github.io/gpuweb/wgsl/)
 - [Quake II engine source](https://github.com/id-Software/Quake-2)
+
+The first Majesty HD optimization consolidates timestamp lookups per guest stat.
+See [the measured startup result](Web-Majesty-Startup-Optimization.md) for the
+three-pair comparison, compatibility coverage, and private reproduction inputs.

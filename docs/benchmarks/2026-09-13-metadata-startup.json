@@ -1,0 +1,1150 @@
+{
+  "date": "2026-09-13",
+  "scope": "Matched local Majesty HD startup, then separate CPU diagnosis and mission smoke. Not FPS.",
+  "host": {
+    "cpu": "Apple M5 Max",
+    "memoryBytes": 51539607552
+  },
+  "baselineCommit": "f57fc0a7a130c2d9d9ae0ed9eec438dfd3560adf",
+  "candidateCommit": "40e00802e1fe41412885f5569cb56cb38f5406c3",
+  "candidatePatchSha256": "cc3b11f1b87c3fd27b81389e7c9827025bd7a2d9441375f08ca8f49903b13af4",
+  "runtimeManifests": {
+    "baseline": {
+      "path": "tmp/web-cpu/majesty-hd-verified",
+      "sha256": "c09ef37dd5d74dd75a495d8c20f83aff2c0c4659c65313560e43e109176ed6ac",
+      "manifest": {
+        "timestamp": "2026-09-13T04:01:43.749536+00:00",
+        "source": {
+          "head": "f57fc0a7a130c2d9d9ae0ed9eec438dfd3560adf",
+          "patchSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "untrackedSha256": {}
+        },
+        "config": {
+          "command": [
+            "make",
+            "-C",
+            "~/Documents/Tests/boxedwine/project/emscripten",
+            "jit",
+            "cpus=8",
+            "BUILD_ROOT=Build/WebCPU/profile",
+            "TARGET_EXEC=boxedwine.html",
+            "OPTIMIZATION_FLAGS=-O2",
+            "WASM_DEBUG=0",
+            "WASM_PROFILING=1",
+            "PTHREAD_POOL_SIZE=8"
+          ],
+          "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.9 (4e4223852a0835923411059a3929907d7df1232e)\nCopyright (C) 2026 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+          "node": "v26.5.0"
+        },
+        "files": {
+          "boxedwine-shell.js": "564ae0c4392f9cbc2c344bfac44060199c51b3ebdff1df692618b98a549f8b74",
+          "boxedwine.js": "8f12b20dc63c2e582cdc19f0db1b57ae9c51493d2c67f51e0d5de4911cc2ac45",
+          "boxedwine.css": "fd7782e90131d31d1bb90fce4cc7188c27dadb41f67b1f36a1005d80d759b3c6",
+          "boxedwine.wasm": "3f62d99b236028f400e7b6badb6e63527e3c25c1ed0bcf1bef4d1e0534a1f837",
+          "boxedwine.html": "3781edfa174d870c28b83c718c2d9de1f36635aa6508f9e507549a59e3ac6c27"
+        }
+      }
+    },
+    "candidate": {
+      "path": "tmp/web-cpu/majesty-hd-metadata",
+      "sha256": "d033c5d825e7daa5e3d7afdfc4895cb38edd12d33e4faf147bee37281183c953",
+      "manifest": {
+        "timestamp": "2026-09-13T04:37:34.633636+00:00",
+        "source": {
+          "head": "0891c9f1693126993237a749b53a93cf9348f15c",
+          "patchSha256": "cc3b11f1b87c3fd27b81389e7c9827025bd7a2d9441375f08ca8f49903b13af4",
+          "untrackedSha256": {}
+        },
+        "config": {
+          "command": [
+            "make",
+            "-C",
+            "~/Documents/Tests/boxedwine/project/emscripten",
+            "jit",
+            "cpus=8",
+            "BUILD_ROOT=Build/WebCPU/profile",
+            "TARGET_EXEC=boxedwine.html",
+            "OPTIMIZATION_FLAGS=-O2",
+            "WASM_DEBUG=0",
+            "WASM_PROFILING=1",
+            "PTHREAD_POOL_SIZE=8"
+          ],
+          "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.9 (4e4223852a0835923411059a3929907d7df1232e)\nCopyright (C) 2026 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+          "node": "v26.5.0"
+        },
+        "files": {
+          "boxedwine-shell.js": "564ae0c4392f9cbc2c344bfac44060199c51b3ebdff1df692618b98a549f8b74",
+          "boxedwine.js": "7c6161f69af8b266297fe00e6734e7be2a09455c76e5aa3f29c44e6d1d663f5a",
+          "boxedwine.css": "fd7782e90131d31d1bb90fce4cc7188c27dadb41f67b1f36a1005d80d759b3c6",
+          "boxedwine.wasm": "f22205a1043cd93122d7341ff056c2d919b98e99cffef953d6de60b5b88357d9",
+          "boxedwine.html": "3781edfa174d870c28b83c718c2d9de1f36635aa6508f9e507549a59e3ac6c27"
+        }
+      }
+    }
+  },
+  "sharedWorkload": {
+    "game": "MajestyHD.exe",
+    "gameSha256": "65c6dd32c3d873c2e320bdaa2de1b00488af85b44573fd0fd82f79a2ffd37792",
+    "archive": "ZIP_STORED",
+    "appSha256": "c52116f04341f3db1d032bd8b11ec694deab7f120913badb90b0e4ef445f02ba",
+    "appBytes": 730088727,
+    "wineSha256": "aad6bb6725b00500c9af935ec001bc33f7d6351d52e3d38b1a2078a0a2301718",
+    "query": {
+      "root": "wine.zip",
+      "app": "app.zip",
+      "p": "MajestyHD.exe",
+      "args": "-nointro -nosuspend -dib",
+      "resolution": "1024x768",
+      "bpp": "32",
+      "sound": "false",
+      "storage": "memory"
+    }
+  },
+  "harness": {
+    "tmp/web-cpu/measure-majesty.mjs": "c3db714be33208ed2dba7e5b27a1d4679a40af28df5ce7de4d1ba9a28516620b",
+    "tmp/web-cpu/compare-majesty-screen.py": "faed3574d99b6f031981284536b216f8d38232cb154465c8a6526e857930fae9",
+    "tmp/web-cpu/majesty-hd-probe/frame-2.png": "c923c641b1d0380529c5543f6321c847b3d4c2887ee34343fc427d0c543379e8",
+    "tmp/web-cpu/majesty-hd-probe/frame-17.png": "5eba02fbeab0b3b92c215d72b7fc39b6478e3dda64b1e1d026969e790fb58b35",
+    "tmp/web-cpu/majesty-hd-probe/name-screen.png": "7cbc40b9f85adcf97cafda9aebaae2b68c5d03fb19d464ef1051e0d66ff716c0"
+  },
+  "method": {
+    "order": [
+      "baseline",
+      "candidate",
+      "baseline",
+      "candidate",
+      "baseline",
+      "candidate"
+    ],
+    "cpuSampler": false,
+    "storage": "memory",
+    "browser": "fresh owned headless Chrome per run",
+    "filesystem": "warm, local HTTP server",
+    "viewport": [
+      1280,
+      1000
+    ],
+    "pollMs": 1000,
+    "match": "RGB points every 6 pixels; >97% must differ by <=12 per channel",
+    "regions": {
+      "dx9": [
+        478,
+        375,
+        802,
+        500
+      ],
+      "menu": [
+        250,
+        600,
+        1030,
+        652
+      ],
+      "name": [
+        415,
+        440,
+        860,
+        585
+      ]
+    },
+    "endpoint": "First matching menu screenshot; then Play Game must open name dialog",
+    "clock": "Node performance.now rounded to milliseconds",
+    "excludedPilot": {
+      "reason": "Harness calibration before accepted runs; no timing data selected by outcome",
+      "file": "tmp/web-cpu/metadata-matched/0-pilot/result.json",
+      "sha256": "d95c44c12f7ff43e769935e49ecc199c19f2f7683f317ba2a12ce215f657df12"
+    }
+  },
+  "runs": [
+    {
+      "pair": 1,
+      "arm": "baseline",
+      "result": {
+        "runtime": "tmp/web-cpu/majesty-hd-verified",
+        "out": "tmp/web-cpu/metadata-matched/1-baseline",
+        "scope": "Unprofiled navigation to visual menu, followed by successful Play Game transition. Local warm filesystem, fresh browser.",
+        "version": {
+          "protocolVersion": "1.3",
+          "product": "Chrome/152.0.7977.83",
+          "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+          "jsVersion": "15.2.124.21"
+        },
+        "url": "http://127.0.0.1:8093/tmp/web-cpu/majesty-hd-verified/boxedwine.html?root=wine.zip&app=app.zip&p=MajestyHD.exe&args=-nointro+-nosuspend+-dib&storage=memory&sound=false&resolution=1024x768&bpp=32",
+        "started": 1789274457305,
+        "dx9DialogMs": 14732,
+        "menuVisibleMs": 149267,
+        "menuNotVisibleMs": 148139,
+        "nameDialogMs": 150601,
+        "nameNotVisibleMs": 149267,
+        "pass": true,
+        "durationMs": 150618,
+        "pageExceptions": 0
+      },
+      "actions": [
+        {
+          "id": "accept-dx9-fallback",
+          "elapsedMs": 14918
+        },
+        {
+          "id": "play-game",
+          "elapsedMs": 149471
+        }
+      ],
+      "artifacts": [
+        {
+          "file": "tmp/web-cpu/metadata-matched/1-baseline/result.json",
+          "sha256": "d7f0b1c6e0e6bf0e7bf21311b3ee04b775acc5a2870f1a3cd6ae457785acb8c0"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/1-baseline/checks.json",
+          "sha256": "d383ede0be34481ba28b4a4deac4f9fa5cb006d66075a8c14313e0c152ff418f"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/1-baseline/actions.json",
+          "sha256": "345a4f56082436d4fd402f6563d8ef5976f90b796a2c35938ea589bd983a966c"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/1-baseline/console.json",
+          "sha256": "1091ba7eba39cf8cf6897c746679fccda1ffb8f445c92141c72df5dafb9dbf76"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/1-baseline/dx9.png",
+          "sha256": "6c5a171b6ee2e6bdd17ed00e6f143df8f3e5afaef3757b0a9b63392f8f06d71c"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/1-baseline/menu.png",
+          "sha256": "bbacdb3aa14a4f32ed5d24aef3cd65bfdb2ddc440a490a3ba13990379807b960"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/1-baseline/name.png",
+          "sha256": "2854ec28749e23fc82c63f3385b6023987d967f70c10a34152ae5a2891e8701c"
+        }
+      ]
+    },
+    {
+      "pair": 1,
+      "arm": "candidate",
+      "result": {
+        "runtime": "tmp/web-cpu/majesty-hd-metadata",
+        "out": "tmp/web-cpu/metadata-matched/1-candidate",
+        "scope": "Unprofiled navigation to visual menu, followed by successful Play Game transition. Local warm filesystem, fresh browser.",
+        "version": {
+          "protocolVersion": "1.3",
+          "product": "Chrome/152.0.7977.83",
+          "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+          "jsVersion": "15.2.124.21"
+        },
+        "url": "http://127.0.0.1:8093/tmp/web-cpu/majesty-hd-metadata/boxedwine.html?root=wine.zip&app=app.zip&p=MajestyHD.exe&args=-nointro+-nosuspend+-dib&storage=memory&sound=false&resolution=1024x768&bpp=32",
+        "started": 1789274608560,
+        "dx9DialogMs": 14901,
+        "menuVisibleMs": 86463,
+        "menuNotVisibleMs": 85347,
+        "nameDialogMs": 87763,
+        "nameNotVisibleMs": 86463,
+        "pass": true,
+        "durationMs": 87779,
+        "pageExceptions": 0
+      },
+      "actions": [
+        {
+          "id": "accept-dx9-fallback",
+          "elapsedMs": 15091
+        },
+        {
+          "id": "play-game",
+          "elapsedMs": 86658
+        }
+      ],
+      "artifacts": [
+        {
+          "file": "tmp/web-cpu/metadata-matched/1-candidate/result.json",
+          "sha256": "e58ff38a1c3476785d2bf5c12c7b58a9db5525156de1856dda44755f6dbd9641"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/1-candidate/checks.json",
+          "sha256": "613743e0ab56bd4561dab459fc34c17836790c9461e169c7968c5ce3e2c14e43"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/1-candidate/actions.json",
+          "sha256": "8b29dc081c40c61df3934e88200e4f6f79573892a37691f235bc6a51609537cf"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/1-candidate/console.json",
+          "sha256": "356f9412004a143d51d415f4fc5e32924edcb88046d0412a889e1b473d31b99b"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/1-candidate/dx9.png",
+          "sha256": "ee711f63a169219869acf6c53499f339d02b4c82c70fbfa44e2a6d4a3e2c8383"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/1-candidate/menu.png",
+          "sha256": "dd5d924fb3b943861c9979d5c35883d6683f60102334b4d28bfd11b593d00ab8"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/1-candidate/name.png",
+          "sha256": "2854ec28749e23fc82c63f3385b6023987d967f70c10a34152ae5a2891e8701c"
+        }
+      ]
+    },
+    {
+      "pair": 2,
+      "arm": "baseline",
+      "result": {
+        "runtime": "tmp/web-cpu/majesty-hd-verified",
+        "out": "tmp/web-cpu/metadata-matched/2-baseline",
+        "scope": "Unprofiled navigation to visual menu, followed by successful Play Game transition. Local warm filesystem, fresh browser.",
+        "version": {
+          "protocolVersion": "1.3",
+          "product": "Chrome/152.0.7977.83",
+          "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+          "jsVersion": "15.2.124.21"
+        },
+        "url": "http://127.0.0.1:8093/tmp/web-cpu/majesty-hd-verified/boxedwine.html?root=wine.zip&app=app.zip&p=MajestyHD.exe&args=-nointro+-nosuspend+-dib&storage=memory&sound=false&resolution=1024x768&bpp=32",
+        "started": 1789274696992,
+        "dx9DialogMs": 14765,
+        "menuVisibleMs": 153175,
+        "menuNotVisibleMs": 152054,
+        "nameDialogMs": 154466,
+        "nameNotVisibleMs": 153175,
+        "pass": true,
+        "durationMs": 154483,
+        "pageExceptions": 0
+      },
+      "actions": [
+        {
+          "id": "accept-dx9-fallback",
+          "elapsedMs": 14963
+        },
+        {
+          "id": "play-game",
+          "elapsedMs": 153370
+        }
+      ],
+      "artifacts": [
+        {
+          "file": "tmp/web-cpu/metadata-matched/2-baseline/result.json",
+          "sha256": "bbbb6e38ec15b095bdeb607e41ec8a8ab31c585dbfc21fe314c93999e95815ef"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/2-baseline/checks.json",
+          "sha256": "47d4623a0a06149e43f163960861b3d006cee93bd67bd39117a48b9b06e09100"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/2-baseline/actions.json",
+          "sha256": "e7e4dc3a44749dbaaedc87df71b6ddf7a4a1534cd251ebe4e8abc4b686280f5e"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/2-baseline/console.json",
+          "sha256": "745fcf8e29808200a16145316d2996702856d5fdf19ccd90258b0313cd6df523"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/2-baseline/dx9.png",
+          "sha256": "5fa636cf2377be0a86e338d406fae003fb71b990566b92de1964344f93918de3"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/2-baseline/menu.png",
+          "sha256": "6de19c58970490f0c860ae412416265c07cd8d801dfb9f52ed79d8c2c3d81bc9"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/2-baseline/name.png",
+          "sha256": "2854ec28749e23fc82c63f3385b6023987d967f70c10a34152ae5a2891e8701c"
+        }
+      ]
+    },
+    {
+      "pair": 2,
+      "arm": "candidate",
+      "result": {
+        "runtime": "tmp/web-cpu/majesty-hd-metadata",
+        "out": "tmp/web-cpu/metadata-matched/2-candidate",
+        "scope": "Unprofiled navigation to visual menu, followed by successful Play Game transition. Local warm filesystem, fresh browser.",
+        "version": {
+          "protocolVersion": "1.3",
+          "product": "Chrome/152.0.7977.83",
+          "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+          "jsVersion": "15.2.124.21"
+        },
+        "url": "http://127.0.0.1:8093/tmp/web-cpu/majesty-hd-metadata/boxedwine.html?root=wine.zip&app=app.zip&p=MajestyHD.exe&args=-nointro+-nosuspend+-dib&storage=memory&sound=false&resolution=1024x768&bpp=32",
+        "started": 1789274852131,
+        "dx9DialogMs": 14736,
+        "menuVisibleMs": 86272,
+        "menuNotVisibleMs": 85153,
+        "nameDialogMs": 87590,
+        "nameNotVisibleMs": 86272,
+        "pass": true,
+        "durationMs": 87607,
+        "pageExceptions": 0
+      },
+      "actions": [
+        {
+          "id": "accept-dx9-fallback",
+          "elapsedMs": 14920
+        },
+        {
+          "id": "play-game",
+          "elapsedMs": 86477
+        }
+      ],
+      "artifacts": [
+        {
+          "file": "tmp/web-cpu/metadata-matched/2-candidate/result.json",
+          "sha256": "b0b3d18a9001c4f18d3ddbf95129520e5523ff4b8dcbce5b9f1f6e4108e3b46c"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/2-candidate/checks.json",
+          "sha256": "282f769d795dcbdd43357d1c29add2f44db08f296640f5a496d9336e2ad796e3"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/2-candidate/actions.json",
+          "sha256": "daf707e791febaf128740f57f689599ac545ba11f43b04b3f89be5cc2a53ef35"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/2-candidate/console.json",
+          "sha256": "ba5eba080e09726321cab2420e8aaa727c19dd5235db02b1798126477e3bb1a0"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/2-candidate/dx9.png",
+          "sha256": "8591fb38568ecc6185c13c42c996d4dd7c13b9b922578094c92cd707bfd189ef"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/2-candidate/menu.png",
+          "sha256": "410eb07bb781cc2dfaabb8bd9bd56fc7c9e75c70dbc07b6e4fe7b9346bfb2ddb"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/2-candidate/name.png",
+          "sha256": "2854ec28749e23fc82c63f3385b6023987d967f70c10a34152ae5a2891e8701c"
+        }
+      ]
+    },
+    {
+      "pair": 3,
+      "arm": "baseline",
+      "result": {
+        "runtime": "tmp/web-cpu/majesty-hd-verified",
+        "out": "tmp/web-cpu/metadata-matched/3-baseline",
+        "scope": "Unprofiled navigation to visual menu, followed by successful Play Game transition. Local warm filesystem, fresh browser.",
+        "version": {
+          "protocolVersion": "1.3",
+          "product": "Chrome/152.0.7977.83",
+          "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+          "jsVersion": "15.2.124.21"
+        },
+        "url": "http://127.0.0.1:8093/tmp/web-cpu/majesty-hd-verified/boxedwine.html?root=wine.zip&app=app.zip&p=MajestyHD.exe&args=-nointro+-nosuspend+-dib&storage=memory&sound=false&resolution=1024x768&bpp=32",
+        "started": 1789274940405,
+        "dx9DialogMs": 14737,
+        "menuVisibleMs": 150155,
+        "menuNotVisibleMs": 149026,
+        "nameDialogMs": 151475,
+        "nameNotVisibleMs": 150155,
+        "pass": true,
+        "durationMs": 151492,
+        "pageExceptions": 0
+      },
+      "actions": [
+        {
+          "id": "accept-dx9-fallback",
+          "elapsedMs": 14934
+        },
+        {
+          "id": "play-game",
+          "elapsedMs": 150343
+        }
+      ],
+      "artifacts": [
+        {
+          "file": "tmp/web-cpu/metadata-matched/3-baseline/result.json",
+          "sha256": "fad493b13bdd971bcf5f8ac4140618aa1ba387109870f7a1d17809964dca09b8"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/3-baseline/checks.json",
+          "sha256": "edff36bf54dd302c9c3ffd159cbede6172b76f436763c9f3955c75079b647bb4"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/3-baseline/actions.json",
+          "sha256": "05fbad2b6cafcae446c489e2101a464e4803a562977b91e060c8c41c027304c9"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/3-baseline/console.json",
+          "sha256": "3792fb1f594dc61bf12e59f035f93d6cea08c344ead8ac28e379e0117a338c6c"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/3-baseline/dx9.png",
+          "sha256": "8327b2cfe8047a12e2287e8b127050c646788091594cc274bfc8ae02cd2cfcd8"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/3-baseline/menu.png",
+          "sha256": "58781959329bb426a5ecb2fb97f75140fa19d433ab8edecb5f00591e7a579f57"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/3-baseline/name.png",
+          "sha256": "2854ec28749e23fc82c63f3385b6023987d967f70c10a34152ae5a2891e8701c"
+        }
+      ]
+    },
+    {
+      "pair": 3,
+      "arm": "candidate",
+      "result": {
+        "runtime": "tmp/web-cpu/majesty-hd-metadata",
+        "out": "tmp/web-cpu/metadata-matched/3-candidate",
+        "scope": "Unprofiled navigation to visual menu, followed by successful Play Game transition. Local warm filesystem, fresh browser.",
+        "version": {
+          "protocolVersion": "1.3",
+          "product": "Chrome/152.0.7977.83",
+          "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+          "jsVersion": "15.2.124.21"
+        },
+        "url": "http://127.0.0.1:8093/tmp/web-cpu/majesty-hd-metadata/boxedwine.html?root=wine.zip&app=app.zip&p=MajestyHD.exe&args=-nointro+-nosuspend+-dib&storage=memory&sound=false&resolution=1024x768&bpp=32",
+        "started": 1789275092547,
+        "dx9DialogMs": 14880,
+        "menuVisibleMs": 85395,
+        "menuNotVisibleMs": 84275,
+        "nameDialogMs": 86723,
+        "nameNotVisibleMs": 85395,
+        "pass": true,
+        "durationMs": 86739,
+        "pageExceptions": 0
+      },
+      "actions": [
+        {
+          "id": "accept-dx9-fallback",
+          "elapsedMs": 15055
+        },
+        {
+          "id": "play-game",
+          "elapsedMs": 85599
+        }
+      ],
+      "artifacts": [
+        {
+          "file": "tmp/web-cpu/metadata-matched/3-candidate/result.json",
+          "sha256": "e58fbcca71f66be01c02542b952c941e6cf2f71b60c233d9579f62ad3a10880b"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/3-candidate/checks.json",
+          "sha256": "a905a5b7ed62895d02fcc9032f86c704a2377755ca6d22a3fc31b1e29512810e"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/3-candidate/actions.json",
+          "sha256": "38f1399e7915dc3f258e7f9d4eb01e81f56935ebb47dc5ac7a2dcaf89ce58a04"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/3-candidate/console.json",
+          "sha256": "73b05bad15893057defea56e195cb253c6b0f79f5b343352510e3498a228a781"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/3-candidate/dx9.png",
+          "sha256": "c4e1689b614adff3794bda2d694c6cde2bc36bf6c7a5af8da06f7aeada67ff49"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/3-candidate/menu.png",
+          "sha256": "dd5d924fb3b943861c9979d5c35883d6683f60102334b4d28bfd11b593d00ab8"
+        },
+        {
+          "file": "tmp/web-cpu/metadata-matched/3-candidate/name.png",
+          "sha256": "2854ec28749e23fc82c63f3385b6023987d967f70c10a34152ae5a2891e8701c"
+        }
+      ]
+    }
+  ],
+  "mediansMs": {
+    "baseline": {
+      "menuVisibleMs": 150155,
+      "nameDialogMs": 151475
+    },
+    "candidate": {
+      "menuVisibleMs": 86272,
+      "nameDialogMs": 87590
+    }
+  },
+  "tests": [
+    {
+      "passedFastTests": 770,
+      "run": {
+        "command": [
+          "node",
+          "~/Documents/Tests/boxedwine/project/emscripten/Build/WebCPU/release/TestJit/boxedwine.js",
+          "-fast"
+        ],
+        "exitCode": 0,
+        "timeoutSeconds": 300,
+        "timedOut": false,
+        "build": {
+          "timestamp": "2026-09-13T04:32:09.327354+00:00",
+          "source": {
+            "head": "0891c9f1693126993237a749b53a93cf9348f15c",
+            "patchSha256": "6798c65cdad55de289670f2ac62fd9ec63f773d2eef5a78a4178144825acfd8f",
+            "untrackedSha256": {}
+          },
+          "config": {
+            "command": [
+              "make",
+              "-C",
+              "~/Documents/Tests/boxedwine/project/emscripten",
+              "testJit",
+              "cpus=8",
+              "BUILD_ROOT=Build/WebCPU/release",
+              "TARGET_EXEC=boxedwine.js",
+              "OPTIMIZATION_FLAGS=-O2",
+              "WASM_DEBUG=0",
+              "WASM_PROFILING=0",
+              "PTHREAD_POOL_SIZE=8"
+            ],
+            "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.9 (4e4223852a0835923411059a3929907d7df1232e)\nCopyright (C) 2026 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+            "node": "v26.5.0"
+          },
+          "files": {
+            "boxedwine.js": "c99735099f023da5f6fc1c99962d5dbd6c363c0c9e159abd89e0c918b4f47aae",
+            "boxedwine.wasm": "67bd560432f4060b74fce1040cee3cb996ca5e57e618828e34eddfa700aa7c83"
+          }
+        },
+        "scope": "CPU tests; not gameplay FPS",
+        "profiled": false
+      },
+      "console": {
+        "file": "tmp/web-cpu/runs/20260913T043243.724840Z/console.log",
+        "sha256": "be184616d7909c5e6bdd13103d610a8cd8d4379ee1fb4b217701b5121eae1e5f"
+      }
+    },
+    {
+      "passedFastTests": 750,
+      "run": {
+        "command": [
+          "node",
+          "~/Documents/Tests/boxedwine/project/emscripten/Build/WebCPU/release/Test/boxedwine.js",
+          "-fast"
+        ],
+        "exitCode": 0,
+        "timeoutSeconds": 300,
+        "timedOut": false,
+        "build": {
+          "timestamp": "2026-09-13T04:33:00.682331+00:00",
+          "source": {
+            "head": "0891c9f1693126993237a749b53a93cf9348f15c",
+            "patchSha256": "6798c65cdad55de289670f2ac62fd9ec63f773d2eef5a78a4178144825acfd8f",
+            "untrackedSha256": {}
+          },
+          "config": {
+            "command": [
+              "make",
+              "-C",
+              "~/Documents/Tests/boxedwine/project/emscripten",
+              "test",
+              "cpus=8",
+              "BUILD_ROOT=Build/WebCPU/release",
+              "TARGET_EXEC=boxedwine.js",
+              "OPTIMIZATION_FLAGS=-O2",
+              "WASM_DEBUG=0",
+              "WASM_PROFILING=0",
+              "PTHREAD_POOL_SIZE=8"
+            ],
+            "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.9 (4e4223852a0835923411059a3929907d7df1232e)\nCopyright (C) 2026 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+            "node": "v26.5.0"
+          },
+          "files": {
+            "boxedwine.js": "4eb98bb7029af2e8e40e08c7f5f772b49abea692f5e9ea16c129fb3a02a5162a",
+            "boxedwine.wasm": "c953f882baf97670d0c07996f0b9102225712591f6e358c0521d5899869821cd"
+          }
+        },
+        "scope": "CPU tests; not gameplay FPS",
+        "profiled": false
+      },
+      "console": {
+        "file": "tmp/web-cpu/runs/20260913T043300.717230Z/console.log",
+        "sha256": "9e6148e8845a72f7f446e1528e88b0a98f8f27eee3deff335cad02aa7c2c12b2"
+      }
+    }
+  ],
+  "menuReductionPercent": 42.54470380606706,
+  "menuMillisecondsSaved": 63883,
+  "diagnostic": {
+    "result": {
+      "runtime": "tmp/web-cpu/majesty-hd-metadata",
+      "out": "tmp/web-cpu/majesty-hd-metadata-probe",
+      "scope": "Separate diagnostic session: loading profile and scripted beginner mission smoke; not startup timing or FPS.",
+      "version": {
+        "protocolVersion": "1.3",
+        "product": "Chrome/152.0.7977.83",
+        "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+        "jsVersion": "15.2.124.21"
+      },
+      "profiles": [
+        {
+          "label": "loading",
+          "startMs": 33770,
+          "endMs": 48908,
+          "samples": 12044
+        },
+        {
+          "label": "mission-a",
+          "startMs": 125480,
+          "endMs": 140686,
+          "samples": 12046
+        },
+        {
+          "label": "mission-b",
+          "startMs": 155786,
+          "endMs": 170981,
+          "samples": 12042
+        }
+      ],
+      "url": "http://127.0.0.1:8093/tmp/web-cpu/majesty-hd-metadata/boxedwine.html?root=wine.zip&app=app.zip&p=MajestyHD.exe&args=-nointro+-nosuspend+-dib&storage=memory&sound=false&resolution=1024x768&bpp=32",
+      "started": 1789275200051,
+      "dx9DialogMs": 14730,
+      "loadingProfile": true,
+      "menuVisibleMs": 87901,
+      "menuNotVisibleMs": 86765,
+      "nameDialogMs": 89203,
+      "nameNotVisibleMs": 87901,
+      "pass": true,
+      "durationMs": 170982,
+      "pageExceptions": 0
+    },
+    "driver": {
+      "file": "tmp/web-cpu/diagnose-majesty-metadata.mjs",
+      "sha256": "06c1893b101d8158ce9210cd1d1f728816eb618dffc52eafecb8a9a2d394ab36"
+    },
+    "actions": [
+      {
+        "id": "accept-dx9-fallback",
+        "elapsedMs": 14919
+      },
+      {
+        "id": "play-game",
+        "elapsedMs": 88091
+      },
+      {
+        "id": "accept-name",
+        "elapsedMs": 89420,
+        "click": [
+          409,
+          511
+        ]
+      },
+      {
+        "id": "dismiss-help",
+        "elapsedMs": 94707,
+        "click": [
+          510,
+          486
+        ]
+      },
+      {
+        "id": "freestyle",
+        "elapsedMs": 99984,
+        "click": [
+          511,
+          603
+        ]
+      },
+      {
+        "id": "beginner",
+        "elapsedMs": 105271,
+        "click": [
+          511,
+          320
+        ]
+      }
+    ],
+    "profiles": [
+      {
+        "file": "tmp/web-cpu/majesty-hd-metadata-probe/loading.cpuprofile",
+        "sha256": "0013f243d8b89d0280ef3042cc9ad8871e0995fd713ddb502bab728fd02f94d9",
+        "sampledSeconds": 15.08044,
+        "samples": 12044,
+        "selfPercent": {
+          "pathLookupAndNormalize": 24.06461615178337,
+          "dispatchCombined": 18.202844214094547,
+          "movsbHelper": 0.0,
+          "idle": 26.077965894894312,
+          "unzReadCurrentFile": 0.0
+        },
+        "lookupSelfByAncestorPercent": {
+          "xattr": 15.242095058234375,
+          "stat timestamps": 8.822521093548994
+        },
+        "topSelf": [
+          {
+            "name": "(idle)",
+            "percent": 26.077965894894312
+          },
+          {
+            "name": "lookupPath",
+            "percent": 24.06461615178337
+          },
+          {
+            "name": "wasmStartJITOp(CPU*, DecodedOp*)",
+            "percent": 14.098003771773238
+          },
+          {
+            "name": "wasmHelper_fetchNextOp(CPU*)",
+            "percent": 4.104840442321311
+          },
+          {
+            "name": "(program)",
+            "percent": 2.497208304266984
+          },
+          {
+            "name": "_emscripten_date_now",
+            "percent": 2.087293208951463
+          },
+          {
+            "name": "SW_RunCommandQueue",
+            "percent": 1.3655437109262063
+          },
+          {
+            "name": "Blit_3or4_to_3or4__inversed_rgb",
+            "percent": 0.7987963215927387
+          },
+          {
+            "name": "decode",
+            "percent": 0.479263204521884
+          },
+          {
+            "name": "CPU::runNextSingleOp()",
+            "percent": 0.4382564434459472
+          },
+          {
+            "name": "internal_poll(KThread*, KPollData*, unsigned int, unsigned int)",
+            "percent": 0.37286710467333845
+          },
+          {
+            "name": "KMemory::writeq(unsigned int, unsigned long long)",
+            "percent": 0.3539087718925973
+          },
+          {
+            "name": "___syscall_faccessat",
+            "percent": 0.3325035609040585
+          },
+          {
+            "name": "normal_movsd_op(CPU*, DecodedOp*)",
+            "percent": 0.3243008824676203
+          },
+          {
+            "name": "normal_cmpxchgg8b(CPU*, DecodedOp*)",
+            "percent": 0.32280888356042664
+          }
+        ]
+      },
+      {
+        "file": "tmp/web-cpu/majesty-hd-metadata-probe/mission-a.cpuprofile",
+        "sha256": "426a9e50edbf5f3ac628912bb53f0ee8f55699b3f777e4745c35e8500eb2162b",
+        "sampledSeconds": 15.091118,
+        "samples": 12046,
+        "selfPercent": {
+          "pathLookupAndNormalize": 0.0,
+          "dispatchCombined": 24.411286161833736,
+          "movsbHelper": 0.354195096744986,
+          "idle": 26.50437164430097,
+          "unzReadCurrentFile": 0.0
+        },
+        "lookupSelfByAncestorPercent": {},
+        "topSelf": [
+          {
+            "name": "(idle)",
+            "percent": 26.50437164430097
+          },
+          {
+            "name": "wasmStartJITOp(CPU*, DecodedOp*)",
+            "percent": 18.539593951886136
+          },
+          {
+            "name": "wasmHelper_fetchNextOp(CPU*)",
+            "percent": 5.871692209947599
+          },
+          {
+            "name": "Blit_3or4_to_3or4__inversed_rgb",
+            "percent": 3.3707509277973973
+          },
+          {
+            "name": "(program)",
+            "percent": 2.639148405041959
+          },
+          {
+            "name": "SW_RunCommandQueue",
+            "percent": 2.230338401700921
+          },
+          {
+            "name": "334525",
+            "percent": 1.5541525816708874
+          },
+          {
+            "name": "_emscripten_date_now",
+            "percent": 0.9735792934625519
+          },
+          {
+            "name": "x86:p10:Unknown:file_00000000:pc_005f161f:ops_67",
+            "percent": 0.9328334719800083
+          },
+          {
+            "name": "x86:p10:winex11.so:file_00007ffe:pc_12bf7ffe:ops_13",
+            "percent": 0.615567382085277
+          },
+          {
+            "name": "putImageData",
+            "percent": 0.4618279440926776
+          },
+          {
+            "name": "internal_poll(KThread*, KPollData*, unsigned int, unsigned int)",
+            "percent": 0.38722114557715337
+          },
+          {
+            "name": "normal_movsb_op(CPU*, DecodedOp*)",
+            "percent": 0.354195096744986
+          },
+          {
+            "name": "CPU::runNextSingleOp()",
+            "percent": 0.30088559376449114
+          },
+          {
+            "name": "x86:p10:Unknown:file_00000000:pc_005f16bf:ops_23",
+            "percent": 0.2640957416143721
+          }
+        ]
+      },
+      {
+        "file": "tmp/web-cpu/majesty-hd-metadata-probe/mission-b.cpuprofile",
+        "sha256": "04a2dac6134f8dd97db26c4457324c4dcc3fce10d88fdc32eb5d9ea6ac83ba30",
+        "sampledSeconds": 15.089922,
+        "samples": 12042,
+        "selfPercent": {
+          "pathLookupAndNormalize": 0.00831018212022567,
+          "dispatchCombined": 24.93103012725977,
+          "movsbHelper": 0.5489226518202016,
+          "idle": 26.218969190165463,
+          "unzReadCurrentFile": 0.0
+        },
+        "lookupSelfByAncestorPercent": {
+          "stat timestamps": 0.00831018212022567
+        },
+        "topSelf": [
+          {
+            "name": "(idle)",
+            "percent": 26.218969190165463
+          },
+          {
+            "name": "wasmStartJITOp(CPU*, DecodedOp*)",
+            "percent": 19.020423034658496
+          },
+          {
+            "name": "wasmHelper_fetchNextOp(CPU*)",
+            "percent": 5.910607092601274
+          },
+          {
+            "name": "Blit_3or4_to_3or4__inversed_rgb",
+            "percent": 2.9626329413763703
+          },
+          {
+            "name": "(program)",
+            "percent": 2.4491842966451385
+          },
+          {
+            "name": "SW_RunCommandQueue",
+            "percent": 2.2368969170284645
+          },
+          {
+            "name": "334525",
+            "percent": 1.788657356876994
+          },
+          {
+            "name": "x86:p10:winex11.so:file_00007ffe:pc_12bf7ffe:ops_13",
+            "percent": 1.6037193565347787
+          },
+          {
+            "name": "_emscripten_date_now",
+            "percent": 1.2254669043352244
+          },
+          {
+            "name": "x86:p10:Unknown:file_00000000:pc_005f161f:ops_67",
+            "percent": 0.8833246454156621
+          },
+          {
+            "name": "normal_movsb_op(CPU*, DecodedOp*)",
+            "percent": 0.5489226518202016
+          },
+          {
+            "name": "internal_poll(KThread*, KPollData*, unsigned int, unsigned int)",
+            "percent": 0.49844525372629495
+          },
+          {
+            "name": "putImageData",
+            "percent": 0.3384377997447568
+          },
+          {
+            "name": "x86:p10:Unknown:file_00000000:pc_005f16bf:ops_23",
+            "percent": 0.2888550384819749
+          },
+          {
+            "name": "x86:p10:winex11.so:file_00007ffa:pc_12bf7ffa:ops_19",
+            "percent": 0.28195639447307946
+          }
+        ]
+      }
+    ],
+    "screenshots": [
+      {
+        "file": "tmp/web-cpu/majesty-hd-metadata-probe/loading-before.png",
+        "sha256": "107f9f7f99695855d8e97b200bb020fc2834fd1fdd761f29f885ca33b5fb6785"
+      },
+      {
+        "file": "tmp/web-cpu/majesty-hd-metadata-probe/loading-after.png",
+        "sha256": "e6faca467975020cb8c20e23b6af0eadd890fd7eb076a38ed028ebc012af0c78"
+      },
+      {
+        "file": "tmp/web-cpu/majesty-hd-metadata-probe/beginner.png",
+        "sha256": "080c3fba12d683671ca874aa2a5c921332ed380c86434df8dcb836e436b6e9bb"
+      },
+      {
+        "file": "tmp/web-cpu/majesty-hd-metadata-probe/mission-a-before.png",
+        "sha256": "ce6ce9e6f0ba13e94c6beefbe9c932da76df109fa086ef4620e520ad9fbd9c9d"
+      },
+      {
+        "file": "tmp/web-cpu/majesty-hd-metadata-probe/mission-a-after.png",
+        "sha256": "e77def9c4b8ce8a0808a9b6325a5560dd9043b5eed33ced2aebd1d3322fd1276"
+      },
+      {
+        "file": "tmp/web-cpu/majesty-hd-metadata-probe/mission-b-before.png",
+        "sha256": "bdad52560802a543659910b93a98f2154449dcb324d06deaf6df7ef4a0f79437"
+      },
+      {
+        "file": "tmp/web-cpu/majesty-hd-metadata-probe/mission-b-after.png",
+        "sha256": "714ee286c19345019e79eb0c0bbc38a37f25087bbd1b4ebbda1727624e20c635"
+      }
+    ],
+    "console": {
+      "file": "tmp/web-cpu/majesty-hd-metadata-probe/console.json",
+      "sha256": "d43570833a8fe11405eb7eb55211c0d7643cc6d2385436757583c4b91cb1094b"
+    },
+    "missionObservation": "Random (Beginner) mission rendered; treasury advances from 20000 to 20060 to 20141 between retained screenshots. Day display remains 0. This is simulation smoke evidence, not deterministic gameplay throughput."
+  },
+  "limitations": [
+    "Three alternating pairs on one host/browser; descriptive medians, not hardware/browser generality.",
+    "One-second screenshot polling plus capture and matching overhead is included equally. Previous nonmatching observation retained; values are detection times.",
+    "Local warm filesystem and fresh browser; not cold internet download.",
+    "Main HD executable with DX9 failure and accepted built-in fallback; no D3D9/WebGPU result.",
+    "Emulator sound disabled; guest audio decoder errors remain. No audio or persistence validation.",
+    "Random beginner mission smoke and sampled hotspots are not FPS or deterministic gameplay throughput measurements.",
+    "Separate diagnostic windows differ from original baseline windows in wall time; sample percentages are diagnostic, not the measured speedup.",
+    "No MT or native MSVC validation in this change; prior MT failures unresolved.",
+    "Test manifests predate formatting-only ZIP array wrapping; final artifact equivalence is recorded separately."
+  ],
+  "artifactEquivalence": [
+    {
+      "target": "Jit",
+      "allArtifactHashesUnchanged": true,
+      "rebuiltManifest": {
+        "timestamp": "2026-09-13T04:56:31.031569+00:00",
+        "source": {
+          "head": "40e00802e1fe41412885f5569cb56cb38f5406c3",
+          "patchSha256": "fee9b5713b47d7522509e71b1f6f9562caa1fa4609490b0b2fc4ca5b49ed5e22",
+          "untrackedSha256": {
+            "docs/Web-Majesty-Startup-Optimization.md": "1570d5cc0eeebfadbbb95bf6d3688b0d628ca87573225867de86a618f08ce100",
+            "docs/benchmarks/2026-09-13-metadata-startup.json": "19122327c7f1f85c3c545946295290edb355ae706e4539b7369255f9747bab2d"
+          }
+        },
+        "config": {
+          "command": [
+            "make",
+            "-C",
+            "~/Documents/Tests/boxedwine/project/emscripten",
+            "jit",
+            "cpus=8",
+            "BUILD_ROOT=Build/WebCPU/profile",
+            "TARGET_EXEC=boxedwine.html",
+            "OPTIMIZATION_FLAGS=-O2",
+            "WASM_DEBUG=0",
+            "WASM_PROFILING=1",
+            "PTHREAD_POOL_SIZE=8"
+          ],
+          "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.9 (4e4223852a0835923411059a3929907d7df1232e)\nCopyright (C) 2026 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+          "node": "v26.5.0"
+        },
+        "files": {
+          "boxedwine-shell.js": "564ae0c4392f9cbc2c344bfac44060199c51b3ebdff1df692618b98a549f8b74",
+          "boxedwine.js": "7c6161f69af8b266297fe00e6734e7be2a09455c76e5aa3f29c44e6d1d663f5a",
+          "boxedwine.css": "fd7782e90131d31d1bb90fce4cc7188c27dadb41f67b1f36a1005d80d759b3c6",
+          "boxedwine.wasm": "f22205a1043cd93122d7341ff056c2d919b98e99cffef953d6de60b5b88357d9",
+          "boxedwine.html": "3781edfa174d870c28b83c718c2d9de1f36635aa6508f9e507549a59e3ac6c27"
+        }
+      }
+    },
+    {
+      "target": "TestJit",
+      "allArtifactHashesUnchanged": true,
+      "rebuiltManifest": {
+        "timestamp": "2026-09-13T04:56:33.968606+00:00",
+        "source": {
+          "head": "40e00802e1fe41412885f5569cb56cb38f5406c3",
+          "patchSha256": "fee9b5713b47d7522509e71b1f6f9562caa1fa4609490b0b2fc4ca5b49ed5e22",
+          "untrackedSha256": {
+            "docs/Web-Majesty-Startup-Optimization.md": "1570d5cc0eeebfadbbb95bf6d3688b0d628ca87573225867de86a618f08ce100",
+            "docs/benchmarks/2026-09-13-metadata-startup.json": "19122327c7f1f85c3c545946295290edb355ae706e4539b7369255f9747bab2d"
+          }
+        },
+        "config": {
+          "command": [
+            "make",
+            "-C",
+            "~/Documents/Tests/boxedwine/project/emscripten",
+            "testJit",
+            "cpus=8",
+            "BUILD_ROOT=Build/WebCPU/release",
+            "TARGET_EXEC=boxedwine.js",
+            "OPTIMIZATION_FLAGS=-O2",
+            "WASM_DEBUG=0",
+            "WASM_PROFILING=0",
+            "PTHREAD_POOL_SIZE=8"
+          ],
+          "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.9 (4e4223852a0835923411059a3929907d7df1232e)\nCopyright (C) 2026 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+          "node": "v26.5.0"
+        },
+        "files": {
+          "boxedwine.js": "c99735099f023da5f6fc1c99962d5dbd6c363c0c9e159abd89e0c918b4f47aae",
+          "boxedwine.wasm": "67bd560432f4060b74fce1040cee3cb996ca5e57e618828e34eddfa700aa7c83"
+        }
+      }
+    },
+    {
+      "target": "Test",
+      "allArtifactHashesUnchanged": true,
+      "rebuiltManifest": {
+        "timestamp": "2026-09-13T04:56:36.057368+00:00",
+        "source": {
+          "head": "40e00802e1fe41412885f5569cb56cb38f5406c3",
+          "patchSha256": "fee9b5713b47d7522509e71b1f6f9562caa1fa4609490b0b2fc4ca5b49ed5e22",
+          "untrackedSha256": {
+            "docs/Web-Majesty-Startup-Optimization.md": "1570d5cc0eeebfadbbb95bf6d3688b0d628ca87573225867de86a618f08ce100",
+            "docs/benchmarks/2026-09-13-metadata-startup.json": "19122327c7f1f85c3c545946295290edb355ae706e4539b7369255f9747bab2d"
+          }
+        },
+        "config": {
+          "command": [
+            "make",
+            "-C",
+            "~/Documents/Tests/boxedwine/project/emscripten",
+            "test",
+            "cpus=8",
+            "BUILD_ROOT=Build/WebCPU/release",
+            "TARGET_EXEC=boxedwine.js",
+            "OPTIMIZATION_FLAGS=-O2",
+            "WASM_DEBUG=0",
+            "WASM_PROFILING=0",
+            "PTHREAD_POOL_SIZE=8"
+          ],
+          "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.9 (4e4223852a0835923411059a3929907d7df1232e)\nCopyright (C) 2026 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+          "node": "v26.5.0"
+        },
+        "files": {
+          "boxedwine.js": "4eb98bb7029af2e8e40e08c7f5f772b49abea692f5e9ea16c129fb3a02a5162a",
+          "boxedwine.wasm": "c953f882baf97670d0c07996f0b9102225712591f6e358c0521d5899869821cd"
+        }
+      }
+    }
+  ]
+}

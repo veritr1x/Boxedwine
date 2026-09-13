@@ -1,5 +1,9 @@
 # Majesty Gold HD CPU diagnosis
 
+Follow-up: [timestamp lookup consolidation](Web-Majesty-Startup-Optimization.md)
+now has a matched three-pair startup measurement: median 150.155 → 86.272 seconds.
+The diagnostic session below predates that change.
+
 The main **`MajestyHD.exe`, version 1.5.2.28**, reaches an animated menu and a
 running Random (Beginner) mission in this fork. Its CPU profile shares Populous's
 JIT dispatch hotspot, but not its repeated byte-copy hotspot. Majesty's lengthy

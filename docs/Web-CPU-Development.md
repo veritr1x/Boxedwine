@@ -266,3 +266,10 @@ three-pair comparison, compatibility coverage, and private reproduction inputs.
 The second Majesty HD optimization avoids rebuilding resolved paths for attribute
 existence checks. See [the matched result](Web-Majesty-XAttr-Optimization.md) for
 the additional startup reduction and filesystem compatibility checks.
+
+For JIT dispatch diagnosis, `cpu.py build --mode counters --target jit` enables
+the existing `BOXEDWINE_WASM_JIT_PROFILE` counters and generated function names.
+It uses a separate `Build/WebCPU/counters` tree because the counter macro changes
+CPU layout. Interpret five-second log deltas within one workload phase; sampled
+timings include nested work and instrumentation overhead. Use release builds for
+throughput comparisons. Counter mode requires a JIT target.

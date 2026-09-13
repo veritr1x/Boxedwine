@@ -69,6 +69,8 @@ def doctor():
 
 
 def build(args):
+    if args.mode == 'counters' and 'jit' not in args.target.lower():
+        raise RuntimeError('Counter mode requires a JIT target')
     env = environment()
     folder = build_dir(args)
     filename = 'boxedwine.js' if args.target.startswith('test') else 'boxedwine.html'
@@ -76,7 +78,11 @@ def build(args):
         f'BUILD_ROOT=Build/WebCPU/{args.mode}', f'TARGET_EXEC={filename}',
         f'OPTIMIZATION_FLAGS={"-O1" if args.mode == "debug" else "-O2"}',
         f'WASM_DEBUG={int(args.mode == "debug")}',
-        f'WASM_PROFILING={int(args.mode == "profile")}', 'PTHREAD_POOL_SIZE=8']
+        f'WASM_PROFILING={int(args.mode in ("profile", "counters"))}', 'PTHREAD_POOL_SIZE=8']
+    if args.mode == 'counters':
+        # This macro changes CPU layout. A separate output tree keeps every
+        # object consistent and prevents diagnostic timings becoming controls.
+        command += ['GCC_EXTRA_FLAGS=-DBOXEDWINE_WASM_JIT_PROFILE -DBOXEDWINE_WASM_JIT_NAMES']
     config = {'command': command, 'emscripten': output(['emcc', '--version'], env=env),
               'node': output(['node', '--version'], env=env)}
     # Clean only this tool's selected output directory when explicitly requested.
@@ -160,7 +166,7 @@ def main():
     tool.add_argument('args', nargs=argparse.REMAINDER)
     for name in ['build', 'run']:
         cmd = commands.add_parser(name)
-        cmd.add_argument('--mode', choices=['release', 'profile', 'debug'], default='release')
+        cmd.add_argument('--mode', choices=['release', 'profile', 'debug', 'counters'], default='release')
         cmd.add_argument('--target', choices=TARGETS, default='testJit')
         if name == 'build':
             cmd.add_argument('--jobs', type=int, choices=range(2, 65), default=8)

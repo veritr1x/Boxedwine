@@ -102,7 +102,9 @@ void scheduleThread(KThread* thread) {
     }
 #endif
     thread->cpu->yield = false;
-    scheduledThreads.addToFront(&thread->scheduledThreadNode);
+    // A waking IPC peer must not jump ahead of already-runnable workers.
+    // Repeated client/server wakeups otherwise starve input and game threads.
+    scheduledThreads.addToBack(&thread->scheduledThreadNode);
 }
 
 void unscheduleThread(KThread* thread) {	    

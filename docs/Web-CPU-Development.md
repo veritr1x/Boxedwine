@@ -7,8 +7,10 @@ to make its browser execution faster and dependable for games.
 
 Populous: The Beginning is the first compatibility target. Quake II timedemo
 is the planned repeatable game workload. Its engine source is open; game/demo
-data must be supplied separately under its applicable license. Neither game
-has been benchmarked in this fork yet. Test-suite timings are not game results.
+data must be supplied separately under its applicable license. The first
+[Populous startup comparison](Web-Startup-Optimization.md) is available;
+playable-game throughput and Quake II have not been benchmarked in this fork.
+Test-suite timings are not game results.
 
 ## Toolchain and isolated builds
 

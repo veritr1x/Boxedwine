@@ -12,8 +12,9 @@ const options = { seconds: 15, warmup: 0, chrome: process.env.CHROME_PATH ||
 for (let i = 2; i < process.argv.length; i++) {
     const arg = process.argv[i];
     if (arg === '--tests') options.tests = true;
+    else if (arg === '--no-profile') options.noProfile = true;
     else if (arg === '--headless') options.headless = true;
-    else if (['--url', '--out', '--chrome', '--seconds', '--warmup', '--manifest'].includes(arg)) {
+    else if (['--url', '--out', '--chrome', '--seconds', '--warmup', '--manifest', '--stop-on'].includes(arg)) {
         const value = process.argv[++i];
         if (!value) throw new Error(`Missing ${arg} value`);
         options[arg.slice(2)] = ['--seconds', '--warmup'].includes(arg) ? Number(value) : value;
@@ -24,6 +25,9 @@ if (!options.url || !/^https?:$/.test(new URL(options.url).protocol))
 if (![options.seconds, options.warmup].every(Number.isFinite) ||
         options.seconds <= 0 || options.seconds > 300 || options.warmup < 0 || options.warmup > 300)
     throw new Error('Use seconds in (0, 300] and warmup in [0, 300]');
+if (options.tests && options['stop-on']) throw new Error('Use either --tests or --stop-on');
+if (options.noProfile && options.warmup) throw new Error('--no-profile measures from navigation; omit --warmup');
+const stopPattern = options['stop-on'] ? new RegExp(options['stop-on']) : null;
 const out = resolve(options.out);
 await mkdir(out, { recursive: false }); // Never overwrite a previous capture.
 const profileDir = await mkdtemp(join(tmpdir(), 'boxedwine-cpu-chrome-'));
@@ -45,6 +49,7 @@ const setupTasks = new Set();
 const captured = [];
 let phase = 'setup';
 let completion;
+let navigationStartedAt;
 let resolveCompletion;
 const completed = new Promise(resolvePromise => { resolveCompletion = resolvePromise; });
 const cancelled = new AbortController();
@@ -60,6 +65,7 @@ function send(method, params = {}, sessionId) {
     });
 }
 async function start(session) {
+    if (options.noProfile) return;
     await send('Profiler.start', {}, session.id);
     session.startedAt = Date.now();
     session.recording = true;
@@ -86,8 +92,10 @@ async function attached(params) {
         await send('Target.setAutoAttach', { autoAttach: true, waitForDebuggerOnStart: true, flatten: true }, sessionId);
         if (['page', 'worker'].includes(session.type)) {
             await send('Runtime.enable', {}, sessionId);
-            await send('Profiler.enable', {}, sessionId);
-            await send('Profiler.setSamplingInterval', { interval: 1000 }, sessionId);
+            if (!options.noProfile) {
+                await send('Profiler.enable', {}, sessionId);
+                await send('Profiler.setSamplingInterval', { interval: 1000 }, sessionId);
+            }
             session.ready = true;
             if (phase === 'recording') await start(session);
         }
@@ -131,9 +139,15 @@ try {
             if (session) session.detached = true;
         } else if (message.method === 'Runtime.consoleAPICalled') {
             const text = message.params.args.map(arg => arg.value ?? arg.description ?? '').join(' ');
-            events.push({ session: message.sessionId, type: message.params.type, text, at: Date.now() });
+            const at = Date.now();
+            events.push({ session: message.sessionId, type: message.params.type, text, at,
+                elapsedMs: navigationStartedAt === undefined ? null : at - navigationStartedAt });
             const match = text.match(/^(\d+) tests FAILED in (\d+)s$/);
-            if (match) { completion = { failed: Number(match[1]), seconds: Number(match[2]) }; resolveCompletion(); }
+            if (options.tests && match) { completion = { failed: Number(match[1]), seconds: Number(match[2]) }; resolveCompletion(); }
+            if (stopPattern && navigationStartedAt !== undefined && !completion && stopPattern.test(text)) {
+                completion = { milestone: options['stop-on'], text, elapsedMs: at - navigationStartedAt };
+                resolveCompletion();
+            }
             if (text.startsWith('BOXEDWINE_ABORT:')) failures.push(text);
             if (text.includes('worker sent an unknown command')) failures.push(text);
         } else if (message.method === 'Runtime.exceptionThrown') {
@@ -149,6 +163,7 @@ try {
         phase = 'recording';
         await Promise.all([...sessions.values()].filter(s => s.ready).map(start));
     }
+    navigationStartedAt = Date.now();
     await send('Page.navigate', { url: options.url }, page.id);
     page.url = options.url;
     if (options.warmup > 0) {
@@ -156,8 +171,8 @@ try {
         phase = 'recording';
         await Promise.all([...sessions.values()].filter(s => s.ready && !s.detached).map(start));
     }
-    console.log(`Profiling page and workers for ${options.seconds}s${options.tests ? ', or until tests finish' : ''}`);
-    try { if (options.tests) {
+    console.log(`${options.noProfile ? 'Capturing without CPU sampling' : 'Profiling page and workers'} for ${options.seconds}s${options.tests || stopPattern ? ', or until completion' : ''}`);
+    try { if (options.tests || stopPattern) {
         const controller = new AbortController();
         await Promise.race([completed, delay(options.seconds * 1000, null,
             { signal: AbortSignal.any([controller.signal, cancelled.signal]) })]);
@@ -173,11 +188,13 @@ try {
     } catch (error) { events.push({ type: 'screenshot-error', text: error.message }); }
     if (cancelled.signal.aborted) failures.push('Capture interrupted');
     if (options.tests && (!completion || completion.failed)) failures.push(`Test completion: ${JSON.stringify(completion ?? 'timeout')}`);
-    if (!captured.length || captured.every(item => item.samples === 0)) failures.push('No CPU samples captured');
+    if (stopPattern && !completion) failures.push(`Milestone timeout: ${options['stop-on']}`);
+    if (!options.noProfile && (!captured.length || captured.every(item => item.samples === 0))) failures.push('No CPU samples captured');
     const build = options.manifest ? JSON.parse(await readFile(options.manifest, 'utf8')) : null;
     const profilerSha256 = createHash('sha256').update(await readFile(new URL(import.meta.url))).digest('hex');
     await writeFile(join(out, 'capture.json'), JSON.stringify({ options, version, captured, build, profilerSha256,
-        completion, failures, scope: 'CPU sampling, not gameplay performance acceptance' }, null, 2));
+        navigationStartedAt, completion, failures,
+        scope: options.noProfile ? 'Unprofiled browser capture; milestone semantics supplied by caller' : 'CPU sampling, not gameplay performance acceptance' }, null, 2));
     console.log(JSON.stringify({ out, captured, completion, failures }, null, 2));
     if (failures.length) process.exitCode = 1;
 } catch (error) {

@@ -58,6 +58,9 @@
 #include "mmu/testSelfModifying.h"
 
 void testWaitPid();
+#ifndef BOXEDWINE_MULTI_THREADED
+void testSchedulerWakeupProgress();
+#endif
 void testProcessSignalWakesSigwaitMask();
 void testBlockedThreadSignalStartsHandler();
 void testBlockedThreadSigquitStartsHandlerImmediately();
@@ -894,6 +897,9 @@ const TestEntry TEST_ENTRIES[] = {
     {testLockedMemoryOrdering, "Test Multi-threaded locked memory ordering"},
 #endif
     {testWaitPid, "Test waitpid child selection"},
+#ifndef BOXEDWINE_MULTI_THREADED
+    {testSchedulerWakeupProgress, "Test scheduler wakeup progress", TEST_ENTRY_SERIAL},
+#endif
     {testProcessSignalWakesSigwaitMask, "Test process signal wakes sigwait mask"},
 #ifdef BOXEDWINE_MULTI_THREADED
     {testBlockedThreadSignalStartsHandler, "Test blocked thread signal starts handler"},

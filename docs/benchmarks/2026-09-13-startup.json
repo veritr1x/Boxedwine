@@ -1,0 +1,113 @@
+{
+  "date": "2026-09-13",
+  "scope": "Navigation to first ddraw_surface1_Flip console line; not interactive startup or gameplay FPS",
+  "host": {
+    "cpu": "Apple M5 Max",
+    "ramBytes": 51539607552,
+    "os": "macOS",
+    "browser": {
+      "protocolVersion": "1.3",
+      "product": "Chrome/152.0.7977.83",
+      "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+      "jsVersion": "15.2.124.21"
+    }
+  },
+  "build": {
+    "mode": "profile (-O2 and function names), CPU sampler disabled",
+    "controlRevision": "7e9e510fab130584f1d1d14c2f19169da543879b",
+    "candidateChange": "scheduleThread enqueues wakeups at the back",
+    "wasmSha256": {
+      "populous-baseline-software": "83506ad08732f2f98e304fdbd49a436d297fb45be53146a0812f30bbd4834562",
+      "populous-software": "3f62d99b236028f400e7b6badb6e63527e3c25c1ed0bcf1bef4d1e0534a1f837"
+    }
+  },
+  "workload": {
+    "wineSha256": "aad6bb6725b00500c9af935ec001bc33f7d6351d52e3d38b1a2078a0a2301718",
+    "appSha256": "69432a4b99d1fdbd8da049b6bf44f6aa090261f56e35834d905a23a276d31363",
+    "overlaySha256": "d0a70840274d12de248bfada7ee16ecea57ee57a2fc78a17a0e6a53b8fec3dde",
+    "exeSha256": "a46e7c6fa04e13f6cd5accebe32bb5f543f1cd0808bb96b0040f59763251109e",
+    "storage": "memory",
+    "sound": false,
+    "order": "baseline, fair, fair-fast repeated 3 times; separate fresh Chrome profiles",
+    "network": "loopback, local OS file cache warm; no internet download simulation",
+    "resolution": "upstream default, not specified in URL"
+  },
+  "runs": [
+    {
+      "round": 1,
+      "arm": "baseline",
+      "ms": 40559,
+      "inputTimeouts": 1,
+      "artifact": "tmp/web-cpu/startup-matched/1-baseline"
+    },
+    {
+      "round": 1,
+      "arm": "fair",
+      "ms": 22458,
+      "inputTimeouts": 0,
+      "artifact": "tmp/web-cpu/startup-matched/1-fair"
+    },
+    {
+      "round": 1,
+      "arm": "fair-fast",
+      "ms": 17019,
+      "inputTimeouts": 0,
+      "artifact": "tmp/web-cpu/startup-matched/1-fair-fast"
+    },
+    {
+      "round": 2,
+      "arm": "baseline",
+      "ms": 41536,
+      "inputTimeouts": 1,
+      "artifact": "tmp/web-cpu/startup-matched/2-baseline"
+    },
+    {
+      "round": 2,
+      "arm": "fair",
+      "ms": 22320,
+      "inputTimeouts": 0,
+      "artifact": "tmp/web-cpu/startup-matched/2-fair"
+    },
+    {
+      "round": 2,
+      "arm": "fair-fast",
+      "ms": 16916,
+      "inputTimeouts": 0,
+      "artifact": "tmp/web-cpu/startup-matched/2-fair-fast"
+    },
+    {
+      "round": 3,
+      "arm": "baseline",
+      "ms": 45564,
+      "inputTimeouts": 1,
+      "artifact": "tmp/web-cpu/startup-matched/3-baseline"
+    },
+    {
+      "round": 3,
+      "arm": "fair",
+      "ms": 22580,
+      "inputTimeouts": 0,
+      "artifact": "tmp/web-cpu/startup-matched/3-fair"
+    },
+    {
+      "round": 3,
+      "arm": "fair-fast",
+      "ms": 17182,
+      "inputTimeouts": 0,
+      "artifact": "tmp/web-cpu/startup-matched/3-fair-fast"
+    }
+  ],
+  "medianMs": {
+    "baseline": 41536,
+    "fair": 22458,
+    "fair-fast": 17019
+  },
+  "limitations": [
+    "Only three samples per arm",
+    "First Flip is not an interactive game/menu milestone",
+    "Default desktop gives corrupted software output with both interpreter and JIT; separate 640x480 level probe is not part of these timings",
+    "Headless and sound disabled; no input/audio acceptance",
+    "No gameplay FPS improvement claimed"
+  ]
+}

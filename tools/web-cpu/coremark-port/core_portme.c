@@ -1,4 +1,6 @@
-/* Windows x86 timing port for the unmodified EEMBC CoreMark algorithms. */
+/* SPDX-License-Identifier: Apache-2.0
+ * Windows x86 timing port for the unmodified EEMBC CoreMark algorithms.
+ */
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>

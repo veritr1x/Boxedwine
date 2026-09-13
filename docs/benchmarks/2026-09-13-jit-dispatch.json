@@ -1,0 +1,2018 @@
+{
+  "date": "2026-09-13",
+  "scope": "Release x86 CoreMark CPU experiments and separate private Majesty HD diagnostic evidence. No gameplay FPS or GPU performance claim.",
+  "host": {
+    "hardware": "Apple M5 Max",
+    "memoryGiB": 48,
+    "browser": "Chrome 152.0.7977.83"
+  },
+  "experiments": [
+    {
+      "name": "recording helper",
+      "preflight": {
+        "iterations": 30000,
+        "seed": "performance",
+        "order": [
+          "baseline",
+          "candidate",
+          "baseline",
+          "candidate",
+          "baseline",
+          "candidate",
+          "baseline",
+          "candidate",
+          "baseline",
+          "candidate"
+        ],
+        "pilotExcluded": "tmp/web-cpu/coremark-gui-pilot",
+        "sourceHead": "b9899ed4d062cea6c275ec5ae1284b858f2d9575",
+        "patchSha256": "fb0004cd8879eca42464e871b98dd533d334288b9809341caf4e874ad18719a9",
+        "driverHashes": {
+          "tools/web-cpu/measure-coremark.py": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "tools/web-cpu/profile-browser.mjs": "f86ec7aabe874664d6d25c93e852d4dd5725d092e7b3e018214e77e33fb0abda"
+        },
+        "workloads": {
+          "baseline": {
+            "path": "tmp/web-cpu/coremark-gui-baseline",
+            "workload": {
+              "upstream": "https://github.com/eembc/coremark",
+              "revision": "1f483d5b8316753a742cbf5590caf5bd0a4e4777",
+              "command": [
+                "/opt/homebrew/bin/i686-w64-mingw32-gcc",
+                "-O2",
+                "-static",
+                "-mwindows",
+                "-march=pentium3",
+                "-mtune=generic",
+                "-fno-strict-aliasing",
+                "-Wl,--no-insert-timestamp",
+                "-I",
+                "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port",
+                "-I",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source",
+                "-DFLAGS_STR=\"-O2 -static -mwindows -march=pentium3 -mtune=generic -fno-strict-aliasing -Wl,--no-insert-timestamp\"",
+                "-DITERATIONS=0",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_list_join.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_main.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_matrix.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_state.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_util.c",
+                "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port/core_portme.c",
+                "-o",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-gui-baseline/coremark.exe"
+              ],
+              "compiler": "i686-w64-mingw32-gcc (GCC) 16.2.0",
+              "sourceSha256": {
+                "core_list_join.c": "ca00e4e010ece47d7f040cb92aa50a95345a00d3171b59d088f6b243be06ce7b",
+                "core_main.c": "17884c93c5b94378eb0ff02b4df3725756cf2addb9b8cbcaa6200a4649ff5ca7",
+                "core_matrix.c": "ecdff717b5a5c4907d221a606760e25499899cbf617582c05d40db71c91351e4",
+                "core_state.c": "f4b84bb0a3452c45a4daa664ab502bfdccbd31cb57d93e9ac490c60937717a4e",
+                "core_util.c": "a3fbfcb9bb943b638624b8ece01c5836dd56a96d7bcde2697b248d077447327f",
+                "coremark.h": "42642b9a06c7ed2b3bd9eda971b7c3868c4f5d27bf7ef6c4bba11291a0c2598a"
+              },
+              "portSha256": {
+                "core_portme.h": "10dc0e00508f1e7dbdd258c057b69df34f86e995ad576d4a35005ad31e32cc80",
+                "core_portme.c": "1c5b7999dc83b2bf1b835ac2cedd1c6010084c82cad65d95a3d7fe3d13a04fb2"
+              },
+              "guestSha256": "bd5df90de7ed444a647a53d6575d450763381ac6dd3fa4d3c78ba2c80db7446a",
+              "appSha256": "7ea7a629940b1dd661022ecd24d1aa79a08b21e696b9a8e9aafd7b12a6d39f85",
+              "wineSha256": "aad6bb6725b00500c9af935ec001bc33f7d6351d52e3d38b1a2078a0a2301718",
+              "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+              "scope": "Unmodified CoreMark algorithms, x86 Windows timing port, one context, 2000-byte dataset. Not gameplay FPS.",
+              "timing": "QueryPerformanceCounter elapsed wall time, reported in milliseconds; host log markers cross-check elapsed time.",
+              "runRules": "Require >=10 seconds and valid CRCs for both 0,0,0x66 and 0x3415,0x3415,0x66. Fix iterations before accepted A/B runs."
+            },
+            "manifest": {
+              "timestamp": "2026-09-13T05:39:20.702202+00:00",
+              "source": {
+                "head": "b9899ed4d062cea6c275ec5ae1284b858f2d9575",
+                "patchSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "untrackedSha256": {}
+              },
+              "config": {
+                "command": [
+                  "make",
+                  "-C",
+                  "~/Documents/Tests/boxedwine/project/emscripten",
+                  "jit",
+                  "cpus=8",
+                  "BUILD_ROOT=Build/WebCPU/release",
+                  "TARGET_EXEC=boxedwine.html",
+                  "OPTIMIZATION_FLAGS=-O2",
+                  "WASM_DEBUG=0",
+                  "WASM_PROFILING=0",
+                  "PTHREAD_POOL_SIZE=8"
+                ],
+                "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.9 (4e4223852a0835923411059a3929907d7df1232e)\nCopyright (C) 2026 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+                "node": "v26.5.0"
+              },
+              "files": {
+                "boxedwine-shell.js": "564ae0c4392f9cbc2c344bfac44060199c51b3ebdff1df692618b98a549f8b74",
+                "boxedwine.js": "ba8cf0d0b435741fe5ce0d2aa9eee9943b6f58474325ac9d579eb2be1adffb2e",
+                "boxedwine.css": "fd7782e90131d31d1bb90fce4cc7188c27dadb41f67b1f36a1005d80d759b3c6",
+                "boxedwine.wasm": "73efe9d9fbb379e8ea828e7ba291b45fd6089deeb52bc301a6501ce0450d584b",
+                "boxedwine.html": "3781edfa174d870c28b83c718c2d9de1f36635aa6508f9e507549a59e3ac6c27"
+              }
+            }
+          },
+          "candidate": {
+            "path": "tmp/web-cpu/coremark-gui-candidate",
+            "workload": {
+              "upstream": "https://github.com/eembc/coremark",
+              "revision": "1f483d5b8316753a742cbf5590caf5bd0a4e4777",
+              "command": [
+                "/opt/homebrew/bin/i686-w64-mingw32-gcc",
+                "-O2",
+                "-static",
+                "-mwindows",
+                "-march=pentium3",
+                "-mtune=generic",
+                "-fno-strict-aliasing",
+                "-Wl,--no-insert-timestamp",
+                "-I",
+                "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port",
+                "-I",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source",
+                "-DFLAGS_STR=\"-O2 -static -mwindows -march=pentium3 -mtune=generic -fno-strict-aliasing -Wl,--no-insert-timestamp\"",
+                "-DITERATIONS=0",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_list_join.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_main.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_matrix.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_state.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_util.c",
+                "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port/core_portme.c",
+                "-o",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-gui-candidate/coremark.exe"
+              ],
+              "compiler": "i686-w64-mingw32-gcc (GCC) 16.2.0",
+              "sourceSha256": {
+                "core_list_join.c": "ca00e4e010ece47d7f040cb92aa50a95345a00d3171b59d088f6b243be06ce7b",
+                "core_main.c": "17884c93c5b94378eb0ff02b4df3725756cf2addb9b8cbcaa6200a4649ff5ca7",
+                "core_matrix.c": "ecdff717b5a5c4907d221a606760e25499899cbf617582c05d40db71c91351e4",
+                "core_state.c": "f4b84bb0a3452c45a4daa664ab502bfdccbd31cb57d93e9ac490c60937717a4e",
+                "core_util.c": "a3fbfcb9bb943b638624b8ece01c5836dd56a96d7bcde2697b248d077447327f",
+                "coremark.h": "42642b9a06c7ed2b3bd9eda971b7c3868c4f5d27bf7ef6c4bba11291a0c2598a"
+              },
+              "portSha256": {
+                "core_portme.h": "10dc0e00508f1e7dbdd258c057b69df34f86e995ad576d4a35005ad31e32cc80",
+                "core_portme.c": "1c5b7999dc83b2bf1b835ac2cedd1c6010084c82cad65d95a3d7fe3d13a04fb2"
+              },
+              "guestSha256": "bd5df90de7ed444a647a53d6575d450763381ac6dd3fa4d3c78ba2c80db7446a",
+              "appSha256": "7ea7a629940b1dd661022ecd24d1aa79a08b21e696b9a8e9aafd7b12a6d39f85",
+              "wineSha256": "aad6bb6725b00500c9af935ec001bc33f7d6351d52e3d38b1a2078a0a2301718",
+              "runtimeManifestSha256": "d88dae8711e5ad96f3afc7dd4d7490777d17cddd7ef58d427f2061299a50ecee",
+              "scope": "Unmodified CoreMark algorithms, x86 Windows timing port, one context, 2000-byte dataset. Not gameplay FPS.",
+              "timing": "QueryPerformanceCounter elapsed wall time, reported in milliseconds; host log markers cross-check elapsed time.",
+              "runRules": "Require >=10 seconds and valid CRCs for both 0,0,0x66 and 0x3415,0x3415,0x66. Fix iterations before accepted A/B runs."
+            },
+            "manifest": {
+              "timestamp": "2026-09-13T05:40:42.058609+00:00",
+              "source": {
+                "head": "b9899ed4d062cea6c275ec5ae1284b858f2d9575",
+                "patchSha256": "fb0004cd8879eca42464e871b98dd533d334288b9809341caf4e874ad18719a9",
+                "untrackedSha256": {}
+              },
+              "config": {
+                "command": [
+                  "make",
+                  "-C",
+                  "~/Documents/Tests/boxedwine/project/emscripten",
+                  "jit",
+                  "cpus=8",
+                  "BUILD_ROOT=Build/WebCPU/release",
+                  "TARGET_EXEC=boxedwine.html",
+                  "OPTIMIZATION_FLAGS=-O2",
+                  "WASM_DEBUG=0",
+                  "WASM_PROFILING=0",
+                  "PTHREAD_POOL_SIZE=8"
+                ],
+                "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.9 (4e4223852a0835923411059a3929907d7df1232e)\nCopyright (C) 2026 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+                "node": "v26.5.0"
+              },
+              "files": {
+                "boxedwine-shell.js": "564ae0c4392f9cbc2c344bfac44060199c51b3ebdff1df692618b98a549f8b74",
+                "boxedwine.js": "ba8cf0d0b435741fe5ce0d2aa9eee9943b6f58474325ac9d579eb2be1adffb2e",
+                "boxedwine.css": "fd7782e90131d31d1bb90fce4cc7188c27dadb41f67b1f36a1005d80d759b3c6",
+                "boxedwine.wasm": "fa6c90350c1a29f2d9a511b1b94dc2bd44a726a3a9f48561eeb29e7a48d074db",
+                "boxedwine.html": "3781edfa174d870c28b83c718c2d9de1f36635aa6508f9e507549a59e3ac6c27"
+              }
+            }
+          }
+        }
+      },
+      "patch": "diff --git a/source/emulation/cpu/wasm/jitWasmCodeGen.cpp b/source/emulation/cpu/wasm/jitWasmCodeGen.cpp\nindex 5e653fbd..599aa06a 100644\n--- a/source/emulation/cpu/wasm/jitWasmCodeGen.cpp\n+++ b/source/emulation/cpu/wasm/jitWasmCodeGen.cpp\n@@ -1249,7 +1249,10 @@ static inline void wasmJitFormatInteriorTargetSamples(char* out, U32 outSize) {\n     }\n }\n \n-static inline void wasmJitRecordFetchNextTransition(CPU* cpu, DecodedOp* nextOp) {\n+// Keep recording-only counters and formatting out of the hot dispatch helper.\n+// Inlining this code makes even record-disabled fetches reserve its large\n+// formatting stack frame and carry the recorder's locals in generated Wasm.\n+static __attribute__((noinline)) void wasmJitRecordFetchNextTransition(CPU* cpu, DecodedOp* nextOp) {\n     U64 total = g_wasmJitTransitionFetchNext.fetch_add(1, std::memory_order_relaxed) + 1;\n     if (cpu->yield) {\n         g_wasmJitTransitionFetchNextYield.fetch_add(1, std::memory_order_relaxed);\n",
+      "runs": [
+        {
+          "pair": 1,
+          "arm": "baseline",
+          "artifactPath": "tmp/web-cpu/dispatch-coremark-matched/1-baseline",
+          "pass": true,
+          "seconds": 14.207,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2111.635109,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14210,
+          "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "6f3d899235f3ebe4b882a5ca3f20ed1e19c2775dda682109e773212c51e4190c",
+            "console.json": "d02d8b3237425b4e40fb09a2330f00bf0f34502fa27849b55854bd049516d459",
+            "capture.json": "a4765eb86d0650bb21d8e6c3d9c5b22503566348a6ded8967f4f76cb3b8468ed",
+            "screen.png": "ddcc02396b3af973a2c108d96e7fffcd655bb1cfdaf2ea1a4d5b2fa0e2d05a4b"
+          }
+        },
+        {
+          "pair": 1,
+          "arm": "candidate",
+          "artifactPath": "tmp/web-cpu/dispatch-coremark-matched/1-candidate",
+          "pass": true,
+          "seconds": 14.118,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2124.946876,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14125,
+          "runtimeManifestSha256": "d88dae8711e5ad96f3afc7dd4d7490777d17cddd7ef58d427f2061299a50ecee",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "a48d36002c1b434b0278a5321591cc11cf1e16a52abebbd4c5f212d0032d39f7",
+            "console.json": "ff79352f125d12cda5845f4e5b03ffc7384b4d7dd2c6c9955a61e64fc0a33caa",
+            "capture.json": "9d5d59351ad3cc7a600c51349592220f15bfcbfb8cb9f73e6b8ddcdd8aa19e4f",
+            "screen.png": "2f61cf1729339359df433fe2079d8f00ef40bb01b69fd0449400433c8340c3f8"
+          }
+        },
+        {
+          "pair": 2,
+          "arm": "baseline",
+          "artifactPath": "tmp/web-cpu/dispatch-coremark-matched/2-baseline",
+          "pass": true,
+          "seconds": 14.525,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2065.404475,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14527,
+          "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "370c41a15c15f35256ae4137a6887e1345ce62acf1ddb4211382ad9e3e5ec0f1",
+            "console.json": "f4b91ef4a0dba9f0b119481d64790224ba02db2b89fb61bf526b4e22f2206f70",
+            "capture.json": "d22efd5db8be85edaf1747f96b62d64a2d7111b00bd67af1bc1d0ed5ddfd1183",
+            "screen.png": "cc7adf6eb4bd0770f0e17c97cb25e40df2a3b8d9e0c4d9dec97c60bf01c5d519"
+          }
+        },
+        {
+          "pair": 2,
+          "arm": "candidate",
+          "artifactPath": "tmp/web-cpu/dispatch-coremark-matched/2-candidate",
+          "pass": true,
+          "seconds": 14.112,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2125.85034,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14115,
+          "runtimeManifestSha256": "d88dae8711e5ad96f3afc7dd4d7490777d17cddd7ef58d427f2061299a50ecee",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "53123c57e591a0c4521e330dafecf17384b4824fd175fa160c69df84c5efc22c",
+            "console.json": "8b3ea77d235a61b399b49bbfb37cc22e66e65c5281adb3bf5be6225adf50de2c",
+            "capture.json": "648cc129d5335332df4c7dd042d134d61d9eba51d8b027ce1bd87e4b83330d35",
+            "screen.png": "7dc6a21c97b79b85676e77e18740cffe8d242c33ddfa4b749d507707c5b13684"
+          }
+        },
+        {
+          "pair": 3,
+          "arm": "baseline",
+          "artifactPath": "tmp/web-cpu/dispatch-coremark-matched/3-baseline",
+          "pass": true,
+          "seconds": 14.308,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2096.729103,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14311,
+          "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "1a0d4c0cb2db1a33d873fec730a8aca974226b8a48c6f9783504eff18d19fdfb",
+            "console.json": "080e1c343ee30790f253b715cd4a1588f0b4f09faf64d23d42125cde7ac66e54",
+            "capture.json": "ea1fb91f9064de943af681b4cd51e556cd929e4c5a4395f843bd758b31fa6319",
+            "screen.png": "336cdf71bdeca79f7a1bd9c67cb112a903e911487c4ed0cc78b31a813954f05d"
+          }
+        },
+        {
+          "pair": 3,
+          "arm": "candidate",
+          "artifactPath": "tmp/web-cpu/dispatch-coremark-matched/3-candidate",
+          "pass": true,
+          "seconds": 14.224,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2109.111361,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14226,
+          "runtimeManifestSha256": "d88dae8711e5ad96f3afc7dd4d7490777d17cddd7ef58d427f2061299a50ecee",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "86dc672f4da45aacd8c31dd528b2fc5eb7e98a723ebe18f59cbb4214c7aaa3b6",
+            "console.json": "529ebd85a32d3b9ee8db1a8da277ade0f4145a6f4c67e79e9fe94ece9ebe6d6c",
+            "capture.json": "429648cbe2a828ca270f8e52d15baeaea216531e1dcb53bca6f7047fd4384664",
+            "screen.png": "dade59e858507fbb6cd5b74256ee2fa8064d7ab54172cfa76203f88887a398fb"
+          }
+        },
+        {
+          "pair": 4,
+          "arm": "baseline",
+          "artifactPath": "tmp/web-cpu/dispatch-coremark-matched/4-baseline",
+          "pass": true,
+          "seconds": 14.382,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2085.940759,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14384,
+          "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "da467c5dcf4cee8198dd9d575ee369791be2f36f7ad41fca4a4ea96b909756e4",
+            "console.json": "fd6592e793b0e1216a79bf4c15a65d7492445423be7f1f2eb69e609a19e941e6",
+            "capture.json": "294f4c01ac0fcf2bb0cef73e1f41f6120ba16cfb40a05cdd7542912b68b03034",
+            "screen.png": "cc1907f0579aa8960d545104b5930caf7b46c8e5bc468fa0f75e2bb484bb7ec6"
+          }
+        },
+        {
+          "pair": 4,
+          "arm": "candidate",
+          "artifactPath": "tmp/web-cpu/dispatch-coremark-matched/4-candidate",
+          "pass": true,
+          "seconds": 14.231,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2108.073923,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14234,
+          "runtimeManifestSha256": "d88dae8711e5ad96f3afc7dd4d7490777d17cddd7ef58d427f2061299a50ecee",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "1a97a51fd938f5345f7c75f76e58d4e92eeb5bc9ed053cab6de7d807b0d35aa5",
+            "console.json": "dc89b0307a0cae3fe257c8e20ef9796c45bf4b5b0d36cfc164807c1c7faa77f1",
+            "capture.json": "012eee7089ad0ed0beaf13e5d6c9d9ca50a3835996aab7e53159f3aa2b315c6a",
+            "screen.png": "6d67023321e47dcbf061391d568cedd763276760fa70f05f3809570950fa09cf"
+          }
+        },
+        {
+          "pair": 5,
+          "arm": "baseline",
+          "artifactPath": "tmp/web-cpu/dispatch-coremark-matched/5-baseline",
+          "pass": true,
+          "seconds": 14.284,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2100.25203,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14287,
+          "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "ca3bb4211269d605b8a094227e2ad2753915e9bc0b39ae3ce636edaafae248b4",
+            "console.json": "ee6bbf28b6be9541a75596b012e0e297d1d5bcba0b5918980ac98f31f059ccd6",
+            "capture.json": "0aa1a528860f713bef1ed26abf5d075542bff1ad2c62928a2da6e0f85adaca63",
+            "screen.png": "2e52ce9b01a11628ad64be4ed95bc60e7b75332bc958481ab6e765a405f64598"
+          }
+        },
+        {
+          "pair": 5,
+          "arm": "candidate",
+          "artifactPath": "tmp/web-cpu/dispatch-coremark-matched/5-candidate",
+          "pass": true,
+          "seconds": 14.242,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2106.445724,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14245,
+          "runtimeManifestSha256": "d88dae8711e5ad96f3afc7dd4d7490777d17cddd7ef58d427f2061299a50ecee",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "20ca2f08b8f4997c02148eb6f033d591e8edf3b8b0e57d25cd1aaf53cf8a17a1",
+            "console.json": "49904fc3d7e66981175599a5f7d93bea47ce9fd4aa14004fca684733961fe813",
+            "capture.json": "fc2284ff3ed68231a61d4ec01c56b3534df86d210ad8d1c48a15ad8131913e7e",
+            "screen.png": "eaa77616ef73d1998f445dc1872c98e146532a8892fe1e1e82d1450d78fa1401"
+          }
+        }
+      ],
+      "medianSeconds": {
+        "baseline": 14.308,
+        "candidate": 14.224
+      },
+      "medianTimeReductionPercent": 0.5870841487279788,
+      "test": {
+        "path": "tmp/web-cpu/runs/20260913T054454.254689Z",
+        "run": {
+          "command": [
+            "node",
+            "~/Documents/Tests/boxedwine/project/emscripten/Build/WebCPU/release/TestJit/boxedwine.js",
+            "-fast"
+          ],
+          "exitCode": 0,
+          "timeoutSeconds": 300,
+          "timedOut": false,
+          "build": {
+            "timestamp": "2026-09-13T05:44:13.558031+00:00",
+            "source": {
+              "head": "b9899ed4d062cea6c275ec5ae1284b858f2d9575",
+              "patchSha256": "fb0004cd8879eca42464e871b98dd533d334288b9809341caf4e874ad18719a9",
+              "untrackedSha256": {}
+            },
+            "config": {
+              "command": [
+                "make",
+                "-C",
+                "~/Documents/Tests/boxedwine/project/emscripten",
+                "testJit",
+                "cpus=8",
+                "BUILD_ROOT=Build/WebCPU/release",
+                "TARGET_EXEC=boxedwine.js",
+                "OPTIMIZATION_FLAGS=-O2",
+                "WASM_DEBUG=0",
+                "WASM_PROFILING=0",
+                "PTHREAD_POOL_SIZE=8"
+              ],
+              "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.9 (4e4223852a0835923411059a3929907d7df1232e)\nCopyright (C) 2026 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+              "node": "v26.5.0"
+            },
+            "files": {
+              "boxedwine.js": "c09cf5ceca8499b85562c697188f4f160cdf4adfa21fc321aa446eea4f349eba",
+              "boxedwine.wasm": "cc3d188f023f32d11a3e64471d480d6cce29d988e97f71843d5585127a3b76ce"
+            }
+          },
+          "scope": "CPU tests; not gameplay FPS",
+          "profiled": false
+        },
+        "consoleSha256": "d1f369bfd492d32ab84990a5769a98d6098928efb99804d1d7e1b4d4462655f5",
+        "passed": 772
+      },
+      "retained": false,
+      "decision": {
+        "candidate": "recording-helper noinline",
+        "retained": false,
+        "baselineMedianSeconds": 14.308,
+        "candidateMedianSeconds": 14.224,
+        "timeReductionPercent": 0.5870841487279788,
+        "reason": "Five pairs favor candidate, but 0.6 percent median reduction is too small for a meaningful performance claim. Retain results; test first-block logging separately."
+      }
+    },
+    {
+      "name": "first-block logging",
+      "preflight": {
+        "iterations": 30000,
+        "seed": "performance",
+        "order": [
+          "baseline",
+          "candidate",
+          "baseline",
+          "candidate",
+          "baseline",
+          "candidate",
+          "baseline",
+          "candidate",
+          "baseline",
+          "candidate"
+        ],
+        "pilotExcluded": "tmp/web-cpu/coremark-gui-pilot",
+        "sourceHead": "b9899ed4d062cea6c275ec5ae1284b858f2d9575",
+        "patchSha256": "27ff3d3eebad7fe414522c06cfca0dfb1352cf5e7447c86303efd412f45c9181",
+        "driverHashes": {
+          "tools/web-cpu/measure-coremark.py": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "tools/web-cpu/profile-browser.mjs": "f86ec7aabe874664d6d25c93e852d4dd5725d092e7b3e018214e77e33fb0abda"
+        },
+        "workloads": {
+          "baseline": {
+            "path": "tmp/web-cpu/coremark-gui-baseline",
+            "workload": {
+              "upstream": "https://github.com/eembc/coremark",
+              "revision": "1f483d5b8316753a742cbf5590caf5bd0a4e4777",
+              "command": [
+                "/opt/homebrew/bin/i686-w64-mingw32-gcc",
+                "-O2",
+                "-static",
+                "-mwindows",
+                "-march=pentium3",
+                "-mtune=generic",
+                "-fno-strict-aliasing",
+                "-Wl,--no-insert-timestamp",
+                "-I",
+                "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port",
+                "-I",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source",
+                "-DFLAGS_STR=\"-O2 -static -mwindows -march=pentium3 -mtune=generic -fno-strict-aliasing -Wl,--no-insert-timestamp\"",
+                "-DITERATIONS=0",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_list_join.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_main.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_matrix.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_state.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_util.c",
+                "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port/core_portme.c",
+                "-o",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-gui-baseline/coremark.exe"
+              ],
+              "compiler": "i686-w64-mingw32-gcc (GCC) 16.2.0",
+              "sourceSha256": {
+                "core_list_join.c": "ca00e4e010ece47d7f040cb92aa50a95345a00d3171b59d088f6b243be06ce7b",
+                "core_main.c": "17884c93c5b94378eb0ff02b4df3725756cf2addb9b8cbcaa6200a4649ff5ca7",
+                "core_matrix.c": "ecdff717b5a5c4907d221a606760e25499899cbf617582c05d40db71c91351e4",
+                "core_state.c": "f4b84bb0a3452c45a4daa664ab502bfdccbd31cb57d93e9ac490c60937717a4e",
+                "core_util.c": "a3fbfcb9bb943b638624b8ece01c5836dd56a96d7bcde2697b248d077447327f",
+                "coremark.h": "42642b9a06c7ed2b3bd9eda971b7c3868c4f5d27bf7ef6c4bba11291a0c2598a"
+              },
+              "portSha256": {
+                "core_portme.h": "10dc0e00508f1e7dbdd258c057b69df34f86e995ad576d4a35005ad31e32cc80",
+                "core_portme.c": "1c5b7999dc83b2bf1b835ac2cedd1c6010084c82cad65d95a3d7fe3d13a04fb2"
+              },
+              "guestSha256": "bd5df90de7ed444a647a53d6575d450763381ac6dd3fa4d3c78ba2c80db7446a",
+              "appSha256": "7ea7a629940b1dd661022ecd24d1aa79a08b21e696b9a8e9aafd7b12a6d39f85",
+              "wineSha256": "aad6bb6725b00500c9af935ec001bc33f7d6351d52e3d38b1a2078a0a2301718",
+              "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+              "scope": "Unmodified CoreMark algorithms, x86 Windows timing port, one context, 2000-byte dataset. Not gameplay FPS.",
+              "timing": "QueryPerformanceCounter elapsed wall time, reported in milliseconds; host log markers cross-check elapsed time.",
+              "runRules": "Require >=10 seconds and valid CRCs for both 0,0,0x66 and 0x3415,0x3415,0x66. Fix iterations before accepted A/B runs."
+            },
+            "manifest": {
+              "timestamp": "2026-09-13T05:39:20.702202+00:00",
+              "source": {
+                "head": "b9899ed4d062cea6c275ec5ae1284b858f2d9575",
+                "patchSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "untrackedSha256": {}
+              },
+              "config": {
+                "command": [
+                  "make",
+                  "-C",
+                  "~/Documents/Tests/boxedwine/project/emscripten",
+                  "jit",
+                  "cpus=8",
+                  "BUILD_ROOT=Build/WebCPU/release",
+                  "TARGET_EXEC=boxedwine.html",
+                  "OPTIMIZATION_FLAGS=-O2",
+                  "WASM_DEBUG=0",
+                  "WASM_PROFILING=0",
+                  "PTHREAD_POOL_SIZE=8"
+                ],
+                "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.9 (4e4223852a0835923411059a3929907d7df1232e)\nCopyright (C) 2026 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+                "node": "v26.5.0"
+              },
+              "files": {
+                "boxedwine-shell.js": "564ae0c4392f9cbc2c344bfac44060199c51b3ebdff1df692618b98a549f8b74",
+                "boxedwine.js": "ba8cf0d0b435741fe5ce0d2aa9eee9943b6f58474325ac9d579eb2be1adffb2e",
+                "boxedwine.css": "fd7782e90131d31d1bb90fce4cc7188c27dadb41f67b1f36a1005d80d759b3c6",
+                "boxedwine.wasm": "73efe9d9fbb379e8ea828e7ba291b45fd6089deeb52bc301a6501ce0450d584b",
+                "boxedwine.html": "3781edfa174d870c28b83c718c2d9de1f36635aa6508f9e507549a59e3ac6c27"
+              }
+            }
+          },
+          "candidate": {
+            "path": "tmp/web-cpu/coremark-log-candidate",
+            "workload": {
+              "upstream": "https://github.com/eembc/coremark",
+              "revision": "1f483d5b8316753a742cbf5590caf5bd0a4e4777",
+              "command": [
+                "/opt/homebrew/bin/i686-w64-mingw32-gcc",
+                "-O2",
+                "-static",
+                "-mwindows",
+                "-march=pentium3",
+                "-mtune=generic",
+                "-fno-strict-aliasing",
+                "-Wl,--no-insert-timestamp",
+                "-I",
+                "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port",
+                "-I",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source",
+                "-DFLAGS_STR=\"-O2 -static -mwindows -march=pentium3 -mtune=generic -fno-strict-aliasing -Wl,--no-insert-timestamp\"",
+                "-DITERATIONS=0",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_list_join.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_main.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_matrix.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_state.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_util.c",
+                "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port/core_portme.c",
+                "-o",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-log-candidate/coremark.exe"
+              ],
+              "compiler": "i686-w64-mingw32-gcc (GCC) 16.2.0",
+              "sourceSha256": {
+                "core_list_join.c": "ca00e4e010ece47d7f040cb92aa50a95345a00d3171b59d088f6b243be06ce7b",
+                "core_main.c": "17884c93c5b94378eb0ff02b4df3725756cf2addb9b8cbcaa6200a4649ff5ca7",
+                "core_matrix.c": "ecdff717b5a5c4907d221a606760e25499899cbf617582c05d40db71c91351e4",
+                "core_state.c": "f4b84bb0a3452c45a4daa664ab502bfdccbd31cb57d93e9ac490c60937717a4e",
+                "core_util.c": "a3fbfcb9bb943b638624b8ece01c5836dd56a96d7bcde2697b248d077447327f",
+                "coremark.h": "42642b9a06c7ed2b3bd9eda971b7c3868c4f5d27bf7ef6c4bba11291a0c2598a"
+              },
+              "portSha256": {
+                "core_portme.h": "10dc0e00508f1e7dbdd258c057b69df34f86e995ad576d4a35005ad31e32cc80",
+                "core_portme.c": "1c5b7999dc83b2bf1b835ac2cedd1c6010084c82cad65d95a3d7fe3d13a04fb2"
+              },
+              "guestSha256": "bd5df90de7ed444a647a53d6575d450763381ac6dd3fa4d3c78ba2c80db7446a",
+              "appSha256": "7ea7a629940b1dd661022ecd24d1aa79a08b21e696b9a8e9aafd7b12a6d39f85",
+              "wineSha256": "aad6bb6725b00500c9af935ec001bc33f7d6351d52e3d38b1a2078a0a2301718",
+              "runtimeManifestSha256": "4c094817008c09f78335a2c18dbb7c617b2668150df2c4aa5f9a53b54099b63f",
+              "scope": "Unmodified CoreMark algorithms, x86 Windows timing port, one context, 2000-byte dataset. Not gameplay FPS.",
+              "timing": "QueryPerformanceCounter elapsed wall time, reported in milliseconds; host log markers cross-check elapsed time.",
+              "runRules": "Require >=10 seconds and valid CRCs for both 0,0,0x66 and 0x3415,0x3415,0x66. Fix iterations before accepted A/B runs."
+            },
+            "manifest": {
+              "timestamp": "2026-09-13T06:03:00.420207+00:00",
+              "source": {
+                "head": "b9899ed4d062cea6c275ec5ae1284b858f2d9575",
+                "patchSha256": "27ff3d3eebad7fe414522c06cfca0dfb1352cf5e7447c86303efd412f45c9181",
+                "untrackedSha256": {
+                  "docs/Web-CoreMark-Benchmark.md": "93e4d7b94e357b56f07b3e572631f34c65e40423658551c76912d96813d43ae8",
+                  "tools/web-cpu/coremark-port/LICENSE.md": "9577b9c846f61fd69a0d8ac965998c6450c7d8969f71f0bb4a931b91aebad28a",
+                  "tools/web-cpu/coremark-port/core_portme.c": "1c5b7999dc83b2bf1b835ac2cedd1c6010084c82cad65d95a3d7fe3d13a04fb2",
+                  "tools/web-cpu/coremark-port/core_portme.h": "10dc0e00508f1e7dbdd258c057b69df34f86e995ad576d4a35005ad31e32cc80",
+                  "tools/web-cpu/measure-coremark.py": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+                  "tools/web-cpu/prepare-coremark.py": "6b1e4d80277fc807bd9c52018107c3844a62e9294f7c1c4a25c30c9e3f5ed8f3"
+                }
+              },
+              "config": {
+                "command": [
+                  "make",
+                  "-C",
+                  "~/Documents/Tests/boxedwine/project/emscripten",
+                  "jit",
+                  "cpus=8",
+                  "BUILD_ROOT=Build/WebCPU/release",
+                  "TARGET_EXEC=boxedwine.html",
+                  "OPTIMIZATION_FLAGS=-O2",
+                  "WASM_DEBUG=0",
+                  "WASM_PROFILING=0",
+                  "PTHREAD_POOL_SIZE=8"
+                ],
+                "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.9 (4e4223852a0835923411059a3929907d7df1232e)\nCopyright (C) 2026 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+                "node": "v26.5.0"
+              },
+              "files": {
+                "boxedwine-shell.js": "564ae0c4392f9cbc2c344bfac44060199c51b3ebdff1df692618b98a549f8b74",
+                "boxedwine.js": "ba8cf0d0b435741fe5ce0d2aa9eee9943b6f58474325ac9d579eb2be1adffb2e",
+                "boxedwine.css": "fd7782e90131d31d1bb90fce4cc7188c27dadb41f67b1f36a1005d80d759b3c6",
+                "boxedwine.wasm": "0c259842e5421382e19efb1756c8f803e84c5878d6322def14ec0ca8ce0b43ea",
+                "boxedwine.html": "3781edfa174d870c28b83c718c2d9de1f36635aa6508f9e507549a59e3ac6c27"
+              }
+            }
+          }
+        }
+      },
+      "patch": "diff --git a/source/emulation/cpu/wasm/jitWasmCodeGen.cpp b/source/emulation/cpu/wasm/jitWasmCodeGen.cpp\nindex 5e653fbd..8975cdfe 100644\n--- a/source/emulation/cpu/wasm/jitWasmCodeGen.cpp\n+++ b/source/emulation/cpu/wasm/jitWasmCodeGen.cpp\n@@ -3802,6 +3802,12 @@ extern \"C\" void wasm_jit_mt_prepare_export() {\n // call_indirect instruction instead.  The call remains entirely within the WASM\n // world: no JS frame is created, and C++ exceptions propagate to the scheduler's\n // catch(...) exactly as they do for the x32/arm JIT backends.\n+// Keep varargs stack preparation behind the first-call condition. Inlining\n+// the formatter here otherwise spills tableIndex on every compiled block.\n+static __attribute__((noinline)) void wasmJitLogFirstBlock(int tableIndex) {\n+    klog_fmt(\"[WASM JIT] first JIT block executed, tableIdx: %d\", tableIndex);\n+}\n+\n typedef void (*WasmBlockFn)(int, int);\n static inline void boxedwine_wasm_call_block(int tableIndex, int cpuPtr, int relocBase) {\n #ifdef BOXEDWINE_WASM_JIT_PROFILE\n@@ -3814,7 +3820,7 @@ static inline void boxedwine_wasm_call_block(int tableIndex, int cpuPtr, int rel\n     static bool fired = false;\n     if (!fired) {\n         fired = true;\n-        klog_fmt(\"[WASM JIT] first JIT block executed, tableIdx: %d\", tableIndex);\n+        wasmJitLogFirstBlock(tableIndex);\n     }\n #ifdef BOXEDWINE_MULTI_THREADED\n     // Guard against stale / garbage pfnJitCode values that could produce an\n",
+      "runs": [
+        {
+          "pair": 1,
+          "arm": "baseline",
+          "artifactPath": "tmp/web-cpu/dispatch-log-matched/1-baseline",
+          "pass": true,
+          "seconds": 14.245,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2106.002106,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14253,
+          "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "78a747bd324d9f566c60ac07eb6c972c2d10698039926849ec171972fa65dfa8",
+            "console.json": "6b71861bbc5ee1ed9f4aa7cf7ad9cbdd03b6422e42ce4e007cc600a49c472d95",
+            "capture.json": "1107ef413a2e580276b04666b8a6320480b482a78fde6388fa5362faf8a28848",
+            "screen.png": "4adfedcbf692832fa3d48da72861ba742e41d23191af35b0c6403eeb186f8dad"
+          }
+        },
+        {
+          "pair": 1,
+          "arm": "candidate",
+          "artifactPath": "tmp/web-cpu/dispatch-log-matched/1-candidate",
+          "pass": true,
+          "seconds": 14.323,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2094.533268,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14325,
+          "runtimeManifestSha256": "4c094817008c09f78335a2c18dbb7c617b2668150df2c4aa5f9a53b54099b63f",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "cacbcb6655798990c7d10ab6c3865b22befe86421c59f076ef5a753f395bd65a",
+            "console.json": "6dcc7743efeb9cfbaf0226e7deb91189107d029f449004de139d0147add65d7c",
+            "capture.json": "a0cc7113ff6b4ae8a41caa06bbadfe7c77f8a8e9ce27e408c0786e08f60d7dd1",
+            "screen.png": "002249743228aa2cf8e2c64a81a5dbda9d9a79344d431df31242d4e3623719f6"
+          }
+        },
+        {
+          "pair": 2,
+          "arm": "baseline",
+          "artifactPath": "tmp/web-cpu/dispatch-log-matched/2-baseline",
+          "pass": true,
+          "seconds": 14.281,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2100.693229,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14283,
+          "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "07315e3b015ce08d4026b180f219d4c0f2f4c7a2cd05ed5ddafedc6ebdfc9da8",
+            "console.json": "fca54ed013c6e902bb5167397fa4c04b940199eb62e1b10dd5d3938223842c67",
+            "capture.json": "96fa058a7ed3042cd2f856b995dfc02fb5728fee209dfbd5403ca11d1f60feda",
+            "screen.png": "f5f0e89dd3b4ede2efa6e736856bde6deac0337d911b2893659ba8674757fcda"
+          }
+        },
+        {
+          "pair": 2,
+          "arm": "candidate",
+          "artifactPath": "tmp/web-cpu/dispatch-log-matched/2-candidate",
+          "pass": true,
+          "seconds": 14.207,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2111.635109,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14211,
+          "runtimeManifestSha256": "4c094817008c09f78335a2c18dbb7c617b2668150df2c4aa5f9a53b54099b63f",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "a5170dae31ba34737dbf1dd1a5bcf92be2104d4cde3fd696e01c0f7ebf485056",
+            "console.json": "dd890d975205c75cf9b023391c44cdb3f81542034c73140ddd9b9a0c06a5ef2f",
+            "capture.json": "50de0cbaca84f471181d7b9de54c9179cbb7a06099d62e62e98ac29d678b67f7",
+            "screen.png": "ddcc02396b3af973a2c108d96e7fffcd655bb1cfdaf2ea1a4d5b2fa0e2d05a4b"
+          }
+        },
+        {
+          "pair": 3,
+          "arm": "baseline",
+          "artifactPath": "tmp/web-cpu/dispatch-log-matched/3-baseline",
+          "pass": true,
+          "seconds": 14.233,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2107.7777,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14235,
+          "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "25691bb133548927501131e20357446fe9aaf558308545c6951a3a00c2286d8f",
+            "console.json": "0fb5f922df8b66df4a7b29e302899448475bf76b30d4e5efbc573bd2d33eea63",
+            "capture.json": "3024b88f65e9e08c1b66857618da16a556b0d06aa01945dab6db2b35d34ef683",
+            "screen.png": "e2d42499bd20a17368fea8fccc9fb450461fa23d65f754221353cad4381ab64f"
+          }
+        },
+        {
+          "pair": 3,
+          "arm": "candidate",
+          "artifactPath": "tmp/web-cpu/dispatch-log-matched/3-candidate",
+          "pass": true,
+          "seconds": 14.059,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2133.864428,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14061,
+          "runtimeManifestSha256": "4c094817008c09f78335a2c18dbb7c617b2668150df2c4aa5f9a53b54099b63f",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "d1bbd58d530bc1123450cf1b21822b8fac28a3383e4f58fa5ec5c86c1b4a597a",
+            "console.json": "04f2bfb52a8a0ae22247fde8fb2c60c8c715bb521ae09565d67b3ea7efe01bb2",
+            "capture.json": "a1887a9b1222a187dc6b4428d1b3a104a8fbc8c2962eaf3546563b4dc4e1b812",
+            "screen.png": "f656b7eb2bfe6412653d8955a8f000a358fb46122c68b4e868d4e912f462c231"
+          }
+        },
+        {
+          "pair": 4,
+          "arm": "baseline",
+          "artifactPath": "tmp/web-cpu/dispatch-log-matched/4-baseline",
+          "pass": true,
+          "seconds": 14.259,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2103.934357,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14261,
+          "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "2db1478525fdc730eaeee555eea59fcab51fe2ddeaa01ac60069f9c6a412ad75",
+            "console.json": "619565da0ae02049f8b22daa0eae2e43b0bb2a6366879feb3782e90e1be8245c",
+            "capture.json": "de6cf87c1033ff1cc9a3663fd268d393de8da3c022ab441abb7008e7473d1c73",
+            "screen.png": "bc5c8232dbabcdb2720f968724a123b41c50bec752cba558ce5021136905675f"
+          }
+        },
+        {
+          "pair": 4,
+          "arm": "candidate",
+          "artifactPath": "tmp/web-cpu/dispatch-log-matched/4-candidate",
+          "pass": true,
+          "seconds": 13.927,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2154.089179,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 13929,
+          "runtimeManifestSha256": "4c094817008c09f78335a2c18dbb7c617b2668150df2c4aa5f9a53b54099b63f",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "e38b852741d3d9f3e490f7a2ff55798bc8aacb83d7d4fed557846b1a6cd6f789",
+            "console.json": "546db5faa894859f97f507c60f29be1184648493eb1aa1b5021b1d5044e395a1",
+            "capture.json": "0cd4d4b3ff49474e5b2028ecff633832dc18380ac027c87cda8fe252675f8148",
+            "screen.png": "4ae920da334c60bf48767953ba6ceb4912feb42cd60868a58352656eb0b9ffe0"
+          }
+        },
+        {
+          "pair": 5,
+          "arm": "baseline",
+          "artifactPath": "tmp/web-cpu/dispatch-log-matched/5-baseline",
+          "pass": true,
+          "seconds": 14.185,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2114.910116,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14187,
+          "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "d5cb795e2bdbb5d63cdf0196a45d0029975683833da3cb607e20b3967edb6490",
+            "console.json": "b374f9fda956a198ebc113bedba4eaf603fbe56ac56d9f8b7830752b0c5b787a",
+            "capture.json": "753f91beb17a4d354a48b90cb003b74c00e7367eda4b0f1f3512bbb22a9afb7c",
+            "screen.png": "32eb7e279e7505bf9f245fc3a9864f7c6d847bdfc1e8b1568f17d8f91aed0651"
+          }
+        },
+        {
+          "pair": 5,
+          "arm": "candidate",
+          "artifactPath": "tmp/web-cpu/dispatch-log-matched/5-candidate",
+          "pass": true,
+          "seconds": 14.143,
+          "iterations": 30000.0,
+          "iterationsPerSecond": 2121.190695,
+          "crcs": {
+            "seedcrc": "0xe9f5",
+            "crclist": "0xe714",
+            "crcmatrix": "0x1fd7",
+            "crcstate": "0x8e3a",
+            "crcfinal": "0x5275"
+          },
+          "crcValid": true,
+          "clockCrossCheck": true,
+          "hostTimedLoopMs": 14145,
+          "runtimeManifestSha256": "4c094817008c09f78335a2c18dbb7c617b2668150df2c4aa5f9a53b54099b63f",
+          "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+          "browser": {
+            "protocolVersion": "1.3",
+            "product": "Chrome/152.0.7977.83",
+            "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+            "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+            "jsVersion": "15.2.124.21"
+          },
+          "captureFailures": [],
+          "artifactSha256": {
+            "result.json": "d1a9977eee7d62a520987e472e7045cd8b88333b1cab07b2510613006008b9b3",
+            "console.json": "0ac25a40df55648a8e4fc07eccd9ea4e4f3042d67a6ba4dba9c14d55c06e45d3",
+            "capture.json": "9415bcaba4b6ad9d87d2018fddbf90b2ce20097cc29b53363f8861924d7742fa",
+            "screen.png": "d26c15c34266766ca120bfe84b46913b471748387625a033b5b77b5ca024e382"
+          }
+        }
+      ],
+      "medianSeconds": {
+        "baseline": 14.245,
+        "candidate": 14.143
+      },
+      "medianTimeReductionPercent": 0.7160407160407112,
+      "test": {
+        "path": "tmp/web-cpu/runs/20260913T060759.169421Z",
+        "run": {
+          "command": [
+            "node",
+            "~/Documents/Tests/boxedwine/project/emscripten/Build/WebCPU/release/TestJit/boxedwine.js",
+            "-fast"
+          ],
+          "exitCode": 0,
+          "timeoutSeconds": 300,
+          "timedOut": false,
+          "build": {
+            "timestamp": "2026-09-13T06:07:30.923337+00:00",
+            "source": {
+              "head": "b9899ed4d062cea6c275ec5ae1284b858f2d9575",
+              "patchSha256": "27ff3d3eebad7fe414522c06cfca0dfb1352cf5e7447c86303efd412f45c9181",
+              "untrackedSha256": {
+                "docs/Web-CoreMark-Benchmark.md": "93e4d7b94e357b56f07b3e572631f34c65e40423658551c76912d96813d43ae8",
+                "tools/web-cpu/coremark-port/LICENSE.md": "9577b9c846f61fd69a0d8ac965998c6450c7d8969f71f0bb4a931b91aebad28a",
+                "tools/web-cpu/coremark-port/core_portme.c": "1c5b7999dc83b2bf1b835ac2cedd1c6010084c82cad65d95a3d7fe3d13a04fb2",
+                "tools/web-cpu/coremark-port/core_portme.h": "10dc0e00508f1e7dbdd258c057b69df34f86e995ad576d4a35005ad31e32cc80",
+                "tools/web-cpu/measure-coremark.py": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+                "tools/web-cpu/prepare-coremark.py": "6b1e4d80277fc807bd9c52018107c3844a62e9294f7c1c4a25c30c9e3f5ed8f3"
+              }
+            },
+            "config": {
+              "command": [
+                "make",
+                "-C",
+                "~/Documents/Tests/boxedwine/project/emscripten",
+                "testJit",
+                "cpus=8",
+                "BUILD_ROOT=Build/WebCPU/release",
+                "TARGET_EXEC=boxedwine.js",
+                "OPTIMIZATION_FLAGS=-O2",
+                "WASM_DEBUG=0",
+                "WASM_PROFILING=0",
+                "PTHREAD_POOL_SIZE=8"
+              ],
+              "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.9 (4e4223852a0835923411059a3929907d7df1232e)\nCopyright (C) 2026 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+              "node": "v26.5.0"
+            },
+            "files": {
+              "boxedwine.js": "c09cf5ceca8499b85562c697188f4f160cdf4adfa21fc321aa446eea4f349eba",
+              "boxedwine.wasm": "ece89d52c608bc1cbd1a20262a09a38986f75bb10aaf754a0b76752d3306a0be"
+            }
+          },
+          "scope": "CPU tests; not gameplay FPS",
+          "profiled": false
+        },
+        "consoleSha256": "15f16a8ebca7c9f9234578202b4239d9e55cf6d83925fd4332812b82c420720f",
+        "passed": 772
+      },
+      "retained": false,
+      "validationSeedRuns": [
+        {
+          "arm": "baseline",
+          "path": "tmp/web-cpu/dispatch-log-validation/baseline",
+          "result": {
+            "pass": true,
+            "seed": "validation",
+            "iterations": 30000.0,
+            "seconds": 14.342,
+            "iterationsPerSecond": 2091.758472,
+            "crcs": {
+              "seedcrc": "0x18f2",
+              "crclist": "0xe3c1",
+              "crcmatrix": "0x0747",
+              "crcstate": "0x8d84",
+              "crcfinal": "0xff48"
+            },
+            "crcValid": true,
+            "hostTimedLoopMs": 14349,
+            "clockCrossCheck": true,
+            "runtime": "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-gui-baseline",
+            "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+            "workload": {
+              "upstream": "https://github.com/eembc/coremark",
+              "revision": "1f483d5b8316753a742cbf5590caf5bd0a4e4777",
+              "command": [
+                "/opt/homebrew/bin/i686-w64-mingw32-gcc",
+                "-O2",
+                "-static",
+                "-mwindows",
+                "-march=pentium3",
+                "-mtune=generic",
+                "-fno-strict-aliasing",
+                "-Wl,--no-insert-timestamp",
+                "-I",
+                "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port",
+                "-I",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source",
+                "-DFLAGS_STR=\"-O2 -static -mwindows -march=pentium3 -mtune=generic -fno-strict-aliasing -Wl,--no-insert-timestamp\"",
+                "-DITERATIONS=0",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_list_join.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_main.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_matrix.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_state.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_util.c",
+                "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port/core_portme.c",
+                "-o",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-gui-baseline/coremark.exe"
+              ],
+              "compiler": "i686-w64-mingw32-gcc (GCC) 16.2.0",
+              "sourceSha256": {
+                "core_list_join.c": "ca00e4e010ece47d7f040cb92aa50a95345a00d3171b59d088f6b243be06ce7b",
+                "core_main.c": "17884c93c5b94378eb0ff02b4df3725756cf2addb9b8cbcaa6200a4649ff5ca7",
+                "core_matrix.c": "ecdff717b5a5c4907d221a606760e25499899cbf617582c05d40db71c91351e4",
+                "core_state.c": "f4b84bb0a3452c45a4daa664ab502bfdccbd31cb57d93e9ac490c60937717a4e",
+                "core_util.c": "a3fbfcb9bb943b638624b8ece01c5836dd56a96d7bcde2697b248d077447327f",
+                "coremark.h": "42642b9a06c7ed2b3bd9eda971b7c3868c4f5d27bf7ef6c4bba11291a0c2598a"
+              },
+              "portSha256": {
+                "core_portme.h": "10dc0e00508f1e7dbdd258c057b69df34f86e995ad576d4a35005ad31e32cc80",
+                "core_portme.c": "1c5b7999dc83b2bf1b835ac2cedd1c6010084c82cad65d95a3d7fe3d13a04fb2"
+              },
+              "guestSha256": "bd5df90de7ed444a647a53d6575d450763381ac6dd3fa4d3c78ba2c80db7446a",
+              "appSha256": "7ea7a629940b1dd661022ecd24d1aa79a08b21e696b9a8e9aafd7b12a6d39f85",
+              "wineSha256": "aad6bb6725b00500c9af935ec001bc33f7d6351d52e3d38b1a2078a0a2301718",
+              "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+              "scope": "Unmodified CoreMark algorithms, x86 Windows timing port, one context, 2000-byte dataset. Not gameplay FPS.",
+              "timing": "QueryPerformanceCounter elapsed wall time, reported in milliseconds; host log markers cross-check elapsed time.",
+              "runRules": "Require >=10 seconds and valid CRCs for both 0,0,0x66 and 0x3415,0x3415,0x66. Fix iterations before accepted A/B runs."
+            },
+            "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+            "scope": "Unprofiled x86 CoreMark timed loop through Wine and Boxedwine; not game FPS."
+          }
+        },
+        {
+          "arm": "candidate",
+          "path": "tmp/web-cpu/dispatch-log-validation/candidate",
+          "result": {
+            "pass": true,
+            "seed": "validation",
+            "iterations": 30000.0,
+            "seconds": 14.099,
+            "iterationsPerSecond": 2127.810483,
+            "crcs": {
+              "seedcrc": "0x18f2",
+              "crclist": "0xe3c1",
+              "crcmatrix": "0x0747",
+              "crcstate": "0x8d84",
+              "crcfinal": "0xff48"
+            },
+            "crcValid": true,
+            "hostTimedLoopMs": 14106,
+            "clockCrossCheck": true,
+            "runtime": "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-log-candidate",
+            "runtimeManifestSha256": "4c094817008c09f78335a2c18dbb7c617b2668150df2c4aa5f9a53b54099b63f",
+            "workload": {
+              "upstream": "https://github.com/eembc/coremark",
+              "revision": "1f483d5b8316753a742cbf5590caf5bd0a4e4777",
+              "command": [
+                "/opt/homebrew/bin/i686-w64-mingw32-gcc",
+                "-O2",
+                "-static",
+                "-mwindows",
+                "-march=pentium3",
+                "-mtune=generic",
+                "-fno-strict-aliasing",
+                "-Wl,--no-insert-timestamp",
+                "-I",
+                "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port",
+                "-I",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source",
+                "-DFLAGS_STR=\"-O2 -static -mwindows -march=pentium3 -mtune=generic -fno-strict-aliasing -Wl,--no-insert-timestamp\"",
+                "-DITERATIONS=0",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_list_join.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_main.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_matrix.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_state.c",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_util.c",
+                "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port/core_portme.c",
+                "-o",
+                "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-log-candidate/coremark.exe"
+              ],
+              "compiler": "i686-w64-mingw32-gcc (GCC) 16.2.0",
+              "sourceSha256": {
+                "core_list_join.c": "ca00e4e010ece47d7f040cb92aa50a95345a00d3171b59d088f6b243be06ce7b",
+                "core_main.c": "17884c93c5b94378eb0ff02b4df3725756cf2addb9b8cbcaa6200a4649ff5ca7",
+                "core_matrix.c": "ecdff717b5a5c4907d221a606760e25499899cbf617582c05d40db71c91351e4",
+                "core_state.c": "f4b84bb0a3452c45a4daa664ab502bfdccbd31cb57d93e9ac490c60937717a4e",
+                "core_util.c": "a3fbfcb9bb943b638624b8ece01c5836dd56a96d7bcde2697b248d077447327f",
+                "coremark.h": "42642b9a06c7ed2b3bd9eda971b7c3868c4f5d27bf7ef6c4bba11291a0c2598a"
+              },
+              "portSha256": {
+                "core_portme.h": "10dc0e00508f1e7dbdd258c057b69df34f86e995ad576d4a35005ad31e32cc80",
+                "core_portme.c": "1c5b7999dc83b2bf1b835ac2cedd1c6010084c82cad65d95a3d7fe3d13a04fb2"
+              },
+              "guestSha256": "bd5df90de7ed444a647a53d6575d450763381ac6dd3fa4d3c78ba2c80db7446a",
+              "appSha256": "7ea7a629940b1dd661022ecd24d1aa79a08b21e696b9a8e9aafd7b12a6d39f85",
+              "wineSha256": "aad6bb6725b00500c9af935ec001bc33f7d6351d52e3d38b1a2078a0a2301718",
+              "runtimeManifestSha256": "4c094817008c09f78335a2c18dbb7c617b2668150df2c4aa5f9a53b54099b63f",
+              "scope": "Unmodified CoreMark algorithms, x86 Windows timing port, one context, 2000-byte dataset. Not gameplay FPS.",
+              "timing": "QueryPerformanceCounter elapsed wall time, reported in milliseconds; host log markers cross-check elapsed time.",
+              "runRules": "Require >=10 seconds and valid CRCs for both 0,0,0x66 and 0x3415,0x3415,0x66. Fix iterations before accepted A/B runs."
+            },
+            "driverSha256": "3bf560359d25654a62946a9d3abbd66de76fc0e5eac9070fcacf00d22e5e1843",
+            "scope": "Unprofiled x86 CoreMark timed loop through Wine and Boxedwine; not game FPS."
+          }
+        }
+      ],
+      "decision": {
+        "candidate": "first-block logging noinline",
+        "retained": false,
+        "baselineMedianSeconds": 14.245,
+        "candidateMedianSeconds": 14.143,
+        "timeReductionPercent": 0.7160407160407112,
+        "reason": "Only 0.7 percent median reduction; one of five pairs regressed and candidate variation exceeds the median shift. Preserve experiment, but do not retain as a demonstrated meaningful speedup."
+      }
+    }
+  ],
+  "majestyDiagnostic": {
+    "counterWindowMs": [
+      440892,
+      475898
+    ],
+    "rawCounterRows": [
+      {
+        "elapsedMs": 440892,
+        "type": "log",
+        "text": "[WASM JIT profile] start=11424740352 call_block=11424739328 block_exit=11423060992 slot_miss=0 compiled=52473 avg_ops=43.4 ops[1=1491 2=6406 3-4=7917 5-8=8600 9-16=7924 17+=20135] exits[next1=3480616960 next2=1179313152 jump=3218755584 generic=3544375296] helpers[fetch_next=4020644864 mem_r=19456 mem_w=0 mem_wc=41984 enter=97 emulate=143134720 flags=46398464 cond=537200640 inline_cond=8601118720] flag_helpers[cf=3422208 zf=98304 fill=42877952] fetch_next_target[jit=4017893376 interior=0 null=0 no_flag=2751488 no_table=0 pfn=0 other=0] chain[next_jit=11420569600 plain=913213440 mem_arrays=10507356160 not_jit=4169728 null=0 pct=99] chain_stop[null=0 no_flag=4261888 no_table=0 interior=4492288 pfn=0 other=0] interior_idx[1=0 2=3491840 3-4=412672 5-8=560128 9-16=0 17+=27648] interior_byte[1-15=3947520 16-31=517120 32-63=27648 64-127=0 128+=0] direct_loop[created=11345 avg_ops=22.2 avg_iter=64 ops1-4=672 ops5-8=2405 ops9-16=3512 ops17+=4756] loop[entries=13037568 extra=11351234560 avg_blocks=871.6 limit=4283392] loop_len[1=1156096 2=491520 3-4=474112 5-8=385024 9-16=370688 17-32=719872 33-64=544768 65-128=328704 129-511=2511872 512-1023=1364992 1024-2047=406528 cap=4283392] mem_arrays[checks=13122560 refresh=0] time_us[jit=4016480 instantiate=912720 codegen=3103760 start=5616536866 start_pre=947251158 start_post=872929037 call_block=1070822252 fetch_next=354385973 mem_r=583680 mem_w=0 mem_wc=46078 enter=9 emulate=59120703 flags=4382723 cond=44907496] avg_ns[start=491 start_pre=82 start_post=76 call_block=93 fetch_next=88 mem_r=30000 mem_w=0 mem_wc=1097 enter=103 emulate=413 flags=94 cond=83] movsd[total=44573696 rep=44573696 single=0 ea16=0 ea32=44573696 seg=44410880 flat=162816 df1=5120 df0=44568576 rep_flat=162816 rep_seg=44410880 rep_ea16=0] cond_top[NP=264553472 P=180612096 NB=31818752 Z=31454208] lazy_top[TEST8=443303936 SHR32=37828608 CMP32=23649280 DEC32=13200384] emulate_top[Int80(374)=54893568 Movsd(402)=44573696 631=26527744 794=9282560 377=4841472 401=1227776 400=952320 403=517120 522=270336 408=36864 392=4096 255=3072] interior_top[CmpR32I32(118)=3491840 Int80(374)=1000448 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0] interior_block_top[MovR32I32(325)=3491840 649=517120 MovR32E32(324)=412672 PushR32(257)=70656 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0] chain_pfn_top[0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0] chain_other_top[0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0] fetch_next_top[MovR32E32(324)=1025580032 AddR32I32(13)=577764352 MovR32R32(322)=419298304 88=295884800 PushR32(257)=284139520 TestR32R32(129)=232337408 CmpR32E32(115)=227260416 LeaR32(353)=118354944 MovR32I32(325)=95450112 PopR32(261)=90269696 Retn32Iw(366)=89666560 JmpE32(662)=66803712] generic_exit_top[Retn32(368)=1459834880 Retn32Iw(366)=812621824 JmpE32(662)=562814976 CallR32(654)=512433152 CallE32(656)=72056832 JmpR32(660)=69010432 Int80(374)=55603200 0=0 0=0 0=0 0=0 0=0] rmw_top[OrE32R32(26)=540174336 AddE32R32(11)=174049280 AddE32I32(14)=30939136 IncE32(245)=30846976 DecE32(251)=29871104 173=25940992 XaddR32E32(793)=15249408 SubE32I32(89)=7925760 101=6801408 71=6047744 86=5817344 64=5463040]"
+      },
+      {
+        "elapsedMs": 475898,
+        "type": "log",
+        "text": "[WASM JIT profile] start=12428864512 call_block=12428863488 block_exit=12426231808 slot_miss=0 compiled=52655 avg_ops=43.4 ops[1=1494 2=6423 3-4=7931 5-8=8618 9-16=7949 17+=20240] exits[next1=3787524096 next2=1266033664 jump=3596763136 generic=3775910912] helpers[fetch_next=4308281344 mem_r=19456 mem_w=0 mem_wc=41984 enter=97 emulate=147567616 flags=47975424 cond=645267456 inline_cond=9578612736] flag_helpers[cf=4099072 zf=99328 fill=43777024] fetch_next_target[jit=4305506304 interior=0 null=0 no_flag=2775040 no_table=0 pfn=0 other=0] chain[next_jit=12424636416 plain=993159168 mem_arrays=11431477248 not_jit=4227072 null=0 pct=99] chain_stop[null=0 no_flag=4322304 no_table=0 interior=4726784 pfn=0 other=0] interior_idx[1=0 2=3560448 3-4=482304 5-8=655360 9-16=0 17+=28672] interior_byte[1-15=4092928 16-31=605184 32-63=28672 64-127=0 128+=0] direct_loop[created=11365 avg_ops=22.2 avg_iter=64 ops1-4=673 ops5-8=2411 ops9-16=3515 ops17+=4766] loop[entries=13732864 extra=12278591488 avg_blocks=895.1 limit=4683776] loop_len[1=1171456 2=497664 3-4=479232 5-8=392192 9-16=374784 17-32=724992 33-64=557056 65-128=347136 129-511=2664448 512-1023=1418240 1024-2047=421888 cap=4683776] mem_arrays[checks=13650944 refresh=0] time_us[jit=4040440 instantiate=925000 codegen=3115440 start=6104616123 start_pre=1030005679 start_post=948751064 call_block=1164856095 fetch_next=380037176 mem_r=583680 mem_w=0 mem_wc=46078 enter=9 emulate=60318789 flags=4556802 cond=53887961] avg_ns[start=491 start_pre=82 start_post=76 call_block=93 fetch_next=88 mem_r=30000 mem_w=0 mem_wc=1097 enter=103 emulate=408 flags=94 cond=83] movsd[total=45832192 rep=45832192 single=0 ea16=0 ea32=45832192 seg=45648896 flat=183296 df1=5120 df0=45827072 rep_flat=183296 rep_seg=45648896 rep_ea16=0] cond_top[NP=323609600 P=220628992 Z=35916800 NB=32544768] lazy_top[TEST8=542036992 SHR32=40760320 CMP32=26460160 DEC32=15032320] emulate_top[Int80(374)=56523776 Movsd(402)=45832192 631=27540480 794=9304064 377=5066752 401=1247232 400=1031168 403=689152 522=272384 408=49152 392=4096 255=3072] interior_top[CmpR32I32(118)=3560448 Int80(374)=1166336 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0] interior_block_top[MovR32I32(325)=3560448 649=605184 MovR32E32(324)=482304 PushR32(257)=78848 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0] chain_pfn_top[0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0] chain_other_top[0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0 0=0] fetch_next_top[MovR32E32(324)=1101176832 AddR32I32(13)=613850112 MovR32R32(322)=451319808 88=307753984 PushR32(257)=302438400 CmpR32E32(115)=271752192 TestR32R32(129)=248537088 LeaR32(353)=121357312 MovR32I32(325)=101238784 Retn32Iw(366)=94397440 PopR32(261)=93814784 JmpE32(662)=68161536] generic_exit_top[Retn32(368)=1559351296 Retn32Iw(366)=864837632 JmpE32(662)=592325632 CallR32(654)=550010880 CallE32(656)=77682688 JmpR32(660)=74580992 Int80(374)=57121792 0=0 0=0 0=0 0=0 0=0] rmw_top[OrE32R32(26)=727326720 AddE32R32(11)=190239744 IncE32(245)=34310144 DecE32(251)=33584128 AddE32I32(14)=32519168 173=29260800 XaddR32E32(793)=15395840 SubE32I32(89)=8950784 101=6881280 71=6693888 86=6009856 64=5498880]"
+      }
+    ],
+    "deltas": {
+      "chain": {
+        "next_jit": 1004066816,
+        "plain": 79945728,
+        "mem_arrays": 924121088,
+        "not_jit": 57344,
+        "null": 0
+      },
+      "loop": {
+        "entries": 695296,
+        "extra": 927356928,
+        "limit": 400384
+      },
+      "mem_arrays": {
+        "checks": 528384,
+        "refresh": 0
+      }
+    },
+    "chainablePercent": 99.99428915244904,
+    "meanChainBlocks": 1334.758468335788,
+    "profilePath": "tmp/web-cpu/majesty-dispatch-setup/quest-profile-clean.cpuprofile",
+    "profileSha256": "6f148d9e69597cfd0022e1a7305848c1693806a3b555e26b7e52b78bdd774407",
+    "sampleCount": 12021,
+    "selfSamplePercent": {
+      "(idle)": 26.204142750187174,
+      "wasmStartJITOp(CPU*, DecodedOp*)": 19.698860327759753,
+      "wasmHelper_fetchNextOp(CPU*)": 4.5254138590799435,
+      "Blit_3or4_to_3or4__inversed_rgb": 2.162881623824973,
+      "x86:p10:Unknown:file_00000000:pc_005f161f:ops_67": 2.0380999916812246,
+      "(program)": 2.0214624407287247,
+      "SW_RunCommandQueue": 1.5888861159637302,
+      "_emscripten_get_now": 1.3975542800099825,
+      "337709": 1.3476416271524831,
+      "x86:p10:winex11.so:file_00007ffe:pc_12bf7ffe:ops_13": 1.1396722402462358,
+      "_emscripten_date_now": 0.8651526495299892,
+      "x86:p10:Unknown:file_00000000:pc_005f16bf:ops_23": 0.7986024457199901,
+      "wasmHelper_cond_NP(CPU*)": 0.7486897928624906,
+      "x86:p10:Unknown:file_00000000:pc_005f15f0:ops_91": 0.6904583645287413,
+      "now": 0.4658514266699942
+    },
+    "scope": "Counter build diagnostics, not speed or FPS. Cumulative one-in-1024 estimates differenced across clean running mission window; diagnostic timing fields are nested and not additive.",
+    "selfTimePercent": {
+      "(idle)": 26.19038358064788,
+      "wasmStartJITOp(CPU*, DecodedOp*)": 19.556371139443545,
+      "wasmHelper_fetchNextOp(CPU*)": 4.491107008936716,
+      "(program)": 2.5603508483655624,
+      "Blit_3or4_to_3or4__inversed_rgb": 2.1512403168155765,
+      "x86:p10:Unknown:file_00000000:pc_005f161f:ops_67": 2.0244706918337845,
+      "SW_RunCommandQueue": 1.5779457896463005,
+      "_emscripten_get_now": 1.3847418428270977,
+      "337709": 1.3306907780323667,
+      "x86:p10:winex11.so:file_00007ffe:pc_12bf7ffe:ops_13": 1.1340205776392511,
+      "_emscripten_date_now": 0.862799465456071,
+      "x86:p10:Unknown:file_00000000:pc_005f16bf:ops_23": 0.7936199237080235,
+      "wasmHelper_cond_NP(CPU*)": 0.7447351643354788,
+      "x86:p10:Unknown:file_00000000:pc_005f15f0:ops_91": 0.6858617734808582,
+      "now": 0.4629697617003588
+    }
+  },
+  "majestyFixedSave": {
+    "scope": "Saved-game reload and running-mission smoke, plus a separate 15-second CPU profile. No FPS or before/after game speed claim. Memory storage restored from a private Wine ZIP overlay, not IDBFS persistence.",
+    "runtimePath": "tmp/web-cpu/majesty-fixed-profile",
+    "runtimeManifest": {
+      "timestamp": "2026-09-13T06:17:32.644585+00:00",
+      "source": {
+        "head": "b9899ed4d062cea6c275ec5ae1284b858f2d9575",
+        "patchSha256": "13866f12df045467a5c5bde0af1013552c333b4e06e070028c6a2347736bb5a2",
+        "untrackedSha256": {
+          "docs/Web-CoreMark-Benchmark.md": "93e4d7b94e357b56f07b3e572631f34c65e40423658551c76912d96813d43ae8",
+          "docs/Web-JIT-Dispatch-Experiments.md": "1cf761e49462e6c03d7ead0ede26cc181547ad35ba7232e3f90d8525d613b411",
+          "docs/benchmarks/2026-09-13-jit-dispatch.json": "f1650ec7d5291da8b683cc2c481716839700fbf2c6f7b6486e49256895471a38",
+          "tools/web-cpu/coremark-port/LICENSE.md": "9577b9c846f61fd69a0d8ac965998c6450c7d8969f71f0bb4a931b91aebad28a",
+          "tools/web-cpu/coremark-port/core_portme.c": "1c5b7999dc83b2bf1b835ac2cedd1c6010084c82cad65d95a3d7fe3d13a04fb2",
+          "tools/web-cpu/coremark-port/core_portme.h": "10dc0e00508f1e7dbdd258c057b69df34f86e995ad576d4a35005ad31e32cc80",
+          "tools/web-cpu/measure-coremark.py": "409675d8c79ef7d4140d9c0f378dfe6640f0e9298c38a4b58d8810268fa1996c",
+          "tools/web-cpu/prepare-coremark.py": "6b1e4d80277fc807bd9c52018107c3844a62e9294f7c1c4a25c30c9e3f5ed8f3"
+        }
+      },
+      "config": {
+        "command": [
+          "make",
+          "-C",
+          "~/Documents/Tests/boxedwine/project/emscripten",
+          "jit",
+          "cpus=8",
+          "BUILD_ROOT=Build/WebCPU/profile",
+          "TARGET_EXEC=boxedwine.html",
+          "OPTIMIZATION_FLAGS=-O2",
+          "WASM_DEBUG=0",
+          "WASM_PROFILING=1",
+          "PTHREAD_POOL_SIZE=8"
+        ],
+        "emscripten": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.9 (4e4223852a0835923411059a3929907d7df1232e)\nCopyright (C) 2026 the Emscripten authors (see AUTHORS.txt)\nThis is free and open source software under the MIT license.\nThere is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+        "node": "v26.5.0"
+      },
+      "files": {
+        "boxedwine-shell.js": "564ae0c4392f9cbc2c344bfac44060199c51b3ebdff1df692618b98a549f8b74",
+        "boxedwine.js": "84d99a6ec049c631159a217689ac493e9f26a064c4a5167f2c7ad4354e83035c",
+        "boxedwine.css": "fd7782e90131d31d1bb90fce4cc7188c27dadb41f67b1f36a1005d80d759b3c6",
+        "boxedwine.wasm": "0af155a80f3459b2635d786cb966e2c1b20b38097a06388742e8a0ac9d9028a5",
+        "boxedwine.html": "3781edfa174d870c28b83c718c2d9de1f36635aa6508f9e507549a59e3ac6c27"
+      }
+    },
+    "workload": {
+      "game": "MajestyHD.exe",
+      "gameSha256": "65c6dd32c3d873c2e320bdaa2de1b00488af85b44573fd0fd82f79a2ffd37792",
+      "sourceGameDirectory": "~/Documents/Tests/majesty-ios/game",
+      "entries": [
+        "Data/DataSets.xml",
+        "Data/GPLDebuggerUI.cam",
+        "Data/ImageSetIDXRef.xml",
+        "Data/InterfaceStrings.xml",
+        "Data/MDL1.bcd",
+        "Data/MDL1_action.cam",
+        "Data/MDL1_maindata.cam",
+        "Data/MDL1_sounddesc.cam",
+        "Data/MDL1_soundfx.cam",
+        "Data/MDL1_unittype.cam",
+        "Data/MDL1_voices.cam",
+        "Data/MajestyDatasetDefinitions.xml",
+        "Data/MusicTracks.txt",
+        "Data/UIData_1024_768.dat",
+        "Data/UIData_1280_1024.dat",
+        "Data/UIData_1280_768.dat",
+        "Data/UIData_1280_800.dat",
+        "Data/UIData_1280_960.dat",
+        "Data/UIData_1360_768.dat",
+        "Data/UIData_1440_900.dat",
+        "Data/UIData_1600_1200.dat",
+        "Data/UIData_1600_900.dat",
+        "Data/UIData_1680_1050.dat",
+        "Data/UIData_1920_1080.dat",
+        "Data/UIData_1920_1200.dat",
+        "Data/UIData_800_600.dat",
+        "Data/action.cam",
+        "Data/addinterface.cam",
+        "Data/addinterface_se.cam",
+        "Data/bytecode.bcd",
+        "Data/cinedata1.cam",
+        "Data/cinedata2.dat",
+        "Data/cinedata3.dat",
+        "Data/company.cam",
+        "Data/constants.rgs",
+        "Data/constants_down.rgs",
+        "Data/gpltext.cam",
+        "Data/interfacedata.cam",
+        "Data/maindata.cam",
+        "Data/miscdata.cam",
+        "Data/mx_textdata.cam",
+        "Data/setnames.txt",
+        "Data/sounddesc.cam",
+        "Data/soundfx.cam",
+        "Data/terrtype.cam",
+        "Data/textdata.cam",
+        "Data/tilesetdata.cam",
+        "Data/unittype.cam",
+        "Data/voices.cam",
+        "DataMX/MX_Build.bcd",
+        "DataMX/MX_Compatibility.bcd",
+        "DataMX/MX_Data.bcd",
+        "DataMX/MX_Decision.bcd",
+        "DataMX/MX_Task.bcd",
+        "DataMX/MajestyExpansionDatasetDefinitions.xml",
+        "DataMX/XQD1_Bytecode.bcd",
+        "DataMX/XQD1_MainData.cam",
+        "DataMX/XQD1_SoundFX.cam",
+        "DataMX/XQD1_UnitType.cam",
+        "DataMX/XQD1_Voices.cam",
+        "DataMX/XQD1_intro.cam",
+        "DataMX/bytecode.bcd",
+        "DataMX/mx_Unittype.cam",
+        "DataMX/mx_action.cam",
+        "DataMX/mx_btdata.cam",
+        "DataMX/mx_cinedata1.cam",
+        "DataMX/mx_cinedata2.dat",
+        "DataMX/mx_cinedata3.dat",
+        "DataMX/mx_constants.rgs",
+        "DataMX/mx_constants_down.rgs",
+        "DataMX/mx_gpltext.cam",
+        "DataMX/mx_interfacedata.cam",
+        "DataMX/mx_maindata.cam",
+        "DataMX/mx_miscdata.cam",
+        "DataMX/mx_rgstext.cam",
+        "DataMX/mx_sounddesc.cam",
+        "DataMX/mx_soundfx.cam",
+        "DataMX/mx_terrtype.cam",
+        "DataMX/mx_textdata.cam",
+        "DataMX/mx_tilesetdata.cam",
+        "DataMX/mx_voices.cam",
+        "Galaxy.dll",
+        "MajestyHD.exe",
+        "Music/EarlyGame.mp3",
+        "Music/EndGame.mp3",
+        "Music/EpicQuest.mp3",
+        "Music/GeneralTheme.mp3",
+        "Music/MidGame.mp3",
+        "Quests/BarrenWaste.mqxml",
+        "Quests/BellBookCandle.mqxml",
+        "Quests/Bell_book_candle.q",
+        "Quests/Brashnard.mqxml",
+        "Quests/Brashnard.q",
+        "Quests/DF.q",
+        "Quests/DarkForest.mqxml",
+        "Quests/DayOfReckoning.mqxml",
+        "Quests/DealDemon.mqxml",
+        "Quests/Deal_demon.q",
+        "Quests/ElvenTreachery.mqxml",
+        "Quests/Elven_Treachery.q",
+        "Quests/FertilePlain.mqxml",
+        "Quests/Forsaken.q",
+        "Quests/ForsakenLands.mqxml",
+        "Quests/FreeSlaves.mqxml",
+        "Quests/Freestyle.mqxml",
+        "Quests/Freestyle.q",
+        "Quests/GoblinHordes.mqxml",
+        "Quests/Goblin_Hordes.q",
+        "Quests/HolyChalice.mqxml",
+        "Quests/Holy_Chalice.q",
+        "Quests/Krolm.q",
+        "Quests/LicheQueen.mqxml",
+        "Quests/Liche_queen.q",
+        "Quests/MDL1.qdd",
+        "Quests/MagicRing.mqxml",
+        "Quests/Magic_Ring.q",
+        "Quests/Maj.qdd",
+        "Quests/QuestForCrown.mqxml",
+        "Quests/QuestforCrown.q",
+        "Quests/SavePrince.mqxml",
+        "Quests/SlayDragon.mqxml",
+        "Quests/Slay_Dragon.q",
+        "Quests/TombDragon.mqxml",
+        "Quests/Tomb_dragon.q",
+        "Quests/VampiricRevenge.mqxml",
+        "Quests/VampiricRevenge_Text.xml",
+        "Quests/Vampiric_Revenge.q",
+        "Quests/WizardsCurse.mqxml",
+        "Quests/Wizards_Curse.q",
+        "Quests/WrathOfKrolm.mqxml",
+        "Quests/WrathOfKrolm_Text.xml",
+        "Quests/barren_waste.q",
+        "Quests/day_reckoning.q",
+        "Quests/fertile_plain.q",
+        "Quests/free_slaves.q",
+        "Quests/saveprince.q",
+        "QuestsMX/Balance_Of_Twilight.mqxml",
+        "QuestsMX/Balance_Of_Twilight.q",
+        "QuestsMX/ClashOfEmpires.mqxml",
+        "QuestsMX/Clash_Empires.q",
+        "QuestsMX/DarknessFalls.mqxml",
+        "QuestsMX/Darkness_Falls.q",
+        "QuestsMX/FortressIxmil.mqxml",
+        "QuestsMX/Fortress_Ixmil.q",
+        "QuestsMX/LegendaryHeroes.mqxml",
+        "QuestsMX/Legendary_Heroes.q",
+        "QuestsMX/MX.qdd",
+        "QuestsMX/RiseRatmen.mqxml",
+        "QuestsMX/Rise_ratmen.q",
+        "QuestsMX/ScionsChaos.mqxml",
+        "QuestsMX/Scions_chaos.q",
+        "QuestsMX/Siege.mqxml",
+        "QuestsMX/Siege.q",
+        "QuestsMX/SpiresDeath.mqxml",
+        "QuestsMX/Spires_Death.q",
+        "QuestsMX/TradeRoutes.mqxml",
+        "QuestsMX/Trade_Routes.q",
+        "QuestsMX/UrbanRenewal.mqxml",
+        "QuestsMX/ValeSerpents.mqxml",
+        "QuestsMX/Vale_Serpents.q",
+        "QuestsMX/Vigil.mqxml",
+        "QuestsMX/Vigil.q",
+        "QuestsMX/XQD1_QuestDescriptions.qdd",
+        "QuestsMX/mx_Freestyle.mqxml",
+        "QuestsMX/mx_Freestyle.q",
+        "QuestsMX/urban_renewal.q",
+        "binkw32.dll"
+      ],
+      "archive": "ZIP_STORED",
+      "runtimeManifestSha256": "538d04f179b03bb7becfac738aab083be2c99de40c3d7ce78ad1e701291c81c7",
+      "appSha256": "c52116f04341f3db1d032bd8b11ec694deab7f120913badb90b0e4ef445f02ba",
+      "appBytes": 730088727,
+      "wineSha256": "aad6bb6725b00500c9af935ec001bc33f7d6351d52e3d38b1a2078a0a2301718",
+      "sourceWine": "~/Documents/Tests/boxedwine/tmp/web-cpu/majesty-dispatch-baseline/wine.zip",
+      "query": {
+        "root": "wine.zip",
+        "app": "app.zip",
+        "p": "MajestyHD.exe",
+        "args": "-nointro -nosuspend -dib",
+        "resolution": "1024x768",
+        "bpp": "32",
+        "sound": "false",
+        "storage": "memory"
+      },
+      "scope": "HD executable with DIB option; D3D9 performance is not established"
+    },
+    "wineOverlay": {
+      "path": "tmp/web-cpu/majesty-fixed-profile/wine-fixed.zip",
+      "sha256": "85d081d75673c3e8e6d4ee95c827b9a1f4fe60e898663ecd36fe8f0a6de21b66",
+      "size": 167067272
+    },
+    "saveInputs": {
+      "fixed-save": {
+        "path": "tmp/web-cpu/majesty-dispatch-setup/fixed-save.bin",
+        "sha256": "6749691a30e3d4a8865ba0f3ab7b2ddc9af428519a0e0e079c1353b422443ac6"
+      },
+      "fixed-prefs": {
+        "path": "tmp/web-cpu/majesty-dispatch-setup/fixed-prefs.bin",
+        "sha256": "ae661d43a8e73562ec7073264c2db209443658793194d536a8ecc138f99bda51"
+      },
+      "fixed-quests": {
+        "path": "tmp/web-cpu/majesty-dispatch-setup/fixed-quests.bin",
+        "sha256": "0fce2688305a9ee3d6a7b81dddcf921d8f164d5e81370ed5a13e4c971f84974a"
+      }
+    },
+    "artifacts": "tmp/web-cpu/majesty-fixed-reload",
+    "actions": [
+      {
+        "id": "load-menu",
+        "type": "click",
+        "xy": [
+          204,
+          577
+        ],
+        "waitMs": 3000,
+        "at": 76653
+      },
+      {
+        "id": "loaded-mission",
+        "type": "click",
+        "xy": [
+          265,
+          648
+        ],
+        "waitMs": 15000,
+        "at": 98982
+      },
+      {
+        "id": "load-progress",
+        "type": "snapshot",
+        "waitMs": 20000,
+        "at": 152332
+      },
+      {
+        "id": "fixed-mission-profile",
+        "type": "profile",
+        "durationMs": 15000,
+        "at": 200001
+      },
+      {
+        "id": "stop",
+        "type": "stop",
+        "at": 242839
+      }
+    ],
+    "observations": [
+      {
+        "image": "load-menu.png",
+        "description": "Quest for the Holy Chalice save, duration 2 Days, selected in Load Game menu"
+      },
+      {
+        "image": "load-progress.png",
+        "day": 3,
+        "treasury": 6844,
+        "description": "Rendered mission after loading saved game"
+      },
+      {
+        "image": "fixed-mission-profile.png",
+        "day": 4,
+        "treasury": 7885,
+        "description": "Rendered mission after 15-second diagnostic CPU profile"
+      }
+    ],
+    "profile": {
+      "path": "tmp/web-cpu/majesty-fixed-reload/fixed-mission-profile.cpuprofile",
+      "sha256": "8e7c773e2877f254c83ffe609714e641ba5baeeab4aa562a07e3cbe7d4e06c1b",
+      "sampleCount": 12042,
+      "selfTimePercent": {
+        "(idle)": 26.12308916762794,
+        "wasmStartJITOp(CPU*, DecodedOp*)": 20.10876846259194,
+        "wasmHelper_fetchNextOp(CPU*)": 5.46421274489477,
+        "(program)": 2.9538825234775055,
+        "x86:p10:Unknown:file_00000000:pc_005f161f:ops_67": 2.9070884495900593,
+        "Blit_3or4_to_3or4__inversed_rgb": 1.9107249704083662,
+        "SW_RunCommandQueue": 1.64196307484917,
+        "334525": 1.6076474206650428,
+        "_emscripten_date_now": 0.9055710790416018,
+        "x86:p10:winex11.so:file_00007ffe:pc_12bf7ffe:ops_13": 0.889094013193946,
+        "x86:p10:Unknown:file_00000000:pc_005f16bf:ops_23": 0.7827895097468156,
+        "wasmHelper_cond_P(CPU*)": 0.6140995171155604,
+        "x86:p10:Unknown:file_00000000:pc_005f15f0:ops_91": 0.5355674287072787,
+        "x86:p10:Unknown:file_00000000:pc_005f16f9:ops_5": 0.4705778625299824,
+        "CPU::getPF()": 0.43404147263594256,
+        "internal_poll(KThread*, KPollData*, unsigned int, unsigned int)": 0.33729406394040073,
+        "putImageData": 0.28831230100539185,
+        "wasmHelper_cond_NP(CPU*)": 0.23143899510122887,
+        "x86:p10:dsound.dll.so:file_00026ff8:pc_13e76ff8:ops_22": 0.22176954169765067,
+        "x86:p10:dsound.dll.so:file_00027011:pc_13e77011:ops_16": 0.2065218116894108
+      },
+      "counterBuild": false,
+      "noConcurrentOwnedCompilerOrBenchmark": true
+    },
+    "pageErrors": [],
+    "artifactSha256": {
+      "load-menu.png": "72936f22a5d55b54de5b567adf263e38b847ea057501700c7440b177c401d640",
+      "load-progress.png": "9e1072369cce2afb04dedc4732f194bf2b6ee4b8cdc27a8721943f651e0f2fe7",
+      "fixed-mission-profile.png": "150c8cd74d078e988aadb52cece5f98ba81318cf665b01d473788cb58f1c493f",
+      "actions.json": "90742c31029f8004caf7089c824a21110ea6e0dc7d1af40b21ee0e3cc67b7a37",
+      "console.json": "77e53c33d45ba2f8ec7c13d1f5a39c0a1539faf3028c3ac99a7b1e80257eaefe"
+    },
+    "driverSha256": {
+      "tmp/web-cpu/interactive-majesty-fixed.mjs": "5835573fe4ca20c90ed23d4feddf6580092d496dea83405791a87cb4eda65583",
+      "tmp/web-cpu/compare-majesty-screen.py": "faed3574d99b6f031981284536b216f8d38232cb154465c8a6526e857930fae9"
+    }
+  },
+  "restoredReleaseWasmSha256": "73efe9d9fbb379e8ea828e7ba291b45fd6089deeb52bc301a6501ce0450d584b",
+  "finalRunnerVerification": {
+    "scope": "Tooling verification only, excluded from optimization timing series",
+    "driverSha256": "409675d8c79ef7d4140d9c0f378dfe6640f0e9298c38a4b58d8810268fa1996c",
+    "success": {
+      "pass": true,
+      "captureFailures": [],
+      "seed": "performance",
+      "iterations": 30000.0,
+      "seconds": 14.485,
+      "iterationsPerSecond": 2071.108043,
+      "crcs": {
+        "seedcrc": "0xe9f5",
+        "crclist": "0xe714",
+        "crcmatrix": "0x1fd7",
+        "crcstate": "0x8e3a",
+        "crcfinal": "0x5275"
+      },
+      "crcValid": true,
+      "hostTimedLoopMs": 14492,
+      "clockCrossCheck": true,
+      "runtime": "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-gui-baseline",
+      "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+      "workload": {
+        "upstream": "https://github.com/eembc/coremark",
+        "revision": "1f483d5b8316753a742cbf5590caf5bd0a4e4777",
+        "command": [
+          "/opt/homebrew/bin/i686-w64-mingw32-gcc",
+          "-O2",
+          "-static",
+          "-mwindows",
+          "-march=pentium3",
+          "-mtune=generic",
+          "-fno-strict-aliasing",
+          "-Wl,--no-insert-timestamp",
+          "-I",
+          "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port",
+          "-I",
+          "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source",
+          "-DFLAGS_STR=\"-O2 -static -mwindows -march=pentium3 -mtune=generic -fno-strict-aliasing -Wl,--no-insert-timestamp\"",
+          "-DITERATIONS=0",
+          "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_list_join.c",
+          "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_main.c",
+          "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_matrix.c",
+          "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_state.c",
+          "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_util.c",
+          "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port/core_portme.c",
+          "-o",
+          "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-gui-baseline/coremark.exe"
+        ],
+        "compiler": "i686-w64-mingw32-gcc (GCC) 16.2.0",
+        "sourceSha256": {
+          "core_list_join.c": "ca00e4e010ece47d7f040cb92aa50a95345a00d3171b59d088f6b243be06ce7b",
+          "core_main.c": "17884c93c5b94378eb0ff02b4df3725756cf2addb9b8cbcaa6200a4649ff5ca7",
+          "core_matrix.c": "ecdff717b5a5c4907d221a606760e25499899cbf617582c05d40db71c91351e4",
+          "core_state.c": "f4b84bb0a3452c45a4daa664ab502bfdccbd31cb57d93e9ac490c60937717a4e",
+          "core_util.c": "a3fbfcb9bb943b638624b8ece01c5836dd56a96d7bcde2697b248d077447327f",
+          "coremark.h": "42642b9a06c7ed2b3bd9eda971b7c3868c4f5d27bf7ef6c4bba11291a0c2598a"
+        },
+        "portSha256": {
+          "core_portme.h": "10dc0e00508f1e7dbdd258c057b69df34f86e995ad576d4a35005ad31e32cc80",
+          "core_portme.c": "1c5b7999dc83b2bf1b835ac2cedd1c6010084c82cad65d95a3d7fe3d13a04fb2"
+        },
+        "guestSha256": "bd5df90de7ed444a647a53d6575d450763381ac6dd3fa4d3c78ba2c80db7446a",
+        "appSha256": "7ea7a629940b1dd661022ecd24d1aa79a08b21e696b9a8e9aafd7b12a6d39f85",
+        "wineSha256": "aad6bb6725b00500c9af935ec001bc33f7d6351d52e3d38b1a2078a0a2301718",
+        "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+        "scope": "Unmodified CoreMark algorithms, x86 Windows timing port, one context, 2000-byte dataset. Not gameplay FPS.",
+        "timing": "QueryPerformanceCounter elapsed wall time, reported in milliseconds; host log markers cross-check elapsed time.",
+        "runRules": "Require >=10 seconds and valid CRCs for both 0,0,0x66 and 0x3415,0x3415,0x66. Fix iterations before accepted A/B runs."
+      },
+      "driverSha256": "409675d8c79ef7d4140d9c0f378dfe6640f0e9298c38a4b58d8810268fa1996c",
+      "scope": "Unprofiled x86 CoreMark timed loop through Wine and Boxedwine; not game FPS."
+    },
+    "launchFailure": {
+      "pass": false,
+      "captureFailures": [
+        "Browser capture exited with status 1",
+        "Browser capture did not record benchmark completion",
+        "spawn /nonexistent/boxedwine-test-chrome ENOENT"
+      ],
+      "seed": "performance",
+      "iterations": null,
+      "seconds": null,
+      "iterationsPerSecond": null,
+      "crcs": {},
+      "crcValid": false,
+      "hostTimedLoopMs": null,
+      "clockCrossCheck": false,
+      "runtime": "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-gui-baseline",
+      "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+      "workload": {
+        "upstream": "https://github.com/eembc/coremark",
+        "revision": "1f483d5b8316753a742cbf5590caf5bd0a4e4777",
+        "command": [
+          "/opt/homebrew/bin/i686-w64-mingw32-gcc",
+          "-O2",
+          "-static",
+          "-mwindows",
+          "-march=pentium3",
+          "-mtune=generic",
+          "-fno-strict-aliasing",
+          "-Wl,--no-insert-timestamp",
+          "-I",
+          "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port",
+          "-I",
+          "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source",
+          "-DFLAGS_STR=\"-O2 -static -mwindows -march=pentium3 -mtune=generic -fno-strict-aliasing -Wl,--no-insert-timestamp\"",
+          "-DITERATIONS=0",
+          "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_list_join.c",
+          "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_main.c",
+          "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_matrix.c",
+          "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_state.c",
+          "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_util.c",
+          "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port/core_portme.c",
+          "-o",
+          "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-gui-baseline/coremark.exe"
+        ],
+        "compiler": "i686-w64-mingw32-gcc (GCC) 16.2.0",
+        "sourceSha256": {
+          "core_list_join.c": "ca00e4e010ece47d7f040cb92aa50a95345a00d3171b59d088f6b243be06ce7b",
+          "core_main.c": "17884c93c5b94378eb0ff02b4df3725756cf2addb9b8cbcaa6200a4649ff5ca7",
+          "core_matrix.c": "ecdff717b5a5c4907d221a606760e25499899cbf617582c05d40db71c91351e4",
+          "core_state.c": "f4b84bb0a3452c45a4daa664ab502bfdccbd31cb57d93e9ac490c60937717a4e",
+          "core_util.c": "a3fbfcb9bb943b638624b8ece01c5836dd56a96d7bcde2697b248d077447327f",
+          "coremark.h": "42642b9a06c7ed2b3bd9eda971b7c3868c4f5d27bf7ef6c4bba11291a0c2598a"
+        },
+        "portSha256": {
+          "core_portme.h": "10dc0e00508f1e7dbdd258c057b69df34f86e995ad576d4a35005ad31e32cc80",
+          "core_portme.c": "1c5b7999dc83b2bf1b835ac2cedd1c6010084c82cad65d95a3d7fe3d13a04fb2"
+        },
+        "guestSha256": "bd5df90de7ed444a647a53d6575d450763381ac6dd3fa4d3c78ba2c80db7446a",
+        "appSha256": "7ea7a629940b1dd661022ecd24d1aa79a08b21e696b9a8e9aafd7b12a6d39f85",
+        "wineSha256": "aad6bb6725b00500c9af935ec001bc33f7d6351d52e3d38b1a2078a0a2301718",
+        "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+        "scope": "Unmodified CoreMark algorithms, x86 Windows timing port, one context, 2000-byte dataset. Not gameplay FPS.",
+        "timing": "QueryPerformanceCounter elapsed wall time, reported in milliseconds; host log markers cross-check elapsed time.",
+        "runRules": "Require >=10 seconds and valid CRCs for both 0,0,0x66 and 0x3415,0x3415,0x66. Fix iterations before accepted A/B runs."
+      },
+      "driverSha256": "9fb005ab73972a1a3f6c9bc238c05be8b9914a8e81b82ae9581d7d4009abdbc5",
+      "scope": "Unprofiled x86 CoreMark timed loop through Wine and Boxedwine; not game FPS."
+    },
+    "manifestMismatch": {
+      "exitCode": 2,
+      "stderr": "usage: measure-coremark.py [-h] --runtime RUNTIME --out OUT --iterations\n                           ITERATIONS [--seed {performance,validation}]\n                           [--base-url BASE_URL] [--chrome CHROME]\nmeasure-coremark.py: error: Runtime manifest differs from the prepared workload\n",
+      "launchedBrowser": false
+    }
+  },
+  "finalPortVerification": {
+    "note": "Added explicit port license and modification comments after timing. Recompilation produces byte-identical executable and app archive.",
+    "workload": {
+      "upstream": "https://github.com/eembc/coremark",
+      "revision": "1f483d5b8316753a742cbf5590caf5bd0a4e4777",
+      "command": [
+        "/opt/homebrew/bin/i686-w64-mingw32-gcc",
+        "-O2",
+        "-static",
+        "-mwindows",
+        "-march=pentium3",
+        "-mtune=generic",
+        "-fno-strict-aliasing",
+        "-Wl,--no-insert-timestamp",
+        "-I",
+        "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port",
+        "-I",
+        "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source",
+        "-DFLAGS_STR=\"-O2 -static -mwindows -march=pentium3 -mtune=generic -fno-strict-aliasing -Wl,--no-insert-timestamp\"",
+        "-DITERATIONS=0",
+        "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_list_join.c",
+        "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_main.c",
+        "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_matrix.c",
+        "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_state.c",
+        "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-source/core_util.c",
+        "~/Documents/Tests/boxedwine/tools/web-cpu/coremark-port/core_portme.c",
+        "-o",
+        "~/Documents/Tests/boxedwine/tmp/web-cpu/coremark-final-port/coremark.exe"
+      ],
+      "compiler": "i686-w64-mingw32-gcc (GCC) 16.2.0",
+      "sourceSha256": {
+        "core_list_join.c": "ca00e4e010ece47d7f040cb92aa50a95345a00d3171b59d088f6b243be06ce7b",
+        "core_main.c": "17884c93c5b94378eb0ff02b4df3725756cf2addb9b8cbcaa6200a4649ff5ca7",
+        "core_matrix.c": "ecdff717b5a5c4907d221a606760e25499899cbf617582c05d40db71c91351e4",
+        "core_state.c": "f4b84bb0a3452c45a4daa664ab502bfdccbd31cb57d93e9ac490c60937717a4e",
+        "core_util.c": "a3fbfcb9bb943b638624b8ece01c5836dd56a96d7bcde2697b248d077447327f",
+        "coremark.h": "42642b9a06c7ed2b3bd9eda971b7c3868c4f5d27bf7ef6c4bba11291a0c2598a"
+      },
+      "portSha256": {
+        "core_portme.h": "9ce2f76fd5efaf5fc94d0884cb8c46f83384bda0fc9f6a11cb44416e5a7ca59e",
+        "core_portme.c": "aacf617a4edad476c01375a41a0985de5003ae7a6c0af6e2f48fda4ba6ea9d74"
+      },
+      "guestSha256": "bd5df90de7ed444a647a53d6575d450763381ac6dd3fa4d3c78ba2c80db7446a",
+      "appSha256": "7ea7a629940b1dd661022ecd24d1aa79a08b21e696b9a8e9aafd7b12a6d39f85",
+      "wineSha256": "aad6bb6725b00500c9af935ec001bc33f7d6351d52e3d38b1a2078a0a2301718",
+      "runtimeManifestSha256": "0db6a30bdc7fd25b3305df4be29877bd07b52a66501ae70a614d088105f808ec",
+      "scope": "Unmodified CoreMark algorithms, x86 Windows timing port, one context, 2000-byte dataset. Not gameplay FPS.",
+      "timing": "QueryPerformanceCounter elapsed wall time, reported in milliseconds; host log markers cross-check elapsed time.",
+      "runRules": "Require >=10 seconds and valid CRCs for both 0,0,0x66 and 0x3415,0x3415,0x66. Fix iterations before accepted A/B runs."
+    },
+    "guestMatchesTimedRuns": true,
+    "appMatchesTimedRuns": true
+  }
+}

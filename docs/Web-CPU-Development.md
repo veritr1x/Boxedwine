@@ -273,3 +273,10 @@ It uses a separate `Build/WebCPU/counters` tree because the counter macro change
 CPU layout. Interpret five-second log deltas within one workload phase; sampled
 timings include nested work and instrumentation overhead. Use release builds for
 throughput comparisons. Counter mode requires a JIT target.
+
+
+Use the [pinned x86 CoreMark workload](Web-CoreMark-Benchmark.md) for an open,
+repeatable CPU comparison with CRC validation and host/guest timer checks.
+The [first dispatch experiments](Web-JIT-Dispatch-Experiments.md) document two
+reverted micro-optimizations, their measurements, and a fixed Majesty HD mission
+for further work. The Quake II timedemo remains planned.

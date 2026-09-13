@@ -1,6 +1,9 @@
 /*
 Copyright 2018 Embedded Microprocessor Benchmark Consortium (EEMBC)
 
+Modified in 2026 for the Boxedwine Windows x86 benchmark port: fixed-width
+timer ticks, standard integer/pointer headers, and command-line seeds.
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at

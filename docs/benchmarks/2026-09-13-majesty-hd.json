@@ -1,0 +1,669 @@
+{
+  "date": "2026-09-13",
+  "scope": "CPU bottleneck diagnosis, not an optimization or frame-rate benchmark",
+  "host": {
+    "cpu": "Apple M5 Max",
+    "memoryBytes": 51539607552
+  },
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/152.0.7977.83",
+    "revision": "@79460ebecaa5625e57a5fb679a735659e73dc687",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+    "jsVersion": "15.2.124.21"
+  },
+  "sourceCommit": "f57fc0a7a130c2d9d9ae0ed9eec438dfd3560adf",
+  "runtimeWasmSha256": "3f62d99b236028f400e7b6badb6e63527e3c25c1ed0bcf1bef4d1e0534a1f837",
+  "majesty": {
+    "game": "MajestyHD.exe",
+    "gameSha256": "65c6dd32c3d873c2e320bdaa2de1b00488af85b44573fd0fd82f79a2ffd37792",
+    "oldExeSha256Excluded": "654365fd1bdefa6d7f2349d162869f255388fadcb1bb8db9f7db2f3468dd5542",
+    "appSha256": "c52116f04341f3db1d032bd8b11ec694deab7f120913badb90b0e4ef445f02ba",
+    "appBytes": 730088727,
+    "wineSha256": "aad6bb6725b00500c9af935ec001bc33f7d6351d52e3d38b1a2078a0a2301718",
+    "archive": "ZIP_STORED",
+    "args": "-nointro -nosuspend -dib",
+    "resolution": "1024x768",
+    "bpp": 32,
+    "sound": false,
+    "storage": "memory"
+  },
+  "visibleVersion": "1.5.2.28",
+  "renderer": "HD executable with -dib; DX9 initialization failed, built-in fallback accepted",
+  "profiles": [
+    {
+      "file": "tmp/web-cpu/majesty-hd-probe/startup-early.cpuprofile",
+      "sha256": "e044fac1a03f4b980170a65bcf150016e5ad798ed3b5a15dfd0591a390dd7fb3",
+      "phase": "Initial Wine/game loading, includes DX9 error dialog wait",
+      "samples": 12182,
+      "sampledSeconds": 15.039515,
+      "selfPercent": {
+        "jitEntry": 6.6038033806276335,
+        "fetchNextOp": 0.5503634924397496,
+        "dispatchCombined": 7.154166873067383,
+        "movsbHelper": 0.041710121636236275,
+        "pathLookupAndNormalize": 0.9228888032626053,
+        "unzReadCurrentFile": 19.29570867145649,
+        "idle": 23.53586535204094,
+        "twoSoftwarePresentationFunctions": 0.41218749407810024
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "percent": 23.53586535204094
+        },
+        {
+          "name": "unzReadCurrentFile",
+          "percent": 19.29570867145649
+        },
+        {
+          "name": "wasmStartJITOp(CPU*, DecodedOp*)",
+          "percent": 6.6038033806276335
+        },
+        {
+          "name": "(program)",
+          "percent": 3.9702410616299795
+        },
+        {
+          "name": "Module",
+          "percent": 2.423489055331904
+        },
+        {
+          "name": "crc32_z",
+          "percent": 1.656609272306986
+        },
+        {
+          "name": "normalDispatch(CPU*, DecodedOp*)",
+          "percent": 1.2648213722317507
+        },
+        {
+          "name": "lookup",
+          "percent": 0.8503066754479782
+        },
+        {
+          "name": "lookupPath",
+          "percent": 0.8066683001413277
+        },
+        {
+          "name": "write",
+          "percent": 0.6667236277233675
+        },
+        {
+          "name": "334493",
+          "percent": 0.6539439602939323
+        },
+        {
+          "name": "wasmHelper_fetchNextOp(CPU*)",
+          "percent": 0.5503634924397496
+        },
+        {
+          "name": "_emscripten_date_now",
+          "percent": 0.5157812602334583
+        },
+        {
+          "name": "BHashTable<unsigned int, SDL_Cursor*, std::__2::hash<unsigned int>, std::__2::equal_to<unsigned int>>::set(unsigned int const&, SDL_Cursor* const&) requires concepts::has_arrow_operator<T0> || std::is_pointer_v<T0>",
+          "percent": 0.4952686306706034
+        },
+        {
+          "name": "WasmEmitter::emitLocalGet(unsigned int)",
+          "percent": 0.4635322349158201
+        }
+      ]
+    },
+    {
+      "file": "tmp/web-cpu/majesty-hd-probe/startup-60s.cpuprofile",
+      "sha256": "aff7755090815bacd24deafa8a719fc4f8b2874a2d2b2462d37f998832b465e1",
+      "phase": "Black-screen asset initialization after fallback accepted",
+      "samples": 12145,
+      "sampledSeconds": 15.194173,
+      "selfPercent": {
+        "jitEntry": 7.449546612375679,
+        "fetchNextOp": 1.8000716458868804,
+        "dispatchCombined": 9.24961825826256,
+        "movsbHelper": 0.0488608363219242,
+        "pathLookupAndNormalize": 39.86337393947009,
+        "unzReadCurrentFile": 0.0,
+        "idle": 25.537664998285855,
+        "twoSoftwarePresentationFunctions": 2.43666437126917
+      },
+      "topSelf": [
+        {
+          "name": "lookupPath",
+          "percent": 33.545261068173964
+        },
+        {
+          "name": "(idle)",
+          "percent": 25.537664998285855
+        },
+        {
+          "name": "wasmStartJITOp(CPU*, DecodedOp*)",
+          "percent": 7.449546612375679
+        },
+        {
+          "name": "normalize",
+          "percent": 6.318112871296122
+        },
+        {
+          "name": "(program)",
+          "percent": 2.381860467167249
+        },
+        {
+          "name": "wasmHelper_fetchNextOp(CPU*)",
+          "percent": 1.8000716458868804
+        },
+        {
+          "name": "SW_RunCommandQueue",
+          "percent": 1.5845679787902902
+        },
+        {
+          "name": "___syscall_stat64",
+          "percent": 1.037845231853027
+        },
+        {
+          "name": "_emscripten_date_now",
+          "percent": 0.8760332003591114
+        },
+        {
+          "name": "Blit_3or4_to_3or4__inversed_rgb",
+          "percent": 0.8520963924788799
+        },
+        {
+          "name": "nodePermissions",
+          "percent": 0.8132064838277148
+        },
+        {
+          "name": "decode",
+          "percent": 0.5183105391784074
+        },
+        {
+          "name": "",
+          "percent": 0.46594177912809076
+        },
+        {
+          "name": "(garbage collector)",
+          "percent": 0.4343309767501002
+        },
+        {
+          "name": "CPU::runNextSingleOp()",
+          "percent": 0.3446781868285954
+        }
+      ]
+    },
+    {
+      "file": "tmp/web-cpu/majesty-hd-probe/loading-130s.cpuprofile",
+      "sha256": "b59c94a279dc5b4193b0d32a55fddf4ad0209a67587c98b0f667d6301b6809fd",
+      "phase": "Second black-screen asset initialization window",
+      "samples": 12127,
+      "sampledSeconds": 15.148251,
+      "selfPercent": {
+        "jitEntry": 7.211050305411496,
+        "fetchNextOp": 1.634162254111052,
+        "dispatchCombined": 8.845212559522547,
+        "movsbHelper": 0.0,
+        "pathLookupAndNormalize": 40.46815041551662,
+        "unzReadCurrentFile": 0.0,
+        "idle": 26.007979403034714,
+        "twoSoftwarePresentationFunctions": 2.1491325962317367
+      },
+      "topSelf": [
+        {
+          "name": "lookupPath",
+          "percent": 34.022013498456026
+        },
+        {
+          "name": "(idle)",
+          "percent": 26.007979403034714
+        },
+        {
+          "name": "wasmStartJITOp(CPU*, DecodedOp*)",
+          "percent": 7.211050305411496
+        },
+        {
+          "name": "normalize",
+          "percent": 6.44613691706059
+        },
+        {
+          "name": "(program)",
+          "percent": 2.1263378854760195
+        },
+        {
+          "name": "wasmHelper_fetchNextOp(CPU*)",
+          "percent": 1.634162254111052
+        },
+        {
+          "name": "SW_RunCommandQueue",
+          "percent": 1.3785815933469812
+        },
+        {
+          "name": "_emscripten_date_now",
+          "percent": 1.2745827884684509
+        },
+        {
+          "name": "___syscall_stat64",
+          "percent": 1.2025414683186857
+        },
+        {
+          "name": "nodePermissions",
+          "percent": 0.8219100673734545
+        },
+        {
+          "name": "Blit_3or4_to_3or4__inversed_rgb",
+          "percent": 0.7705510028847554
+        },
+        {
+          "name": "decode",
+          "percent": 0.43737722592529
+        },
+        {
+          "name": "internal_poll(KThread*, KPollData*, unsigned int, unsigned int)",
+          "percent": 0.4013004537619558
+        },
+        {
+          "name": "",
+          "percent": 0.389530118031448
+        },
+        {
+          "name": "(garbage collector)",
+          "percent": 0.37087449897681257
+        }
+      ]
+    },
+    {
+      "file": "tmp/web-cpu/majesty-hd-probe/mission-a.cpuprofile",
+      "sha256": "c391af058575f5e934b21aafed5d9bb3e6ec7c0e284993a45b5e8e80dbecf5d8",
+      "phase": "Random (Beginner) mission, fixed camera",
+      "samples": 12238,
+      "sampledSeconds": 15.365894,
+      "selfPercent": {
+        "jitEntry": 16.160999158265703,
+        "fetchNextOp": 4.6727772559149505,
+        "dispatchCombined": 20.83377641418065,
+        "movsbHelper": 0.1290910896560916,
+        "pathLookupAndNormalize": 0.007497123174219476,
+        "unzReadCurrentFile": 0.0,
+        "idle": 26.184913158974023,
+        "twoSoftwarePresentationFunctions": 4.95168065066699
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "percent": 26.184913158974023
+        },
+        {
+          "name": "wasmStartJITOp(CPU*, DecodedOp*)",
+          "percent": 16.160999158265703
+        },
+        {
+          "name": "wasmHelper_fetchNextOp(CPU*)",
+          "percent": 4.6727772559149505
+        },
+        {
+          "name": "Blit_3or4_to_3or4__inversed_rgb",
+          "percent": 2.8882211474320987
+        },
+        {
+          "name": "(program)",
+          "percent": 2.712943353637608
+        },
+        {
+          "name": "SW_RunCommandQueue",
+          "percent": 2.0634595032348915
+        },
+        {
+          "name": "334493",
+          "percent": 1.871501911961647
+        },
+        {
+          "name": "_emscripten_date_now",
+          "percent": 1.8120715917993446
+        },
+        {
+          "name": "internal_poll(KThread*, KPollData*, unsigned int, unsigned int)",
+          "percent": 1.5016568512056636
+        },
+        {
+          "name": "x86:p10:winex11.so:file_00007ffe:pc_12bf7ffe:ops_13",
+          "percent": 0.9372249997299213
+        },
+        {
+          "name": "x86:p10:Unknown:file_00000000:pc_005f161f:ops_67",
+          "percent": 0.8072162934353185
+        },
+        {
+          "name": "putImageData",
+          "percent": 0.3489286077334648
+        },
+        {
+          "name": "syscall_epoll_wait(CPU*, unsigned int)",
+          "percent": 0.32615739767565755
+        },
+        {
+          "name": "BoxedWineCondition::removeParentCondition(std::__2::shared_ptr<BoxedWineCondition> const&)",
+          "percent": 0.3082866509426656
+        },
+        {
+          "name": "CPU::runNextSingleOp()",
+          "percent": 0.29357224512937546
+        }
+      ],
+      "freshCompiledBetweenAdjacentSnapshots": 265
+    },
+    {
+      "file": "tmp/web-cpu/majesty-hd-probe/mission-b.cpuprofile",
+      "sha256": "27787f65820ff7eb5799c36cc3b07804bd001cc2f730fdfe41722f88f0d27d93",
+      "phase": "Same mission and camera, later window",
+      "samples": 12235,
+      "sampledSeconds": 15.35331,
+      "selfPercent": {
+        "jitEntry": 16.269683866215168,
+        "fetchNextOp": 4.694186465328975,
+        "dispatchCombined": 20.963870331544143,
+        "movsbHelper": 0.17826774812727678,
+        "pathLookupAndNormalize": 0.008200186148784854,
+        "unzReadCurrentFile": 0.0,
+        "idle": 26.129251607633794,
+        "twoSoftwarePresentationFunctions": 5.000661095229628
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "percent": 26.129251607633794
+        },
+        {
+          "name": "wasmStartJITOp(CPU*, DecodedOp*)",
+          "percent": 16.269683866215168
+        },
+        {
+          "name": "wasmHelper_fetchNextOp(CPU*)",
+          "percent": 4.694186465328975
+        },
+        {
+          "name": "Blit_3or4_to_3or4__inversed_rgb",
+          "percent": 2.9472406927235886
+        },
+        {
+          "name": "(program)",
+          "percent": 2.6293939222226346
+        },
+        {
+          "name": "SW_RunCommandQueue",
+          "percent": 2.0534204025060396
+        },
+        {
+          "name": "_emscripten_date_now",
+          "percent": 1.8389910709807853
+        },
+        {
+          "name": "334493",
+          "percent": 1.8220696384037058
+        },
+        {
+          "name": "internal_poll(KThread*, KPollData*, unsigned int, unsigned int)",
+          "percent": 1.5907319008083598
+        },
+        {
+          "name": "x86:p10:Unknown:file_00000000:pc_005f161f:ops_67",
+          "percent": 0.894439049299467
+        },
+        {
+          "name": "x86:p10:winex11.so:file_00007ffe:pc_12bf7ffe:ops_13",
+          "percent": 0.8161953350775826
+        },
+        {
+          "name": "putImageData",
+          "percent": 0.50215230461705
+        },
+        {
+          "name": "BoxedWineCondition::removeParentCondition(std::__2::shared_ptr<BoxedWineCondition> const&)",
+          "percent": 0.42404536871853693
+        },
+        {
+          "name": "syscall_epoll_wait(CPU*, unsigned int)",
+          "percent": 0.37610782300363893
+        },
+        {
+          "name": "normal_movsd_op(CPU*, DecodedOp*)",
+          "percent": 0.3434112904644015
+        }
+      ],
+      "freshCompiledBetweenAdjacentSnapshots": 142
+    },
+    {
+      "file": "tmp/web-cpu/gameplay-level-profile/cpu.cpuprofile",
+      "sha256": "1c206137d1439098f60b9a686ecd8418333e8352cfb28103b0a7554370feb15b",
+      "phase": "Previously captured Populous level, 640x480 software path",
+      "samples": 12024,
+      "sampledSeconds": 15.093902,
+      "selfPercent": {
+        "jitEntry": 19.85472676316568,
+        "fetchNextOp": 7.4346978004759805,
+        "dispatchCombined": 27.28942456364166,
+        "movsbHelper": 7.075956899680414,
+        "pathLookupAndNormalize": 0.0083013656773444,
+        "unzReadCurrentFile": 1.7324678535742448,
+        "idle": 23.771599948111497,
+        "twoSoftwarePresentationFunctions": 1.6460819740316321
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "percent": 23.771599948111497
+        },
+        {
+          "name": "wasmStartJITOp(CPU*, DecodedOp*)",
+          "percent": 19.85472676316568
+        },
+        {
+          "name": "wasmHelper_fetchNextOp(CPU*)",
+          "percent": 7.4346978004759805
+        },
+        {
+          "name": "normal_movsb_op(CPU*, DecodedOp*)",
+          "percent": 7.075956899680414
+        },
+        {
+          "name": "x86:p80:kernel32.dll.so:file_00047570:pc_10807570:ops_6",
+          "percent": 5.666858046381909
+        },
+        {
+          "name": "x86:p80:Unknown:file_00000000:pc_004ba8a9:ops_3",
+          "percent": 3.004763115594629
+        },
+        {
+          "name": "x86:p80:Unknown:file_00000000:pc_004ba8a7:ops_6",
+          "percent": 2.688337316619652
+        },
+        {
+          "name": "x86:p80:win32u.so:file_00062933:pc_126e2933:ops_10",
+          "percent": 2.423601266259712
+        },
+        {
+          "name": "(program)",
+          "percent": 2.1658349179688594
+        },
+        {
+          "name": "unzReadCurrentFile",
+          "percent": 1.7324678535742448
+        },
+        {
+          "name": "x86:p80:winex11.so:file_00007ffe:pc_12bb7ffe:ops_13",
+          "percent": 1.683514309288612
+        },
+        {
+          "name": "x86:p80:Unknown:file_00000000:pc_00515f99:ops_24",
+          "percent": 1.025831491419515
+        },
+        {
+          "name": "SW_RunCommandQueue",
+          "percent": 1.0155226925416636
+        },
+        {
+          "name": "Blit_3or4_to_3or4__inversed_rgb",
+          "percent": 0.6305592814899686
+        },
+        {
+          "name": "x86:p80:dsound.dll.so:file_00027011:pc_123e7011:ops_16",
+          "percent": 0.5703694114351611
+        }
+      ]
+    }
+  ],
+  "missionEvidence": {
+    "before": "tmp/web-cpu/majesty-hd-probe/mission-screen.png",
+    "after": "tmp/web-cpu/majesty-hd-probe/mission-b.png",
+    "beforeSha256": "467e13d66a94a2531d118826f92b63e1dc94a63d53a6e6a0c85f7c8f80ff270f",
+    "afterSha256": "d50e0fdaee0df6ad314f8a9d12c57028f080d8da56a4b6009c352f778a62a2d2",
+    "observed": "Rendered world; day 0 / treasury 20030 progressed to day 1 / treasury 20173"
+  },
+  "diagnosticDriver": {
+    "file": "tmp/web-cpu/probe-majesty.mjs",
+    "sha256": "bba1cc84610ba71b9b0f867c64889c05ba8eb1f26cd5998538f4edef6fe07b34",
+    "profileMetadata": [
+      {
+        "label": "startup-early",
+        "start": 1789272584874,
+        "duration": 15000,
+        "end": 1789272599942,
+        "samples": 12182
+      },
+      {
+        "label": "startup-60s",
+        "start": 1789272645410,
+        "duration": 15000,
+        "end": 1789272660562,
+        "samples": 12145
+      },
+      {
+        "label": "loading-130s",
+        "start": 1789272727023,
+        "duration": 15000,
+        "end": 1789272742134,
+        "samples": 12127
+      },
+      {
+        "label": "mission-a",
+        "start": 1789273000650,
+        "duration": 15000,
+        "end": 1789273015940,
+        "samples": 12238
+      },
+      {
+        "label": "mission-b",
+        "start": 1789273033773,
+        "duration": 15000,
+        "end": 1789273049058,
+        "samples": 12235
+      }
+    ],
+    "actions": [
+      {
+        "id": "accept-dx9-fallback",
+        "click": [
+          515,
+          427
+        ],
+        "elapsedMs": 53813
+      },
+      {
+        "id": "loading-capture",
+        "profile": "loading-after-dialog",
+        "shot": "after-dialog",
+        "elapsedMs": 62116
+      },
+      {
+        "id": "loading-130-profile",
+        "profile": "loading-130s",
+        "elapsedMs": 142125
+      },
+      {
+        "id": "play-game",
+        "click": [
+          204,
+          547
+        ],
+        "shot": "play-game-click",
+        "elapsedMs": 288589
+      },
+      {
+        "id": "name-screen",
+        "shot": "name-screen",
+        "elapsedMs": 296880
+      },
+      {
+        "id": "accept-name",
+        "click": [
+          409,
+          511
+        ],
+        "elapsedMs": 311143
+      },
+      {
+        "id": "quest-screen",
+        "shot": "quest-screen",
+        "elapsedMs": 319467
+      },
+      {
+        "id": "dismiss-help",
+        "click": [
+          510,
+          486
+        ],
+        "elapsedMs": 334729
+      },
+      {
+        "id": "freestyle",
+        "click": [
+          511,
+          603
+        ],
+        "elapsedMs": 350041
+      },
+      {
+        "id": "freestyle-screen",
+        "shot": "freestyle-screen",
+        "elapsedMs": 357723
+      },
+      {
+        "id": "beginner",
+        "click": [
+          511,
+          320
+        ],
+        "elapsedMs": 371987
+      },
+      {
+        "id": "mission-screen",
+        "shot": "mission-screen",
+        "elapsedMs": 401449
+      },
+      {
+        "id": "mission-profile-a",
+        "profile": "mission-a",
+        "shot": "mission-a-before",
+        "elapsedMs": 415697
+      },
+      {
+        "id": "mission-profile-b",
+        "profile": "mission-b",
+        "shot": "mission-b-before",
+        "elapsedMs": 448833
+      },
+      {
+        "id": "complete",
+        "stop": true,
+        "elapsedMs": 490559
+      }
+    ]
+  },
+  "limitations": [
+    "One fresh Majesty browser session, two loading and two mission windows; these are not independent runs.",
+    "Percentages are self time over all CPU samples, including idle, not inclusive time or predicted FPS gains.",
+    "Different games, resolutions and scenes; same runtime Wasm and Wine hashes.",
+    "D3D9/WebGPU throughput, sound, save persistence and sustained playability are not established.",
+    "Random beginner mission, not a fixed save or deterministic timedemo.",
+    "Only stored game ZIP tested in this fork; no new compressed-versus-stored performance comparison.",
+    "Menu navigation includes human/automation delays and active sampling; do not report this as startup timing.",
+    "Profile windows include remaining fresh JIT compilation."
+  ],
+  "pageExceptions": 0
+}

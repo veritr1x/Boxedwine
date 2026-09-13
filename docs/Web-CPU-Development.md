@@ -12,6 +12,10 @@ data must be supplied separately under its applicable license. The first
 playable-game throughput and Quake II have not been benchmarked in this fork.
 Test-suite timings are not game results.
 
+The [Majesty Gold HD profile](Web-Majesty-HD-Profile.md) adds a second proprietary
+compatibility case using the main HD executable. It identifies filesystem
+metadata work during startup and shared JIT dispatch cost in a rendered mission.
+
 ## Toolchain and isolated builds
 
 Requirements: Python 3.9+, Node with built-in WebSocket support (tested with

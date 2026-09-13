@@ -6299,7 +6299,7 @@ bool wasmJitTestAddMtSealedRequestForStats(KMemory* memory, U32 mappedFileKey,
 EM_JS(void, wasmJitTestBrokerStatsSnapshotFailureJs, (S32* done), {
     if (typeof ENVIRONMENT_IS_PTHREAD !== 'undefined' && ENVIRONMENT_IS_PTHREAD) {
         postMessage({
-            cmd: 'callHandler',
+            cmd: globalThis.bwWasmPthreadCommand('callHandler'),
             handler: 'bwWasmJitBrokerTestStatsSnapshotFailure',
             args: [done]
         });
@@ -6330,7 +6330,7 @@ EM_JS(void, wasmJitTestBrokerIncompleteStatsJs,
          U32 expectedLocalCompiles, S32* done), {
     if (typeof ENVIRONMENT_IS_PTHREAD !== 'undefined' && ENVIRONMENT_IS_PTHREAD) {
         postMessage({
-            cmd: 'callHandler',
+            cmd: globalThis.bwWasmPthreadCommand('callHandler'),
             handler: 'bwWasmJitBrokerTestIncompleteStats',
             args: [
                 expectedCreations,
@@ -6370,7 +6370,7 @@ bool wasmJitTestBrokerIncompleteStats(U32 expectedCreations,
 EM_JS(void, wasmJitTestResetMtScheduleThreadPreloadStatsJs, (S32* done), {
     if (typeof ENVIRONMENT_IS_PTHREAD !== 'undefined' && ENVIRONMENT_IS_PTHREAD) {
         postMessage({
-            cmd: 'callHandler',
+            cmd: globalThis.bwWasmPthreadCommand('callHandler'),
             handler: 'bwWasmJitBrokerResetScheduleThreadTestStats',
             args: [done]
         });

@@ -10,6 +10,12 @@
 (function() {
     'use strict';
 
+    function pthreadCommand(name) {
+        return globalThis.bwWasmPthreadCommands ? globalThis.bwWasmPthreadCommands[name] : name;
+    }
+
+    globalThis.bwWasmPthreadCommand = pthreadCommand;
+
     var LOOKUP_LOCAL_COMPILE = 1;
     var LOOKUP_BROKER_HIT = 2;
     var PRELOAD_MODULE_LIMIT = 64;
@@ -272,7 +278,10 @@
         if (typeof PThread === 'undefined') {
             return workers;
         }
-        PThread.runningWorkers.concat(PThread.unusedWorkers).forEach(function(worker) {
+        // Recent Emscripten SDKs keep active workers only in pthreads.
+        // Older SDKs (and the isolated broker tests) expose runningWorkers.
+        var running = PThread.runningWorkers || Object.values(PThread.pthreads || {});
+        running.concat(PThread.unusedWorkers || []).forEach(function(worker) {
             if (worker && !seen.has(worker)) {
                 seen.add(worker);
                 workers.push(worker);
@@ -412,7 +421,7 @@
         if (typeof ENVIRONMENT_IS_PTHREAD !== 'undefined' && ENVIRONMENT_IS_PTHREAD) {
             try {
                 postToMain({
-                    cmd: 'callHandler',
+                    cmd: pthreadCommand('callHandler'),
                     handler: 'bwWasmJitBrokerPublish',
                     args: [moduleId, memoryId, memoryIncarnation, module,
                         typeof _pthread_self === 'function' ? _pthread_self() : 0,
@@ -895,7 +904,7 @@
             retireOwner, groupInstanceKeys);
         if (typeof ENVIRONMENT_IS_PTHREAD !== 'undefined' && ENVIRONMENT_IS_PTHREAD) {
             postToMain({
-                cmd: 'callHandler',
+                cmd: pthreadCommand('callHandler'),
                 handler: 'bwWasmJitBrokerReleaseMemory',
                 args: [memoryId, memoryIncarnation, moduleIds, tableSlots,
                     retireOwner, groupInstanceKeys]
@@ -1162,7 +1171,7 @@
         worker.bwWasmJitBrokerOriginalPostMessage = originalPostMessage;
         worker.postMessage = function(message) {
             var originalArgs = arguments;
-            if (!message || message.cmd !== 'run') {
+            if (!message || (message.cmd !== 'run' && message.cmd !== pthreadCommand('run'))) {
                 return originalPostMessage.apply(null, originalArgs);
             }
             if (dropNextTestRun) {
@@ -1230,7 +1239,7 @@
         PThread.getNewWorker = function() {
             return wrapWorkerRun(originalGetNewWorker.apply(this, arguments));
         };
-        PThread.runningWorkers.concat(PThread.unusedWorkers).forEach(wrapWorkerRun);
+        allocatedWorkers().forEach(wrapWorkerRun);
     }
 
     function applyWorkerPurge(message) {
@@ -1286,7 +1295,7 @@
             Atomics.notify(HEAP32, message.received >> 2);
         } else if (message.type === 'statsRequest') {
             postToMain({
-                cmd: 'callHandler',
+                cmd: pthreadCommand('callHandler'),
                 handler: 'bwWasmJitBrokerStatsReply',
                 args: [message.requestId, message.token || workerStatsToken, snapshotLocalStats()]
             });

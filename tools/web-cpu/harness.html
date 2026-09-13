@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Boxedwine CPU debugging</title>
+<link rel="icon" href="data:,">
+<style>body{font:14px system-ui;margin:2rem;background:#13212d;color:#eee}pre{white-space:pre-wrap}canvas{display:none}</style>
+<h1>Boxedwine CPU debugging</h1>
+<p>CPU regression tests, with no Wine filesystem or game assets required. Open DevTools to inspect Wasm functions and source maps.</p>
+<pre id="output">Loading…</pre><canvas id="canvas"></canvas>
+<script>
+const query = new URLSearchParams(location.search);
+const build = query.get('build') || 'profile/TestJit';
+if (!/^(release|profile|debug)\/(Test|TestJit|TestMultiThreaded|TestMultiThreadedJit)$/.test(build)) throw new Error('Invalid build');
+const base = `/project/emscripten/Build/WebCPU/${build}/`;
+const testArgs = query.has('arg') ? query.getAll('arg') : ['-fast'];
+const lines = [];
+function print(text) {
+    console.log(text);
+    lines.push(String(text));
+    if (lines.length > 500) lines.shift();
+    document.querySelector('#output').textContent = lines.join('\n');
+}
+var Module = {
+    arguments: testArgs,
+    // --emrun replaces arguments with the raw query string before preInit.
+    // Mutate that array in place: Emscripten's programArgs already references it.
+    preInit() { Module.arguments.splice(0, Module.arguments.length, ...testArgs); },
+    canvas: document.querySelector('#canvas'),
+    locateFile: name => base + name,
+    print,
+    printErr: text => { console.error(text); },
+    onAbort: reason => { console.error(`BOXEDWINE_ABORT: ${reason}`); }
+};
+const script = document.createElement('script');
+script.src = base + 'boxedwine.js';
+script.onerror = () => print('Build missing: run tools/web-cpu/cpu.py build with this mode and target');
+document.body.appendChild(script);
+</script>
+</html>

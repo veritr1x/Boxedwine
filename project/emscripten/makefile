@@ -1,3 +1,5 @@
+BUILD_ROOT ?= Build
+
 ifndef BUILD_DIR
 
 .PHONY: default all clean release test testMultiThreaded multiThreaded jit automation automationMultiThreaded automationJit automationMultiThreadedJit testJit testMultiThreadedJit multiThreadedJit
@@ -6,22 +8,22 @@ ZIP_ASSET_FILES := $(wildcard *.zip)
 
 default all: release
 
-release: export BUILD_DIR := Build/Release
+release: export BUILD_DIR := $(BUILD_ROOT)/Release
 release: export EXTRA_CPP_FLAGS := $(RELEASE_FLAGS)
 release: export SHELL_FILE := shell.html
 release: export ASSET_FILES := boxedwine.css boxedwine-shell.js $(ZIP_ASSET_FILES)
-test: export BUILD_DIR := Build/Test
+test: export BUILD_DIR := $(BUILD_ROOT)/Test
 test: export EXTRA_CPP_FLAGS := -D__TEST -DASMJIT_STATIC
 test: export SHELL_FILE := shelltest.html
 test: export EXTRA_LD_FLAGS := --emrun
-testMultiThreaded: export BUILD_DIR := Build/TestMultiThreaded
+testMultiThreaded: export BUILD_DIR := $(BUILD_ROOT)/TestMultiThreaded
 testMultiThreaded: export EXTRA_CPP_FLAGS := -D__TEST -DASMJIT_STATIC -DBOXEDWINE_MULTI_THREADED -pthread
 testMultiThreaded: export SHELL_FILE := shelltest.html
-testMultiThreaded: export EXTRA_LD_FLAGS := --emrun -pthread -sPTHREAD_POOL_SIZE=32 -sPROXY_TO_PTHREAD=1 -sOFFSCREENCANVAS_SUPPORT=0 --js-library=boxedwine-multithreaded-audio.js
+testMultiThreaded: export EXTRA_LD_FLAGS := --emrun -pthread -sPTHREAD_POOL_SIZE=$(or $(PTHREAD_POOL_SIZE),32) -sPROXY_TO_PTHREAD=1 -sOFFSCREENCANVAS_SUPPORT=0 --js-library=boxedwine-multithreaded-audio.js
 multiThreaded: export EXTRA_CPP_FLAGS := -DBOXEDWINE_MULTI_THREADED -pthread
-multiThreaded: export BUILD_DIR := Build/MultiThreaded
+multiThreaded: export BUILD_DIR := $(BUILD_ROOT)/MultiThreaded
 multiThreaded: export SHELL_FILE := shell.html
-multiThreaded: export EXTRA_LD_FLAGS := -pthread -sPTHREAD_POOL_SIZE=32 -sPROXY_TO_PTHREAD=1 -sOFFSCREENCANVAS_SUPPORT=0 --js-library=boxedwine-multithreaded-audio.js
+multiThreaded: export EXTRA_LD_FLAGS := -pthread -sPTHREAD_POOL_SIZE=$(or $(PTHREAD_POOL_SIZE),32) -sPROXY_TO_PTHREAD=1 -sOFFSCREENCANVAS_SUPPORT=0 --js-library=boxedwine-multithreaded-audio.js
 multiThreaded: export ASSET_FILES := boxedwine.css boxedwine-shell.js $(ZIP_ASSET_FILES)
 # WASM JIT build: emits each basic block as a raw one-function WASM module, then installs it standalone or merges it into a bounded runtime group.
 # Key flags:
@@ -33,7 +35,7 @@ multiThreaded: export ASSET_FILES := boxedwine.css boxedwine-shell.js $(ZIP_ASSE
 #                              blocks; without an explicit max,
 #                              ALLOW_MEMORY_GROWTH caps near 2 GiB.
 WASM_JIT_SIMD_FLAG := -msimd128
-jit: export BUILD_DIR := Build/Jit
+jit: export BUILD_DIR := $(BUILD_ROOT)/Jit
 jit: export EXTRA_CPP_FLAGS := -DBOXEDWINE_WASM_JIT $(WASM_JIT_SIMD_FLAG)
 jit: export SHELL_FILE := shell.html
 # _malloc/_free + HEAPU32: used by boxedwine-shell.js (finishGroupRelocPatching,
@@ -43,28 +45,28 @@ jit: export EXTRA_LD_FLAGS := $(WASM_JIT_SIMD_FLAG) -sALLOW_TABLE_GROWTH -sALLOW
 jit: export ASSET_FILES := boxedwine.css boxedwine-shell.js $(ZIP_ASSET_FILES)
 # CI browser automation targets use the production runtime flags, plus recorder
 # playback and --emrun so Jenkins can observe the browser exit status.
-automation: export BUILD_DIR := Build/Automation
+automation: export BUILD_DIR := $(BUILD_ROOT)/Automation
 automation: export EXTRA_CPP_FLAGS := $(RELEASE_FLAGS) -DBOXEDWINE_RECORDER
 automation: export SHELL_FILE := shell.html
 automation: export EXTRA_LD_FLAGS := --emrun -sEXIT_RUNTIME=1
 automation: export ASSET_FILES := boxedwine.css boxedwine-shell.js $(ZIP_ASSET_FILES)
-automationMultiThreaded: export BUILD_DIR := Build/AutomationMultiThreaded
+automationMultiThreaded: export BUILD_DIR := $(BUILD_ROOT)/AutomationMultiThreaded
 automationMultiThreaded: export EXTRA_CPP_FLAGS := -DBOXEDWINE_MULTI_THREADED -DBOXEDWINE_RECORDER -pthread
 automationMultiThreaded: export SHELL_FILE := shell.html
-automationMultiThreaded: export EXTRA_LD_FLAGS := --emrun -sEXIT_RUNTIME=1 -pthread -sPTHREAD_POOL_SIZE=32 -sPROXY_TO_PTHREAD=1 -sOFFSCREENCANVAS_SUPPORT=0 --js-library=boxedwine-multithreaded-audio.js
+automationMultiThreaded: export EXTRA_LD_FLAGS := --emrun -sEXIT_RUNTIME=1 -pthread -sPTHREAD_POOL_SIZE=$(or $(PTHREAD_POOL_SIZE),32) -sPROXY_TO_PTHREAD=1 -sOFFSCREENCANVAS_SUPPORT=0 --js-library=boxedwine-multithreaded-audio.js
 automationMultiThreaded: export ASSET_FILES := boxedwine.css boxedwine-shell.js $(ZIP_ASSET_FILES)
-automationJit: export BUILD_DIR := Build/AutomationJit
+automationJit: export BUILD_DIR := $(BUILD_ROOT)/AutomationJit
 automationJit: export EXTRA_CPP_FLAGS := -DBOXEDWINE_WASM_JIT -DBOXEDWINE_RECORDER $(WASM_JIT_SIMD_FLAG)
 automationJit: export SHELL_FILE := shell.html
 automationJit: export EXTRA_LD_FLAGS := $(WASM_JIT_SIMD_FLAG) --emrun -sEXIT_RUNTIME=1 -sALLOW_TABLE_GROWTH -sALLOW_MEMORY_GROWTH -sMAXIMUM_MEMORY=3221225472 -sEXPORTED_RUNTIME_METHODS=addFunction,removeFunction,wasmTable,HEAPU32 -sEXPORTED_FUNCTIONS=_main,_wasm_jit_import_from_file,_wasm_jit_set_persistence_active,_wasm_jit_set_record_active,_malloc,_free
 automationJit: export ASSET_FILES := boxedwine.css boxedwine-shell.js $(ZIP_ASSET_FILES)
 # Like the test target but with the WASM JIT enabled, so the CPU test suite
 # exercises JIT-compiled blocks instead of the normal interpreter.
-testJit: export BUILD_DIR := Build/TestJit
+testJit: export BUILD_DIR := $(BUILD_ROOT)/TestJit
 testJit: export EXTRA_CPP_FLAGS := -D__TEST -DBOXEDWINE_WASM_JIT $(WASM_JIT_SIMD_FLAG)
 testJit: export SHELL_FILE := shelltest.html
 testJit: export EXTRA_LD_FLAGS := $(WASM_JIT_SIMD_FLAG) --emrun -sALLOW_TABLE_GROWTH -sALLOW_MEMORY_GROWTH -sMAXIMUM_MEMORY=3221225472 -sEXPORTED_RUNTIME_METHODS=addFunction,removeFunction
-testMultiThreadedJit: export BUILD_DIR := Build/TestMultiThreadedJit
+testMultiThreadedJit: export BUILD_DIR := $(BUILD_ROOT)/TestMultiThreadedJit
 testMultiThreadedJit: export EXTRA_CPP_FLAGS := -D__TEST -DBOXEDWINE_MULTI_THREADED -DBOXEDWINE_WASM_JIT $(WASM_JIT_SIMD_FLAG) -pthread
 testMultiThreadedJit: export SHELL_FILE := shelltest.html
 testMultiThreadedJit: export EXTRA_LD_FLAGS := $(WASM_JIT_SIMD_FLAG) --emrun -pthread -sPROXY_TO_PTHREAD=1 -sOFFSCREENCANVAS_SUPPORT=0 --pre-js=boxedwine-wasm-jit-module-broker.js --js-library=boxedwine-multithreaded-audio.js -sPTHREAD_POOL_SIZE=$(or $(PTHREAD_POOL_SIZE),32) -sALLOW_TABLE_GROWTH -sALLOW_MEMORY_GROWTH -sMAXIMUM_MEMORY=3221225472 -sEXPORTED_RUNTIME_METHODS=addFunction,removeFunction,wasmTable,HEAPU8 -sEXPORTED_FUNCTIONS=_main,_wasm_jit_mt_register,_wasm_jit_mt_register_group,_wasm_jit_mt_register_group_entry,_wasm_jit_mt_register_group_patch,_wasm_jit_mt_prepare_export,_wasm_jit_mt_set_module_broker_enabled,_wasm_jit_mt_broker_validate_module,_wasm_jit_mt_take_thread_start_owner,_wasm_jit_mt_copy_runtime_batch_stats,_wasm_jit_mt_record_group_worker_event,_wasm_jit_set_persistence_active,_wasm_jit_set_record_active,_malloc,_free
@@ -76,14 +78,14 @@ testMultiThreadedJit: export EXTRA_LD_FLAGS := $(WASM_JIT_SIMD_FLAG) --emrun -pt
 # Cross-process concurrent compilation could in principle race on
 # wasmTable.grow()/addFunction(); rare on the emscripten target since
 # typically only one Wine process runs.
-multiThreadedJit: export BUILD_DIR := Build/MultiThreadedJit
+multiThreadedJit: export BUILD_DIR := $(BUILD_ROOT)/MultiThreadedJit
 multiThreadedJit: export EXTRA_CPP_FLAGS := -DBOXEDWINE_MULTI_THREADED -DBOXEDWINE_WASM_JIT $(WASM_JIT_SIMD_FLAG) -pthread
 multiThreadedJit: export SHELL_FILE := shell.html
 # HEAPU8/_malloc/_free: used by boxedwine-shell.js (onRuntimeInitialized) to
 # copy server-zip cache entries into wasm memory for _wasm_jit_mt_register.
 multiThreadedJit: export EXTRA_LD_FLAGS := $(WASM_JIT_SIMD_FLAG) -pthread --pre-js=boxedwine-wasm-jit-module-broker.js --js-library=boxedwine-multithreaded-audio.js -sPTHREAD_POOL_SIZE=$(or $(PTHREAD_POOL_SIZE),32) -sALLOW_TABLE_GROWTH -sALLOW_MEMORY_GROWTH -sMAXIMUM_MEMORY=3221225472 -sEXPORTED_RUNTIME_METHODS=addFunction,removeFunction,wasmTable,HEAPU8 -sEXPORTED_FUNCTIONS=_main,_wasm_jit_mt_register,_wasm_jit_mt_register_group,_wasm_jit_mt_register_group_entry,_wasm_jit_mt_register_group_patch,_wasm_jit_mt_prepare_export,_wasm_jit_mt_set_module_broker_enabled,_wasm_jit_mt_broker_validate_module,_wasm_jit_mt_take_thread_start_owner,_wasm_jit_mt_copy_runtime_batch_stats,_wasm_jit_mt_record_group_worker_event,_wasm_jit_set_persistence_active,_wasm_jit_set_record_active,_malloc,_free
 multiThreadedJit: export ASSET_FILES := boxedwine.css boxedwine-shell.js $(ZIP_ASSET_FILES)
-automationMultiThreadedJit: export BUILD_DIR := Build/AutomationMultiThreadedJit
+automationMultiThreadedJit: export BUILD_DIR := $(BUILD_ROOT)/AutomationMultiThreadedJit
 automationMultiThreadedJit: export EXTRA_CPP_FLAGS := -DBOXEDWINE_MULTI_THREADED -DBOXEDWINE_WASM_JIT -DBOXEDWINE_RECORDER $(WASM_JIT_SIMD_FLAG) -pthread
 automationMultiThreadedJit: export SHELL_FILE := shell.html
 automationMultiThreadedJit: export EXTRA_LD_FLAGS := $(WASM_JIT_SIMD_FLAG) --emrun -sEXIT_RUNTIME=1 -pthread --pre-js=boxedwine-wasm-jit-module-broker.js --js-library=boxedwine-multithreaded-audio.js -sPTHREAD_POOL_SIZE=$(or $(PTHREAD_POOL_SIZE),32) -sALLOW_TABLE_GROWTH -sALLOW_MEMORY_GROWTH -sMAXIMUM_MEMORY=3221225472 -sEXPORTED_RUNTIME_METHODS=addFunction,removeFunction,wasmTable,HEAPU8 -sEXPORTED_FUNCTIONS=_main,_wasm_jit_mt_register,_wasm_jit_mt_register_group,_wasm_jit_mt_register_group_entry,_wasm_jit_mt_register_group_patch,_wasm_jit_mt_prepare_export,_wasm_jit_mt_set_module_broker_enabled,_wasm_jit_mt_broker_validate_module,_wasm_jit_mt_take_thread_start_owner,_wasm_jit_mt_copy_runtime_batch_stats,_wasm_jit_mt_record_group_worker_event,_wasm_jit_set_persistence_active,_wasm_jit_set_record_active,_malloc,_free
@@ -100,7 +102,7 @@ release test testMultiThreaded testJit testMultiThreadedJit multiThreaded jit au
 	@$(MAKE)
 
 clean:
-	$(RM) -r Build
+	$(RM) -r $(BUILD_ROOT)
 
 else
 
@@ -161,9 +163,9 @@ TEST_SOURCES += $(PROJDIR)/lib/zlib/contrib/minizip/mztools.c
 TEST_SOURCES += $(PROJDIR)/lib/zlib/contrib/minizip/unzip.c
 TEST_SOURCES += $(PROJDIR)/lib/zlib/contrib/minizip/zip.c
 
-ifneq (,$(filter $(BUILD_DIR),Build/Test Build/TestMultiThreaded))
+ifneq (,$(filter $(BUILD_DIR),$(BUILD_ROOT)/Test $(BUILD_ROOT)/TestMultiThreaded))
 SRCS := $(TEST_SOURCES)
-else ifneq (,$(filter $(BUILD_DIR),Build/TestJit Build/TestMultiThreadedJit))
+else ifneq (,$(filter $(BUILD_DIR),$(BUILD_ROOT)/TestJit $(BUILD_ROOT)/TestMultiThreadedJit))
 # Test JIT builds: use the test sources but swap in the WASM JIT emulation sources
 # (exclude x32/armv8 backends which have their own startNewJIT definitions).
 TESTJIT_EMULATION := $(shell find $(PROJDIR)/source/emulation -type f -name '*.cpp' | grep -v '/x32/' | grep -v '/armv8/')
@@ -215,6 +217,11 @@ LDFLAGS = $(OPTIMIZATION_FLAGS) $(TAIL_CALL_FLAG) -s FORCE_FILESYSTEM -lidbfs.js
 
 # Use a clean build directory when changing this option. Names are metadata;
 # instruction-level timing counters remain disabled for sampling profiles.
+ifeq ($(WASM_DEBUG),1)
+CPPFLAGS += -g3 -DBOXEDWINE_WASM_JIT_NAMES
+LDFLAGS += -g3 -gsource-map --emit-symbol-map -sASSERTIONS=2 -sSTACK_OVERFLOW_CHECK=2
+endif
+
 ifeq ($(WASM_PROFILING),1)
 GCC_EXTRA_FLAGS += -DBOXEDWINE_WASM_JIT_NAMES
 LDFLAGS += --profiling-funcs
@@ -235,12 +242,13 @@ $(ASSET_OUTPUTS): $(BUILD_DIR)/%: %
 #$(TEST_BUILD_DIR)/boxedwineTest: $(TEST_OBJS)
 #	$(CC) $(TEST_OBJS) -o $@ $(LDFLAGS)
 
-ifneq (,$(filter $(BUILD_DIR),Build/TestMultiThreadedJit Build/MultiThreadedJit Build/AutomationMultiThreadedJit))
-$(BUILD_DIR)/$(TARGET_EXEC): boxedwine-wasm-jit-module-broker.js
+ifneq (,$(filter $(BUILD_DIR),$(BUILD_ROOT)/TestMultiThreadedJit $(BUILD_ROOT)/MultiThreadedJit $(BUILD_ROOT)/AutomationMultiThreadedJit))
+LDFLAGS += --js-library=boxedwine-pthread-abi.js '-sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=["$$bwWasmPthreadCommands"]'
+$(BUILD_DIR)/$(TARGET_EXEC): boxedwine-wasm-jit-module-broker.js boxedwine-pthread-abi.js
 endif
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(ALL)
-	@$(CC) $(ALL) -o $@ $(LDFLAGS)
+	@$(CXX) $(ALL) -o $@ $(LDFLAGS)
 
 # assembly
 $(BUILD_DIR)/%.s.o: %.s

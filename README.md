@@ -4,6 +4,10 @@ Boxedwine is an emulator that runs Windows applications.  It achieves this by ru
 
 Boxedwine is open source and released under the terms of the GNU General Public License v2 (GPL).
 
+This fork starts with CPU tooling and performance work on the existing WebAssembly
+JIT. See [Web CPU development](docs/Web-CPU-Development.md) for isolated builds,
+named tests, browser worker profiles, source debugging, and the Populous benchmark plan.
+
 ## Features
 
 - Runs 16/32-bit Windows programs
@@ -19,7 +23,7 @@ Boxedwine is open source and released under the terms of the GNU General Public 
 
 ## TODOs
 
-- Emscripten/Web Boxedwine is still slow, need to implement a JIT.  Multi-threaded build also studders with sound.
+- Improve the existing Emscripten/WebAssembly JIT (`jit` and `multiThreadedJit` build targets), compilation latency, and multithreaded audio scheduling. Browser performance and audio still need work.
 - Mac OpenGL does not work with frame buffers
 - Games after the year 2010 have limitted success at running
 - Newer versions of .NET don't work

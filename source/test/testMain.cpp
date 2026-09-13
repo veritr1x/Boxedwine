@@ -1030,6 +1030,8 @@ struct TestRunArgs {
     U32 workerCount = 0;
     bool fast = false;
     bool disableLinearMemory = false;
+    bool list = false;
+    const char* filter = nullptr;
 };
 
 TestRunArgs parseTestRunArgs(int argc, char** argv) {
@@ -1037,6 +1039,18 @@ TestRunArgs parseTestRunArgs(int argc, char** argv) {
     int positional = 0;
 
     for (int i = 1; i < argc; ++i) {
+        if (!strcmp(argv[i], "--list-tests")) {
+            args.list = true;
+            continue;
+        }
+        if (!strcmp(argv[i], "--filter")) {
+            if (++i == argc || !*argv[i]) {
+                fprintf(stderr, "--filter requires a non-empty, case-sensitive name substring\n");
+                exit(2);
+            }
+            args.filter = argv[i];
+            continue;
+        }
         if (!strcmp(argv[i], "-fast")) {
             args.fast = true;
             continue;
@@ -1060,7 +1074,8 @@ TestRunArgs parseTestRunArgs(int argc, char** argv) {
 }
 
 int runTestTests(size_t startEntry = 0, size_t requestedCount = 0, U32 workerCount = 0,
-    bool fast = false, bool disableLinearMemory = false) {
+    bool fast = false, bool disableLinearMemory = false, const char* filter = nullptr,
+    bool list = false) {
     size_t entryCount = sizeof(TEST_ENTRIES) / sizeof(TEST_ENTRIES[0]);
     totalFails = 0;
     testSetFastMode(fast);
@@ -1072,6 +1087,23 @@ int runTestTests(size_t startEntry = 0, size_t requestedCount = 0, U32 workerCou
     if (requestedCount && requestedCount < runCount) {
         runCount = requestedCount;
     }
+    std::vector<TestEntry> selected;
+    for (size_t i = startEntry; i < startEntry + runCount; ++i) {
+        if (!filter || strstr(TEST_ENTRIES[i].name, filter)) {
+            selected.push_back(TEST_ENTRIES[i]);
+            if (list) {
+                printf("%zu\t%s\n", i, TEST_ENTRIES[i].name);
+            }
+        }
+    }
+    if (selected.empty()) {
+        fprintf(stderr, "No tests matched the requested range/filter\n");
+        return 2;
+    }
+    if (list) {
+        return 0;
+    }
+    runCount = selected.size();
 
 #if !defined(BOXEDWINE_MULTI_THREADED)
     workerCount = 1;
@@ -1105,7 +1137,7 @@ int runTestTests(size_t startEntry = 0, size_t requestedCount = 0, U32 workerCou
     KSystem::init(disableLinearMemory);
     KSystem::videoOption = VIDEO_NO_WINDOW;
     U32 startTime = KSystem::getMilliesSinceStart();
-    testRunParallel(TEST_ENTRIES + startEntry, runCount, workerCount);
+    testRunParallel(selected.data(), runCount, workerCount);
 #if defined(BOXEDWINE_MULTI_THREADED) && !defined(__EMSCRIPTEN__)
     stopNativeSocketsThread();
 #endif
@@ -1117,7 +1149,7 @@ int runTestTests(size_t startEntry = 0, size_t requestedCount = 0, U32 workerCou
 int runTestTestsFromArgs(int argc, char** argv) {
     TestRunArgs args = parseTestRunArgs(argc, argv);
     return runTestTests(args.startEntry, args.requestedCount, args.workerCount, args.fast,
-        args.disableLinearMemory);
+        args.disableLinearMemory, args.filter, args.list);
 }
 
 #ifdef __MACH__

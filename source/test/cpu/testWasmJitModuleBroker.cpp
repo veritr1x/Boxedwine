@@ -83,7 +83,7 @@ EM_JS(void, testWasmJitBrokerDeliveryBarrier, (U32 moduleId, S32* expected, S32*
     Atomics.store(HEAP32, received >> 2, 0);
     var pthread = typeof _pthread_self === 'function' ? _pthread_self() : 0;
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerDeliveryBarrier',
         args: [moduleId, pthread, expected, received]
     });
@@ -94,7 +94,7 @@ EM_JS(void, testWasmJitBrokerPublishRaw, (U32 moduleId, U32 memoryId, U32 memory
     var module = new WebAssembly.Module(new Uint8Array(HEAPU8.buffer, bytes, size));
     if (typeof ENVIRONMENT_IS_PTHREAD !== 'undefined' && ENVIRONMENT_IS_PTHREAD) {
         postMessage({
-            cmd: 'callHandler',
+            cmd: globalThis.bwWasmPthreadCommand('callHandler'),
             handler: 'bwWasmJitBrokerPublish',
             args: [moduleId, memoryId, memoryIncarnation, module,
                 typeof _pthread_self === 'function' ? _pthread_self() : 0,
@@ -112,7 +112,7 @@ EM_JS(void, testWasmJitBrokerPublishRawWithoutSource,
     var module = new WebAssembly.Module(new Uint8Array(HEAPU8.buffer, bytes, size));
     if (typeof ENVIRONMENT_IS_PTHREAD !== 'undefined' && ENVIRONMENT_IS_PTHREAD) {
         postMessage({
-            cmd: 'callHandler',
+            cmd: globalThis.bwWasmPthreadCommand('callHandler'),
             handler: 'bwWasmJitBrokerPublish',
             args: [moduleId, memoryId, memoryIncarnation, module, 0,
                 moduleClass, representedBlockCount]
@@ -126,7 +126,7 @@ EM_JS(void, testWasmJitBrokerPublishRawWithoutSource,
 EM_JS(void, testWasmJitBrokerPublicationBarrier,
         (U32 moduleId, S32* preloadSent, S32* receivedCacheEntries, S32* done), {
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerPublicationBarrier',
         args: [moduleId, preloadSent, receivedCacheEntries, done]
     });
@@ -136,7 +136,7 @@ EM_JS(void, testWasmJitBrokerSelectPreload,
         (U32 memoryId, U32 memoryIncarnation, const U32* heldIds, U32 heldCount,
          U32* sentIds, U32 sentCapacity, S32* sentCount, S32* done), {
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerSelectPreload',
         args: [memoryId, memoryIncarnation,
             Array.from(new Uint32Array(HEAPU8.buffer, heldIds, heldCount)),
@@ -149,7 +149,7 @@ EM_JS(void, testWasmJitBrokerSetTestPreloadCandidate,
          U32 moduleClass, U32 representedBlockCount, S32 duplicatePublications,
          S32 enabled, S32* status), {
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerSetTestPreloadCandidate',
         args: [templateModuleId, moduleId, memoryId, memoryIncarnation,
             moduleClass, representedBlockCount, duplicatePublications, enabled, status]
@@ -162,7 +162,7 @@ EM_JS(void, testWasmJitBrokerReleaseRaw, (U32 moduleId, U32 memoryId, U32 memory
 
 EM_JS(void, testWasmJitBrokerCopyMainStats, (WasmJitMtBrokerMainStatsSnapshot* snapshot, S32* done), {
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerCopyMainStats',
         args: [snapshot, done]
     });
@@ -175,7 +175,7 @@ EM_JS(void, testWasmJitBrokerPurgeBarrier, (U32 moduleId, U32 memoryId, U32 memo
     Atomics.store(HEAP32, cached >> 2, 0);
     var pthread = typeof _pthread_self === 'function' ? _pthread_self() : 0;
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerPurgeBarrier',
         args: [moduleId, memoryId, memoryIncarnation, pthread, expected, received, cached]
     });
@@ -202,7 +202,7 @@ EM_JS(void, testWasmJitBrokerCopyHolderCounts,
         (U32 moduleId, S32* holders, S32* workers, S32* done), {
     var pthread = typeof _pthread_self === 'function' ? _pthread_self() : 0;
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerCopyHolderCounts',
         args: [moduleId, pthread, holders, workers, done]
     });
@@ -211,7 +211,7 @@ EM_JS(void, testWasmJitBrokerCopyHolderCounts,
 EM_JS(void, testWasmJitBrokerTrackPurges, (U32 memoryId, U32 memoryIncarnation, S32* done), {
     var pthread = typeof _pthread_self === 'function' ? _pthread_self() : 0;
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerTrackPurges',
         args: [memoryId, memoryIncarnation, pthread, done]
     });
@@ -226,7 +226,7 @@ EM_JS(void, testWasmJitBrokerPurgeCountBarrier,
     Atomics.store(HEAP32, cachedModules >> 2, 0);
     var pthread = typeof _pthread_self === 'function' ? _pthread_self() : 0;
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerPurgeCountBarrier',
         args: [memoryId, memoryIncarnation, pthread,
             expected, received, purgeMessages, cachedModules]
@@ -235,7 +235,7 @@ EM_JS(void, testWasmJitBrokerPurgeCountBarrier,
 
 EM_JS(void, testWasmJitBrokerCopyQueryDisabled, (S32* queryDisabled, S32* done), {
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerCopyQueryDisabled',
         args: [queryDisabled, done]
     });
@@ -243,7 +243,7 @@ EM_JS(void, testWasmJitBrokerCopyQueryDisabled, (S32* queryDisabled, S32* done),
 
 EM_JS(void, testWasmJitBrokerSetDeliveryFailure, (U32 moduleId, S32 enabled, S32* done), {
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerSetDeliveryFailure',
         args: [moduleId, enabled, done]
     });
@@ -251,7 +251,7 @@ EM_JS(void, testWasmJitBrokerSetDeliveryFailure, (U32 moduleId, S32 enabled, S32
 
 EM_JS(void, testWasmJitBrokerSetDeliveryOom, (U32 moduleId, S32 enabled, S32* done), {
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerSetDeliveryOom',
         args: [moduleId, enabled, done]
     });
@@ -263,7 +263,7 @@ EM_JS(void, testWasmJitBrokerSetCompileOom, (U32 moduleId, S32 enabled), {
 
 EM_JS(void, testWasmJitBrokerSetDropNextRun, (S32 enabled, S32* done), {
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerSetDropNextRun',
         args: [enabled, done]
     });
@@ -271,7 +271,7 @@ EM_JS(void, testWasmJitBrokerSetDropNextRun, (S32 enabled, S32* done), {
 
 EM_JS(void, testWasmJitBrokerBootstrapOwnerMiss, (S32* done), {
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerTestBootstrapOwnerMiss',
         args: [done]
     });
@@ -286,7 +286,7 @@ EM_JS(void, testWasmJitBrokerCopyPreloadOomScope,
          U32 secondModuleId, U32 secondMemoryId, U32 secondMemoryIncarnation,
          U32* snapshot, S32* done), {
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerCopyPreloadOomScope',
         args: [firstModuleId, firstMemoryId, firstMemoryIncarnation,
             secondModuleId, secondMemoryId, secondMemoryIncarnation,
@@ -296,7 +296,7 @@ EM_JS(void, testWasmJitBrokerCopyPreloadOomScope,
 
 EM_JS(void, testWasmJitBrokerCopyPublicPreloadLimit, (S32* preloadModuleLimit, S32* done), {
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerCopyPublicPreloadLimit',
         args: [preloadModuleLimit, done]
     });
@@ -329,7 +329,7 @@ EM_JS(void, testWasmJitBrokerCopyOwnerRowCounts,
             byOwner: []
         };
     postMessage({
-        cmd: 'callHandler',
+        cmd: globalThis.bwWasmPthreadCommand('callHandler'),
         handler: 'bwWasmJitBrokerCopyOwnerRowCounts',
         args: [mainRows, workerRows, workerStats, workerCapacity, workerCount,
             expectedWorkers, repliedWorkers, missingWorkers, runMessages,

@@ -262,3 +262,7 @@ commands above on a new machine; no private game assets are included.
 The first Majesty HD optimization consolidates timestamp lookups per guest stat.
 See [the measured startup result](Web-Majesty-Startup-Optimization.md) for the
 three-pair comparison, compatibility coverage, and private reproduction inputs.
+
+The second Majesty HD optimization avoids rebuilding resolved paths for attribute
+existence checks. See [the matched result](Web-Majesty-XAttr-Optimization.md) for
+the additional startup reduction and filesystem compatibility checks.

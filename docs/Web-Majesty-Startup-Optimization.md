@@ -49,3 +49,6 @@ The candidate enters a rendered Random (Beginner) mission. Treasury advances fro
 - MT, native MSVC, audio, persistence, D3D9/WebGPU performance and sustained gameplay are outside this validation. Existing MT failures remain unresolved.
 
 This is a startup optimization. It does not establish an FPS improvement or remove the shared JIT-dispatch hotspot during gameplay.
+
+The next isolated [attribute existence optimization](Web-Majesty-XAttr-Optimization.md)
+was subsequently measured against this timestamp baseline in a new three-pair series.

@@ -34,6 +34,10 @@
 #include UNISTD
 #include MKDIR_INCLUDE
 
+#if defined(__EMSCRIPTEN__) && !defined(BOXEDWINE_MULTI_THREADED)
+#include <emscripten.h>
+#endif
+
 std::atomic_int Fs::nextNodeId=1;
 
 std::shared_ptr<FsFileNode> Fs::rootNode;
@@ -610,6 +614,55 @@ BString Fs::trimTrailingSlash(const BString& s) {
     return s;
 }
 
+#if defined(__EMSCRIPTEN__) && !defined(BOXEDWINE_MULTI_THREADED)
+// F_OK only: walking nodes avoids rebuilding/normalizing the resolved path at
+// every component in FS.lookupPath. Keep the ordinary libc path for symlinks,
+// mount points and non-canonical paths. Nothing is cached between requests.
+EM_JS(int, boxedwine_wasm_xattr_exists, (const char* nativePath), {
+    if (typeof FS === 'undefined' || !FS.root ||
+        typeof FS.lookupNode !== 'function') {
+        return -1;
+    }
+    var path = UTF8ToString(nativePath);
+    if (!path.startsWith('/')) {
+        return -1;
+    }
+    var parts = path.split('/');
+    for (var i = 1; i < parts.length; i++) {
+        if (!parts[i] || parts[i] === '.' || parts[i] === '..') {
+            return -1;
+        }
+    }
+    try {
+        var node = FS.root;
+        for (var i = 1; i < parts.length; i++) {
+            // lookupNode retains the filesystem's permission checks, name
+            // lookup rules and backend lookup operation.
+            node = FS.lookupNode(node, parts[i]);
+            if (FS.isLink(node.mode) || FS.isMountpoint(node)) {
+                return -1;
+            }
+        }
+        return node ? 1 : 0;
+    } catch (e) {
+        if (e && e.name === 'ErrnoError') {
+            return 0; // access(F_OK) also reports these failures as absent.
+        }
+        throw e;
+    }
+});
+#endif
+
+static bool xAttrSidecarExists(const BString& nativePath) {
+#if defined(__EMSCRIPTEN__) && !defined(BOXEDWINE_MULTI_THREADED)
+    int result = boxedwine_wasm_xattr_exists(nativePath.c_str());
+    if (result >= 0) {
+        return result != 0;
+    }
+#endif
+    return Fs::doesNativePathExist(nativePath);
+}
+
 static BString getXAttrNativePath(const std::shared_ptr<FsNode>& file, const BString& name) {
     if (name == "user.DOSATTRIB") {
         return file->getNativePathForData() + EXT_DOSATTRIB;
@@ -625,7 +678,7 @@ U32 Fs::getXAttr(const std::shared_ptr<FsNode>& file, const BString& name, std::
     if (nativePath.isEmpty()) {
         return -K_ENOTSUP;
     }
-    if (!Fs::doesNativePathExist(nativePath)) {
+    if (!xAttrSidecarExists(nativePath)) {
         return -K_ENODATA;
     }
     U64 len = Fs::getNativeFileSize(nativePath);

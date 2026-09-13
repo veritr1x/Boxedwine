@@ -129,6 +129,10 @@ void testMemfdPwriteUpdatesResidentSharedMapping();
 void testMemfdPwriteRejectsUnrepresentableOffset();
 void testProcessVmReadvUsesRemoteFileMappingContext();
 void testReadDirectoryReturnsIsDir();
+void testXAttrSidecarsObserveMutations();
+#if defined(__EMSCRIPTEN__) && !defined(BOXEDWINE_MULTI_THREADED)
+void testWasmXAttrLookupMatchesAccess();
+#endif
 void testStatTimestampSnapshotMutationAndAliases();
 #ifdef BOXEDWINE_ZLIB
 void testStatTimestampSnapshotZipCopyOnWrite();
@@ -978,6 +982,10 @@ const TestEntry TEST_ENTRIES[] = {
     {testMemfdPwriteRejectsUnrepresentableOffset, "Test memfd pwrite rejects unrepresentable offset", TEST_ENTRY_SERIAL},
     {testProcessVmReadvUsesRemoteFileMappingContext, "Test process_vm_readv uses remote file mapping context", TEST_ENTRY_SERIAL},
     {testReadDirectoryReturnsIsDir, "Test read on directory returns EISDIR", TEST_ENTRY_SERIAL},
+    {testXAttrSidecarsObserveMutations, "Test xattr sidecars observe mutations", TEST_ENTRY_SERIAL},
+#if defined(__EMSCRIPTEN__) && !defined(BOXEDWINE_MULTI_THREADED)
+    {testWasmXAttrLookupMatchesAccess, "Test Wasm xattr lookup matches access", TEST_ENTRY_SERIAL},
+#endif
     {testStatTimestampSnapshotMutationAndAliases, "Test stat timestamp snapshot mutations and aliases", TEST_ENTRY_SERIAL},
 #ifdef BOXEDWINE_ZLIB
     {testStatTimestampSnapshotZipCopyOnWrite, "Test stat timestamp snapshot zip copy-on-write", TEST_ENTRY_SERIAL},

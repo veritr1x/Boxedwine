@@ -42,6 +42,11 @@
 #include <thread>
 #include <unordered_set>
 
+#if defined(__EMSCRIPTEN__) && !defined(BOXEDWINE_MULTI_THREADED)
+#include <emscripten.h>
+extern "C" int boxedwine_wasm_xattr_exists(const char* nativePath);
+#endif
+
 #ifdef UTIME_OMIT
 #undef UTIME_OMIT
 #endif
@@ -5730,6 +5735,176 @@ void testReadDirectoryReturnsIsDir() {
     cleanupRoot(root);
 }
 
+
+
+void testXAttrSidecarsObserveMutations() {
+    TestContext& context = testContext();
+    KProcessPtr process = context.process;
+    KMemory* memory = context.memory;
+    // Absolute backing paths exercise the Wasm shortcut, as the web shell does.
+    BString root = BString::copy(std::filesystem::absolute("tmp/test-xattr-live-root").string().c_str());
+    cleanupRoot(root);
+    initTestFileSystem(root);
+    Fs::makeLocalDirs(B("/tmp"));
+    U32 fd = process->open(B("/tmp/attrs"), K_O_CREAT | K_O_RDWR, 0666);
+    if ((S32)fd < 0) {
+        testFail("xattr file open failed");
+        cleanupRoot(root);
+        return;
+    }
+    auto node = Fs::getNodeFromLocalPath(B(""), B("/tmp/attrs"), false);
+    const BString name = B("user.WINEREPARSE");
+    std::vector<U8> value;
+    auto get = [&](const BString& attribute, U32 address, U32 size) {
+        memory->memcpy(STAT_A, attribute.c_str(), attribute.length() + 1);
+        CPU* cpu = context.thread->cpu;
+        cpu->reg[0].u32 = 231; // fgetxattr
+        cpu->reg[3].u32 = fd;
+        cpu->reg[1].u32 = STAT_A;
+        cpu->reg[2].u32 = address;
+        cpu->reg[6].u32 = size;
+        cpu->eip.u32 = 0;
+        ksyscall(cpu, 2);
+        return cpu->reg[0].u32;
+    };
+    expectU32("absent xattr", get(name, 0, 0), -K_ENODATA);
+    expectU32("unsupported xattr", get(B("user.unsupported"), 0, 0), -K_ENOTSUP);
+    const U8 first[] = {0x11, 0, 0x22, 0x33, 0x44};
+    expectZero("set binary xattr", Fs::setXAttr(node, name, first, sizeof(first)));
+    expectU32("xattr length query", get(name, 0, 0), sizeof(first));
+    memory->writed(BUFFER, 0xa5a5a5a5);
+    expectU32("short xattr buffer", get(name, BUFFER, 2), -K_ERANGE);
+    expectU32("short xattr buffer unchanged", memory->readd(BUFFER), 0xa5a5a5a5);
+    expectU32("null xattr buffer", get(name, 0, sizeof(first)), -K_EFAULT);
+    memory->writeb(BUFFER + sizeof(first), 0xa5);
+    expectU32("binary xattr read", get(name, BUFFER, sizeof(first)), sizeof(first));
+    for (U32 i = 0; i < sizeof(first); i++) {
+        expectU32("binary xattr byte", memory->readb(BUFFER + i), first[i]);
+    }
+    expectU32("xattr buffer canary", memory->readb(BUFFER + sizeof(first)), 0xa5);
+
+    expectZero("set empty xattr", Fs::setXAttr(node, name, nullptr, 0));
+    expectU32("empty xattr exists", get(name, BUFFER, 16), 0);
+    expectZero("remove empty xattr", Fs::removeXAttr(node, name));
+    expectU32("removed xattr absent", get(name, 0, 0), -K_ENODATA);
+    // Mutations outside Fs::setXAttr must be observed without an invalidation hook.
+    BString sidecar = node->getNativePathForData() + EXT_WINEREPARSE;
+    {
+        BWriteFile file(sidecar, true);
+        expectU32("external sidecar write", file.write(first, sizeof(first)), sizeof(first));
+    }
+    expectU32("externally created xattr visible", get(name, 0, 0), sizeof(first));
+    std::filesystem::remove(sidecar.c_str());
+    expectU32("externally removed xattr absent", get(name, 0, 0), -K_ENODATA);
+
+    expectZero("link xattr file", process->link(B("/tmp/attrs"), B("/tmp/alias")));
+    auto alias = Fs::getNodeFromLocalPath(B(""), B("/tmp/alias"), false);
+    expectZero("set xattr through alias", Fs::setXAttr(alias, name, first, sizeof(first)));
+    expectU32("held fd sees alias xattr", get(name, 0, 0), sizeof(first));
+    expectZero("rename xattr alias", process->rename(B("/tmp/alias"), B("/tmp/renamed")));
+    expectZero("get renamed xattr", Fs::getXAttr(alias, name, value));
+    expectBytes("renamed xattr bytes", value, first, sizeof(first));
+    expectZero("remove xattr through renamed alias", Fs::removeXAttr(alias, name));
+    expectU32("held fd sees alias removal", get(name, 0, 0), -K_ENODATA);
+    expectZero("set DOS attribute", Fs::setXAttr(node, B("user.DOSATTRIB"), first, sizeof(first)));
+    expectU32("DOS attribute read", get(B("user.DOSATTRIB"), 0, 0), sizeof(first));
+    process->close(fd);
+    cleanupRoot(root);
+}
+
+#if defined(__EMSCRIPTEN__) && !defined(BOXEDWINE_MULTI_THREADED)
+void testWasmXAttrLookupMatchesAccess() {
+    const char* stage = "initial cleanup";
+    try {
+        const BString root = B("/tmp/test-wasm-xattr-paths");
+        std::filesystem::remove_all(root.c_str());
+        stage = "create directories";
+        std::filesystem::create_directories((root + B("/dir/deep")).c_str());
+        const BString file = root + B("/dir/deep/data");
+        { BWriteFile out(file, true); out.write("x", 1); }
+        auto check = [&](const BString& path, int expectedFast) {
+            int fast = boxedwine_wasm_xattr_exists(path.c_str());
+            expectU32("xattr path shortcut decision", (U32)fast, (U32)expectedFast);
+            if (fast >= 0) {
+                expectU32("xattr path agrees with access", fast, ::access(path.c_str(), 0) == 0);
+            }
+        };
+        stage = "simple path checks";
+        check(file, 1);
+        check(root + B("/dir/deep/missing"), 0);
+        check(root + B("/missing/deep/data"), 0);
+        check(file + B("/child"), 0); // ENOTDIR
+        check(root + B("/dir/deep"), 1);
+        check(file + B("/"), -1);
+        check(root + B("/dir/./deep/data"), -1);
+        check(root + B("/dir/deep/../deep/data"), -1);
+        check(root + B("//dir/deep/data"), -1);
+        check(B("tmp/test-wasm-xattr-paths/dir/deep/data"), -1);
+        check(B(""), -1);
+
+        // Native symlinks differ from Boxedwine's .link sidecars. The ordinary
+        // access path remains responsible for following links and detecting loops.
+        stage = "symlinks";
+        const BString link = root + B("/link");
+        std::filesystem::create_symlink("dir/deep", link.c_str());
+        check(link + B("/data"), -1);
+        std::filesystem::create_symlink("absent", (root + B("/dangling")).c_str());
+        check(root + B("/dangling"), -1);
+        std::filesystem::create_symlink("loop", (root + B("/loop")).c_str());
+        check(root + B("/loop"), -1);
+        stage = "sidecar mutation";
+        expectU32("live sidecar path initially missing", boxedwine_wasm_xattr_exists((file + EXT_DOSATTRIB).c_str()), 0);
+        { BWriteFile out(file + EXT_DOSATTRIB, true); out.write("value", 5); }
+        check(file + EXT_DOSATTRIB, 1);
+        std::vector<U8> value;
+        auto linked = Fs::createFileNode(B("/link/data"), B(""), link + B("/data"), false, nullptr);
+        expectZero("symlink xattr fallback", Fs::getXAttr(linked, B("user.DOSATTRIB"), value));
+        expectBytes("symlink xattr bytes", value, (const U8*)"value", 5);
+        std::filesystem::remove((file + EXT_DOSATTRIB).c_str());
+        check(file + EXT_DOSATTRIB, 0);
+
+        stage = "permissions";
+        expectZero("deny parent search", ::chmod((root + B("/dir")).c_str(), 0600));
+        check(file, 0);
+        expectZero("restore parent search", ::chmod((root + B("/dir")).c_str(), 0700));
+        check(file, 1);
+        stage = "directory rename";
+        std::filesystem::rename((root + B("/dir")).c_str(), (root + B("/moved")).c_str());
+        check(file, 0);
+        check(root + B("/moved/deep/data"), 1);
+        std::filesystem::create_directories((root + B("/dir/deep")).c_str());
+        check(file, 0); // Reusing a directory path must not reuse an old node.
+        { BWriteFile out(file, true); out.write("y", 1); }
+        check(file, 1);
+        stage = "unicode directory";
+        std::filesystem::create_directories((root + B("/naive-\xc3\xa9/plain")).c_str());
+        check(root + B("/naive-\xc3\xa9/plain"), 1);
+        // Object prototype members are not directory entries.
+        check(root + B("/naive-\xc3\xa9/__proto__"), 0);
+        check(root + B("/naive-\xc3\xa9/toString"), 0);
+
+        stage = "mount";
+        EM_ASM({
+            FS.mkdir('/tmp/test-wasm-xattr-paths/mount');
+            FS.mount(FS.filesystems.MEMFS, {}, '/tmp/test-wasm-xattr-paths/mount');
+            FS.writeFile('/tmp/test-wasm-xattr-paths/mount/data', new Uint8Array([1]));
+            FS.writeFile('/tmp/test-wasm-xattr-paths/mount/data.user.DOSATTRIB', new Uint8Array([2]));
+        });
+        check(root + B("/mount"), -1);
+        check(root + B("/mount/data"), -1);
+        auto mounted = Fs::createFileNode(B("/mount/data"), B(""), root + B("/mount/data"), false, nullptr);
+        expectZero("mounted xattr fallback", Fs::getXAttr(mounted, B("user.DOSATTRIB"), value));
+        const U8 mountedValue = 2;
+        expectBytes("mounted xattr byte", value, &mountedValue, 1);
+        EM_ASM({ FS.unmount('/tmp/test-wasm-xattr-paths/mount'); });
+        check(root + B("/mount/data"), 0);
+        stage = "final cleanup";
+        std::filesystem::remove_all(root.c_str());
+    } catch (const std::exception& error) {
+        testFail("Wasm xattr path fixture failed at %s: %s", stage, error.what());
+    }
+}
+#endif
 
 void testStatTimestampSnapshotMutationAndAliases() {
     TestContext& context = testContext();

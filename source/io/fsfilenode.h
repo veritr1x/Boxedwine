@@ -63,6 +63,7 @@ public:
     U32 lastModifiedNano() override;
     U64 lastAccessed() override;
     U32 lastAccessedNano() override;
+    FsNodeTimes getTimes() override;
     U64 length() override;
     FsOpenNode* open(U32 flags) override;
     U32 getType(bool checkForLink) override;

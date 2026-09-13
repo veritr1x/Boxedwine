@@ -51,6 +51,17 @@ public:
 #endif
 };
 
+// Per-request timestamps. Milliseconds and nanosecond fractions follow the
+// existing accessors; no result is cached across filesystem mutations.
+struct FsNodeTimes {
+    U64 accessed = 0;
+    U32 accessedNano = 0;
+    U64 modified = 0;
+    U32 modifiedNano = 0;
+    U64 changed = 0;
+    U32 changedNano = 0;
+};
+
 class FsNode : public std::enable_shared_from_this<FsNode> {
 public:
     enum class Type
@@ -73,6 +84,7 @@ public:
     virtual U32 lastAccessedNano() { return (U32)(lastAccessed() % 1000) * 1000000; }
     virtual U64 lastStatusChanged() { return lastModified(); }
     virtual U32 lastStatusChangedNano() { return lastModifiedNano(); }
+    virtual FsNodeTimes getTimes();
     virtual U64 length()=0;
     virtual FsOpenNode* open(U32 flags)=0;    
     virtual U32 getType(bool checkForLink)=0;

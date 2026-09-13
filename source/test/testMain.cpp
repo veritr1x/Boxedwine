@@ -129,6 +129,10 @@ void testMemfdPwriteUpdatesResidentSharedMapping();
 void testMemfdPwriteRejectsUnrepresentableOffset();
 void testProcessVmReadvUsesRemoteFileMappingContext();
 void testReadDirectoryReturnsIsDir();
+void testStatTimestampSnapshotMutationAndAliases();
+#ifdef BOXEDWINE_ZLIB
+void testStatTimestampSnapshotZipCopyOnWrite();
+#endif
 void testUtimensatPreservesAccessTimeInStat();
 void testFutimensPreservesAccessTimeInFstat();
 void testFutimensTime64SignExtendedSecondsPreservesAccessTimeInFstat();
@@ -974,6 +978,10 @@ const TestEntry TEST_ENTRIES[] = {
     {testMemfdPwriteRejectsUnrepresentableOffset, "Test memfd pwrite rejects unrepresentable offset", TEST_ENTRY_SERIAL},
     {testProcessVmReadvUsesRemoteFileMappingContext, "Test process_vm_readv uses remote file mapping context", TEST_ENTRY_SERIAL},
     {testReadDirectoryReturnsIsDir, "Test read on directory returns EISDIR", TEST_ENTRY_SERIAL},
+    {testStatTimestampSnapshotMutationAndAliases, "Test stat timestamp snapshot mutations and aliases", TEST_ENTRY_SERIAL},
+#ifdef BOXEDWINE_ZLIB
+    {testStatTimestampSnapshotZipCopyOnWrite, "Test stat timestamp snapshot zip copy-on-write", TEST_ENTRY_SERIAL},
+#endif
     {testUtimensatPreservesAccessTimeInStat, "Test utimensat preserves access time in stat", TEST_ENTRY_SERIAL},
     {testFutimensPreservesAccessTimeInFstat, "Test futimens preserves access time in fstat", TEST_ENTRY_SERIAL},
     {testFutimensTime64SignExtendedSecondsPreservesAccessTimeInFstat, "Test futimens time64 sign-extended seconds in fstat", TEST_ENTRY_SERIAL},

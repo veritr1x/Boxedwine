@@ -35,6 +35,10 @@
 #include <filesystem>
 #include <mutex>
 #include <sys/stat.h>
+#include UTIME
+#ifdef BOXEDWINE_ZLIB
+#include "../../io/fszip.h"
+#endif
 #include <thread>
 #include <unordered_set>
 
@@ -52,6 +56,18 @@
 
 #ifdef lstat64
 #undef lstat64
+#endif
+
+// minizip's platform headers may alias these names to POSIX entry points.
+// The tests below call the emulated KProcess methods with their original names.
+#ifdef ftruncate64
+#undef ftruncate64
+#endif
+#ifdef pread64
+#undef pread64
+#endif
+#ifdef pwrite64
+#undef pwrite64
 #endif
 
 #ifdef fstatat64
@@ -5713,6 +5729,149 @@ void testReadDirectoryReturnsIsDir() {
 
     cleanupRoot(root);
 }
+
+
+void testStatTimestampSnapshotMutationAndAliases() {
+    TestContext& context = testContext();
+    KProcessPtr process = context.process;
+    KMemory* memory = context.memory;
+    BString root = B("tmp/test-stat-snapshot-root");
+    cleanupRoot(root);
+    initTestFileSystem(root);
+    Fs::makeLocalDirs(B("/tmp"));
+    BString path = B("/tmp/times");
+    U32 fd = process->open(path, K_O_CREAT | K_O_RDWR, 0666);
+    if ((S32)fd < 0) {
+        testFail("snapshot file open failed");
+        cleanupRoot(root);
+        return;
+    }
+    std::shared_ptr<FsNode> node = Fs::getNodeFromLocalPath(B(""), path, false);
+    auto checkStat = [&](U32 result, U32 a, U32 an, U32 m, U32 mn) {
+        expectZero("timestamp stat", result);
+        expectU32("atime seconds", memory->readd(STAT_A + 64), a);
+        expectU32("atime nanos", memory->readd(STAT_A + 68), an);
+        expectU32("mtime seconds", memory->readd(STAT_A + 72), m);
+        expectU32("mtime nanos", memory->readd(STAT_A + 76), mn);
+        expectU32("ctime seconds", memory->readd(STAT_A + 80), m);
+        expectU32("ctime nanos", memory->readd(STAT_A + 84), mn);
+    };
+    expectZero("timestamp overrides", node->setTimes(1500000001, 123456789, 1500000002, 987654321));
+    checkStat(process->stat64(path, STAT_A), 1500000001, 123456789, 1500000002, 987654321);
+    checkStat(process->lstat64(path, STAT_A), 1500000001, 123456789, 1500000002, 987654321);
+    checkStat(process->fstatat64(-100, path, STAT_A, 0), 1500000001, 123456789, 1500000002, 987654321);
+    checkStat(process->fstat64(fd, STAT_A), 1500000001, 123456789, 1500000002, 987654321);
+    expectZero("snapshot statx", process->statx(-100, path, 0, 0x7ff, STAT_B));
+    expectU64("statx atime", memory->readq(STAT_B + 64), 1500000001);
+    expectU32("statx atime nanos", memory->readd(STAT_B + 72), 123456789);
+    expectU64("statx ctime", memory->readq(STAT_B + 96), 1500000002);
+    expectU32("statx ctime nanos", memory->readd(STAT_B + 104), 987654321);
+    expectU64("statx mtime", memory->readq(STAT_B + 112), 1500000002);
+    expectU32("statx mtime nanos", memory->readd(STAT_B + 120), 987654321);
+
+    expectZero("link timestamp file", process->link(path, B("/tmp/alias")));
+    auto alias = Fs::getNodeFromLocalPath(B(""), B("/tmp/alias"), false);
+    expectZero("set alias times", alias->setTimes(1600000001, 345678901, 1600000002, 456789012));
+    checkStat(process->stat64(path, STAT_A), 1600000001, 345678901, 1600000002, 456789012);
+    expectZero("rename alias", process->rename(B("/tmp/alias"), B("/tmp/renamed")));
+    checkStat(process->fstat64(fd, STAT_A), 1600000001, 345678901, 1600000002, 456789012);
+    checkStat(process->stat64(B("/tmp/renamed"), STAT_A), 1600000001, 345678901, 1600000002, 456789012);
+
+    // A write removes the explicit modification-time override. The following
+    // stat must observe host time, while the explicit access time survives.
+    memory->writeb(BUFFER, 0x51);
+    expectU32("write snapshot file", process->write(context.thread, fd, BUFFER, 1), 1);
+    checkStat(process->fstat64(fd, STAT_A), 1600000001, 345678901,
+        (U32)(node->lastModified() / 1000), node->lastModifiedNano());
+    if (memory->readd(STAT_A + 72) == 1600000002) {
+        testFail("timestamp snapshot reused pre-write metadata");
+    }
+    process->close(fd);
+
+    // With no in-memory overrides, preserve the native zero-mtime fallback.
+    auto native = addRegularFile(B("/tmp/native"));
+    delete native->open(K_O_CREAT | K_O_RDWR);
+    struct utimbuf hostTimes = {1000000000, 0};
+    expectZero("set native zero mtime", utime(native->getNativePathForData().c_str(), &hostTimes));
+    checkStat(process->stat64(B("/tmp/native"), STAT_A), 1000000000, 0,
+        (U32)(native->lastModified() / 1000), native->lastModifiedNano());
+    // A second external timestamp mutation must be visible without invalidation.
+    hostTimes.actime = 1400000001;
+    hostTimes.modtime = 1400000002;
+    expectZero("mutate native times", utime(native->getNativePathForData().c_str(), &hostTimes));
+    checkStat(process->stat64(B("/tmp/native"), STAT_A), 1400000001, 0, 1400000002, 0);
+    cleanupRoot(root);
+}
+
+#ifdef BOXEDWINE_ZLIB
+void testStatTimestampSnapshotZipCopyOnWrite() {
+    TestContext& context = testContext();
+    KProcessPtr process = context.process;
+    KMemory* memory = context.memory;
+    BString root = B("tmp/test-stat-zip-root");
+    cleanupRoot(root);
+    initTestFileSystem(root);
+    Fs::makeLocalDirs(B("/zip"));
+    // A stored ZIP with one eight-byte fixture, dated 2020-02-03 04:05:06.
+    const U8 bytes[] = {
+        0x50, 0x4b, 0x03, 0x04, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0xa3, 0x20,
+        0x43, 0x50, 0x14, 0x34, 0x14, 0x4f, 0x08, 0x00, 0x00, 0x00, 0x08, 0x00,
+        0x00, 0x00, 0x0d, 0x00, 0x00, 0x00, 0x61, 0x72, 0x63, 0x68, 0x69, 0x76,
+        0x65, 0x2d, 0x65, 0x6e, 0x74, 0x72, 0x79, 0x6d, 0x65, 0x74, 0x61, 0x64,
+        0x61, 0x74, 0x61, 0x50, 0x4b, 0x01, 0x02, 0x14, 0x03, 0x14, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0xa3, 0x20, 0x43, 0x50, 0x14, 0x34, 0x14, 0x4f, 0x08,
+        0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x0d, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x01, 0x00, 0x00, 0x00,
+        0x00, 0x61, 0x72, 0x63, 0x68, 0x69, 0x76, 0x65, 0x2d, 0x65, 0x6e, 0x74,
+        0x72, 0x79, 0x50, 0x4b, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00,
+        0x01, 0x00, 0x3b, 0x00, 0x00, 0x00, 0x33, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+    BString zipPath = root + B(".zip");
+    {
+        BWriteFile file(zipPath, true);
+        expectU32("write timestamp zip", file.write(bytes, sizeof(bytes)), sizeof(bytes));
+    }
+    auto zip = std::make_shared<FsZip>();
+    if (!zip->init(zipPath, B("/zip/"))) {
+        testFail("timestamp zip did not mount");
+        cleanupRoot(root);
+        return;
+    }
+    auto node = Fs::getNodeFromLocalPath(B(""), B("/zip/archive-entry"), false);
+    if (!node) {
+        testFail("timestamp zip entry missing");
+        cleanupRoot(root);
+        return;
+    }
+    U32 seconds = (U32)(node->lastModified() / 1000);
+    if (!seconds || Fs::doesNativePathExist(node->getNativePathForData())) {
+        testFail("zip test did not exercise archive fallback");
+    }
+    expectZero("stat zip entry", process->stat64(B("/zip/archive-entry"), STAT_A));
+    for (U32 offset : {64U, 72U, 80U}) {
+        expectU32("zip timestamp", memory->readd(STAT_A + offset), seconds);
+        expectU32("zip nanos", memory->readd(STAT_A + offset + 4), 0);
+    }
+    U32 fd = process->open(B("/zip/archive-entry"), K_O_RDWR, 0);
+    if ((S32)fd < 0) {
+        testFail("zip entry copy-on-write open failed");
+    } else {
+        memory->writeb(BUFFER, 0x52);
+        expectU32("write zip copy", process->write(context.thread, fd, BUFFER, 1), 1);
+        expectZero("fstat zip copy", process->fstat64(fd, STAT_A));
+        expectU32("copy mtime", memory->readd(STAT_A + 72), (U32)(node->lastModified() / 1000));
+        expectU32("copy mtime nanos", memory->readd(STAT_A + 76), node->lastModifiedNano());
+        if (memory->readd(STAT_A + 72) == seconds) {
+            testFail("zip timestamp survived backing-file write");
+        }
+        process->close(fd);
+    }
+    node.reset();
+    cleanupRoot(root);
+    zip.reset();
+    std::filesystem::remove(zipPath.c_str());
+}
+#endif
 
 void testUtimensatPreservesAccessTimeInStat() {
     TestContext& context = testContext();

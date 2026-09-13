@@ -38,6 +38,12 @@ FsNode::FsNode(Type type, U32 id, U32 rdev, BString path, BString link, BString 
  {   
 }
 
+FsNodeTimes FsNode::getTimes() {
+    // Virtual, memory and device nodes retain their own timestamp semantics.
+    return {lastAccessed(), lastAccessedNano(), lastModified(), lastModifiedNano(),
+        lastStatusChanged(), lastStatusChangedNano()};
+}
+
 void FsNode::removeOpenNode(FsOpenNode* node) {
     BOXEDWINE_CRITICAL_SECTION_WITH_MUTEX(this->openNodesMutex);
     node->listNode.remove();

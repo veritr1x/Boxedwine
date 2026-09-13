@@ -274,6 +274,51 @@ U32 FsFileNode::lastAccessedNano() {
     return FsNode::lastAccessedNano();
 }
 
+FsNodeTimes FsFileNode::getTimes() {
+    const FsFileTimeOverride accessOverride = hardLinkState ?
+        hardLinkState->accessTimeOverride : accessTimeOverride;
+    const FsFileTimeOverride modifiedOverride = hardLinkState ?
+        hardLinkState->modifiedTimeOverride : modifiedTimeOverride;
+    FsNodeTimes times;
+    if (!accessOverride.active || !modifiedOverride.active) {
+        PLATFORM_STAT_STRUCT buf;
+        if (PLATFORM_STAT(getNativePathForData().c_str(), &buf) == 0) {
+            times.accessed = ((U64)buf.st_atime) * 1000;
+            // Match lastModified(), including the zero-mtime fallback.
+            times.modified = ((U64)(buf.st_mtime == 0 ? buf.st_ctime : buf.st_mtime)) * 1000;
+#ifndef BOXEDWINE_MSVC
+#ifdef __APPLE__
+            times.accessedNano = (U32)buf.st_atimespec.tv_nsec;
+            times.modifiedNano = (U32)(buf.st_mtime == 0 ?
+                buf.st_ctimespec.tv_nsec : buf.st_mtimespec.tv_nsec);
+#else
+            times.accessedNano = (U32)buf.st_atim.tv_nsec;
+            times.modifiedNano = (U32)(buf.st_mtime == 0 ?
+                buf.st_ctim.tv_nsec : buf.st_mtim.tv_nsec);
+#endif
+#endif
+        }
+#ifdef BOXEDWINE_ZLIB
+        else if (zipNode) {
+            times.accessed = times.modified = zipNode->lastModified();
+            times.accessedNano = times.modifiedNano = (U32)(times.modified % 1000) * 1000000;
+        }
+#endif
+    }
+    if (accessOverride.active) {
+        times.accessed = fileTimeOverrideMillis(accessOverride);
+        times.accessedNano = accessOverride.nanos;
+    }
+    if (modifiedOverride.active) {
+        times.modified = fileTimeOverrideMillis(modifiedOverride);
+        times.modifiedNano = modifiedOverride.nanos;
+    }
+    // FsFileNode has always exposed modification time as change time.
+    times.changed = times.modified;
+    times.changedNano = times.modifiedNano;
+    return times;
+}
+
 U64 FsFileNode::length() {
     if (this->isDirectory())
         return 4096;
